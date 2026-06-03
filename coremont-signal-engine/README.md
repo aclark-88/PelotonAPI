@@ -85,9 +85,19 @@ single advisory platform.
 **One command** (creates an isolated `.venv`, installs, seeds, and serves):
 
 ```bash
+# macOS / Linux
 cd coremont-signal-engine
 ./run.sh
 # → http://localhost:8000   (PORT=9000 ./run.sh to change port)
+```
+
+```powershell
+# Windows PowerShell
+cd coremont-signal-engine
+.\run.ps1
+# → http://localhost:8000
+# If blocked ("running scripts is disabled"):
+#   powershell -ExecutionPolicy Bypass -File .\run.ps1
 ```
 
 Or step by step:
