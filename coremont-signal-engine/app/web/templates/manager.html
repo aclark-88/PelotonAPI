@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}{{ manager.legal_name }} · Coremont Signal Engine{% endblock %}
+{% block content %}
+<a class="back" href="/">← Ranked managers</a>
+
+<div class="detail-head">
+  <div>
+    <h1>{{ manager.legal_name }}</h1>
+    <div class="sub">
+      {{ manager.hq_city or '' }}{{ ', ' if manager.hq_city and manager.hq_state }}{{ manager.hq_state or '' }}
+      {% if manager.country %}· {{ manager.country }}{% endif %}
+      {% if manager.cik %}· CIK {{ manager.cik }}{% endif %}
+    </div>
+    <div class="tags">{% for tag in manager.strategy_tags %}<span class="tag">{{ tag }}</span>{% endfor %}</div>
+  </div>
+  <div class="score-badge">
+    <div class="big">{{ '%.0f'|format(manager.total_score) }}</div>
+    <span class="pill tier-{{ manager.tier }}">{{ tier_labels[manager.tier] }}</span>
+  </div>
+</div>
+
+<section class="why">
+  <h2>Why Coremont now?</h2>
+  <p>{{ why }}</p>
+</section>
+
+<div class="cols">
+  <section class="card">
+    <h2>Score breakdown</h2>
+    {% if breakdown %}
+    <table class="kv">
+      <tr><td>Event strength</td><td><meter min="0" max="30" value="{{ breakdown.freshness_score }}"></meter> {{ '%.0f'|format(breakdown.freshness_score) }}/30</td></tr>
+      <tr><td>Strategy fit</td><td><meter min="0" max="30" value="{{ breakdown.strategy_fit_score }}"></meter> {{ '%.0f'|format(breakdown.strategy_fit_score) }}/30</td></tr>
+      <tr><td>Complexity</td><td><meter min="0" max="25" value="{{ breakdown.complexity_score }}"></meter> {{ '%.0f'|format(breakdown.complexity_score) }}/25</td></tr>
+      <tr><td>Reachability</td><td><meter min="0" max="15" value="{{ breakdown.reachability_score }}"></meter> {{ '%.0f'|format(breakdown.reachability_score) }}/15</td></tr>
+      <tr class="total"><td>Total</td><td><strong>{{ '%.0f'|format(breakdown.total_score) }}/100</strong></td></tr>
+    </table>
+    {% else %}<p class="sub">No score yet.</p>{% endif %}
+  </section>
+
+  <section class="card">
+    <h2>Signals</h2>
+    {% for s in manager.signals %}
+    <div class="signal">
+      <span class="tag sig">{{ signal_labels[s.signal_type] }}</span>
+      <span class="strength" title="confidence">{{ '%.0f'|format(s.strength * 100) }}%</span>
+      <p>{{ s.reason }}</p>
+    </div>
+    {% else %}<p class="sub">No active signals.</p>{% endfor %}
+  </section>
+</div>
+
+<section class="card">
+  <h2>Fund vehicles ({{ manager.vehicles|length }})</h2>
+  <table class="grid">
+    <thead><tr><th>Vehicle</th><th>Type</th><th>Domicile</th><th>Structure</th><th>Launch (est.)</th></tr></thead>
+    <tbody>
+      {% for v in manager.vehicles %}
+      <tr>
+        <td>{{ v.legal_name }}</td>
+        <td>{{ v.vehicle_type }}</td>
+        <td>{{ v.domicile or '—' }}</td>
+        <td>
+          {% if v.is_master %}<span class="tag">master</span>{% endif %}
+          {% if v.is_feeder %}<span class="tag">feeder</span>{% endif %}
+          {% if v.is_offshore %}<span class="tag">offshore</span>{% endif %}
+        </td>
+        <td class="sub">{{ v.launch_date_est or '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card">
+  <h2>Filing timeline</h2>
+  <table class="grid">
+    <thead><tr><th>Date</th><th>Form</th><th>Vehicle</th><th>Offering</th><th>Sold</th><th>Remaining</th></tr></thead>
+    <tbody>
+      {% for f in timeline %}
+      <tr>
+        <td>{{ f.filing_date }}</td>
+        <td>{{ f.filing_type }}{{ '/A' if f.filing_subtype == 'amendment' }}</td>
+        <td>{{ f.vehicle.legal_name if f.vehicle else '—' }}</td>
+        <td>{{ f.offering_amount|money }}</td>
+        <td>{{ f.amount_sold|money }}</td>
+        <td>{{ f.remaining_amount|money }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card">
+  <h2>Suggested buyer personas</h2>
+  <div class="tags">{% for p in persona_order %}<span class="tag sig">{{ p }}</span>{% endfor %}</div>
+  {% if manager.contacts %}
+  <table class="grid" style="margin-top:.8rem">
+    <thead><tr><th>Name</th><th>Title</th><th>Persona</th></tr></thead>
+    <tbody>{% for c in manager.contacts %}<tr><td>{{ c.full_name }}</td><td>{{ c.title }}</td><td>{{ c.persona }}</td></tr>{% endfor %}</tbody>
+  </table>
+  {% endif %}
+</section>
+{% endblock %}

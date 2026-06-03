@@ -1,0 +1,12 @@
+# Coremont Signal Engine — runtime dependencies
+fastapi>=0.110
+uvicorn[standard]>=0.27
+jinja2>=3.1
+httpx>=0.27
+SQLAlchemy>=2.0
+psycopg2-binary>=2.9      # Postgres driver (production)
+python-dateutil>=2.9
+python-multipart>=0.0.9   # form posts for export actions
+
+# dev / test
+pytest>=8.0

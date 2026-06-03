@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Filing Explorer · Coremont Signal Engine{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Filing Explorer</h1></div>
+
+<form class="filters" method="get">
+  <select name="form">
+    <option value="">All forms</option>
+    <option value="D" {{ 'selected' if filters.form == 'D' }}>Form D</option>
+  </select>
+  <select name="subtype">
+    <option value="">New &amp; amendments</option>
+    <option value="new" {{ 'selected' if filters.subtype == 'new' }}>New only</option>
+    <option value="amendment" {{ 'selected' if filters.subtype == 'amendment' }}>Amendments only</option>
+  </select>
+  <select name="structure">
+    <option value="">All structures</option>
+    {% for s in structures %}<option value="{{ s }}" {{ 'selected' if filters.structure == s }}>{{ s }}</option>{% endfor %}
+  </select>
+  <input type="number" name="min_raise" placeholder="Min raise ($)" value="{{ filters.min_raise or '' }}">
+  <button type="submit">Filter</button>
+  <a class="reset" href="/filings">Reset</a>
+</form>
+
+<table class="grid">
+  <thead>
+    <tr><th>Date</th><th>Form</th><th>Manager</th><th>Vehicle</th><th>Structure</th><th>Offering</th><th>Sold</th><th>Accession</th></tr>
+  </thead>
+  <tbody>
+    {% for f in filings %}
+    <tr>
+      <td>{{ f.filing_date }}</td>
+      <td>{{ f.filing_type }}{{ '/A' if f.filing_subtype == 'amendment' }}</td>
+      <td><a class="mgr" href="/managers/{{ f.manager_id }}">{{ f.manager.legal_name }}</a></td>
+      <td>{{ f.vehicle.legal_name if f.vehicle else '—' }}</td>
+      <td>{{ f.vehicle.vehicle_type if f.vehicle else '—' }}</td>
+      <td>{{ f.offering_amount|money }}</td>
+      <td>{{ f.amount_sold|money }}</td>
+      <td class="sub">{{ f.sec_accession_no }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="8" class="empty">No filings. Run <code>python -m app.cli ingest --seed</code>.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
