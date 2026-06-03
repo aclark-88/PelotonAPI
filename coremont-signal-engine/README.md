@@ -82,6 +82,16 @@ single advisory platform.
 
 ## Quick start
 
+**One command** (creates an isolated `.venv`, installs, seeds, and serves):
+
+```bash
+cd coremont-signal-engine
+./run.sh
+# → http://localhost:8000   (PORT=9000 ./run.sh to change port)
+```
+
+Or step by step:
+
 ```bash
 cd coremont-signal-engine
 pip install -r requirements.txt
