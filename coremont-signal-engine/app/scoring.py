@@ -5,7 +5,8 @@ Every point is explainable — `ScoreBreakdown.lines` records each rule that fir
 so a rep (and a tuning analyst chasing win/loss feedback) sees exactly why a
 manager scored the way it did.
 
-    Event strength  30   new Form D <=30d (+18), first sale <=45d (+8), D/A (+4)
+    Event strength  30   new Form D <=30d (+18), first sale <=45d (+8), D/A (+4),
+                         established multi-fund platform (+8 for 3+, +4 for 2)
     Strategy fit    30   weighted keyword overlap (taxonomy), minus low-fit terms
     Complexity      25   multi-vehicle (+8), feeder/master (+6), offshore (+6),
                          adviser footprint (+5)
@@ -123,6 +124,17 @@ def _score_event_strength(facts: ManagerFacts, today: dt.date, b: ScoreBreakdown
     if amend_ages and min(amend_ages) <= 120 and min(amend_ages) >= 0:
         score += 4
         b.lines.append("+4 recent Form D/A amendment activity")
+
+    # Established multi-fund platform = sustained capital-formation activity. A
+    # mature platform is a strong, time-independent buying signal that raw
+    # filing-freshness structurally under-credits (the best buyers are rarely
+    # brand-new single vehicles), so reward platform breadth here too.
+    if facts.adviser_fund_count >= 3 or facts.vehicle_count >= 3:
+        score += 8
+        b.lines.append("+8 established multi-fund platform (3+ related funds)")
+    elif facts.adviser_fund_count >= 2 or facts.vehicle_count >= 2:
+        score += 4
+        b.lines.append("+4 multi-fund platform (2 related funds)")
 
     b.event_strength = min(score, CAP_EVENT)
 

@@ -61,6 +61,34 @@ def test_strong_strategy_fit_for_structured_credit_offshore_multi_vehicle():
     assert any("offshore" in line for line in b.lines)
 
 
+def test_established_platform_gets_event_credit_and_reaches_tier1():
+    # A mature multi-fund platform with no brand-new filing should still reach
+    # Tier 1 on the strength of platform breadth + fit + complexity + reach.
+    facts = ManagerFacts(
+        text="AQR Multi-Strategy Fund; macro relative value structured credit",
+        filings=[FilingFacts(TODAY - dt.timedelta(days=70), None, is_amendment=False)],
+        vehicle_count=3,
+        has_master=True,
+        has_feeder=True,
+        has_offshore=True,
+        adviser_known=True,
+        adviser_fund_count=3,
+        has_known_buyers=True,
+        has_outreach_path=True,
+    )
+    b = scoring.score_manager(facts, today=TODAY)
+    assert b.event_strength >= 8  # platform credit fired despite stale filing
+    assert any("multi-fund platform" in line for line in b.lines)
+    assert b.tier == 1
+
+
+def test_two_fund_platform_gets_smaller_event_credit():
+    facts = ManagerFacts(text="credit fund", filings=[], vehicle_count=2)
+    b = scoring.score_manager(facts, today=TODAY)
+    assert b.event_strength == 4
+    assert any("2 related funds" in line for line in b.lines)
+
+
 def test_low_fit_manager_lands_low_tier():
     facts = ManagerFacts(
         text="Northpath Venture Growth Fund long-only equity",
