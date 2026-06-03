@@ -135,6 +135,46 @@ python -m app.cli initdb
 python -m app.cli ingest
 ```
 
+### Daily email digest (automatic)
+
+Get the full Tier 1+2 queue in your inbox every morning, with newly-surfaced
+managers flagged **NEW**.
+
+1. Configure email once. Copy `.env.example` → `.env` and set the SMTP block
+   (Gmail needs a 16-char **App Password**, not your login password —
+   Google Account → Security → 2-Step Verification → App passwords):
+
+   ```
+   SMTP_USER=you@gmail.com
+   SMTP_PASSWORD=your-app-password
+   DIGEST_TO=you@gmail.com
+   ```
+
+2. Build + send a digest now:
+
+   ```bash
+   python -m app.cli digest            # live SEC refresh + email (seed fallback)
+   python -m app.cli digest --seed     # use bundled sample data
+   python -m app.cli digest --no-email # just write exports/digest.html
+   ```
+
+3. **Schedule it daily (Windows):**
+
+   ```powershell
+   .\run.ps1                 # once, to create the .venv (Ctrl-C after it starts)
+   powershell -ExecutionPolicy Bypass -File .\setup-daily.ps1            # 7:00 AM
+   # or pick a time:  ... -File .\setup-daily.ps1 -Time 06:30
+   ```
+
+   This registers a `CoremontSignalDigest` scheduled task that runs
+   `daily-digest.ps1` every morning (refresh → build → email; logs to
+   `exports\digest.log`). Test immediately with
+   `Start-ScheduledTask -TaskName CoremontSignalDigest`, remove with
+   `Unregister-ScheduledTask -TaskName CoremontSignalDigest -Confirm:$false`.
+
+   On macOS/Linux, schedule `python -m app.cli digest` via cron, e.g.
+   `0 7 * * * cd /path/to/coremont-signal-engine && .venv/bin/python -m app.cli digest`.
+
 ### CRM export
 
 ```bash

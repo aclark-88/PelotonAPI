@@ -5,6 +5,9 @@
     python -m app.cli ingest              # run Jobs 1-5 against live SEC EDGAR
     python -m app.cli ingest --lookback 3 # live, last 3 days
     python -m app.cli export --min-tier 2 # re-run Job 5 (CSV) only
+    python -m app.cli digest              # refresh data + build/email daily digest
+    python -m app.cli digest --seed       # same, using bundled sample data
+    python -m app.cli digest --no-refresh # rebuild digest from current DB only
     python -m app.cli stats               # quick DB summary
 """
 from __future__ import annotations
@@ -38,6 +41,57 @@ def _cmd_export(args) -> int:
         path = export_job.write_csv(session, min_tier=args.min_tier)
         rows = export_job.build_rows(session, min_tier=args.min_tier)
     print(f"Wrote {len(rows)} rows to {path}")
+    return 0
+
+
+def _cmd_digest(args) -> int:
+    from . import digest as digest_mod
+    from . import notify
+    from .db import session_scope
+
+    init_db()
+
+    # 1. Refresh data unless asked to skip.
+    if not args.no_refresh:
+        if args.seed:
+            pipeline.run_pipeline(seed=True, export_min_tier=args.min_tier)
+        else:
+            try:
+                pipeline.run_pipeline(seed=False, lookback_days=args.lookback,
+                                      export_min_tier=args.min_tier)
+            except Exception as exc:  # noqa: BLE001 — degrade to seed if SEC unreachable
+                print(f"Live ingest failed ({exc}); falling back to bundled seed.")
+                pipeline.run_pipeline(seed=True, export_min_tier=args.min_tier)
+
+    # 2. Build + render the digest.
+    with session_scope() as session:
+        d = digest_mod.build_digest(session, min_tier=args.min_tier)
+        html_path = digest_mod.write_html_file(d)
+        subject = digest_mod.subject(d)
+        html_body = digest_mod.render_html(d)
+        text_body = digest_mod.render_text(d)
+
+    # 3. Email (unless suppressed), then advance the "new since" baseline.
+    email_status = {"sent": False, "reason": "suppressed (--no-email)"}
+    if not args.no_email:
+        email_status = notify.send_digest_email(subject, html_body, text_body)
+
+    with session_scope() as session:
+        digest_mod.save_state(session, min_tier=args.min_tier)
+
+    print(json.dumps(
+        {
+            "subject": subject,
+            "tier1": d.tier1,
+            "tier2": d.tier2,
+            "new": d.new_count,
+            "first_run": d.first_run,
+            "html_file": html_path,
+            "email": email_status,
+        },
+        indent=2,
+        default=str,
+    ))
     return 0
 
 
@@ -86,6 +140,13 @@ def main(argv: list[str] | None = None) -> int:
     p_export = sub.add_parser("export", help="write the CSV export queue (Job 5)")
     p_export.add_argument("--min-tier", type=int, default=2)
 
+    p_digest = sub.add_parser("digest", help="refresh data and build/email the daily digest")
+    p_digest.add_argument("--seed", action="store_true", help="refresh from bundled sample data")
+    p_digest.add_argument("--no-refresh", action="store_true", help="skip ingestion; rebuild from current DB")
+    p_digest.add_argument("--no-email", action="store_true", help="write the HTML file but don't send email")
+    p_digest.add_argument("--lookback", type=int, default=None, help="days back to scan (live)")
+    p_digest.add_argument("--min-tier", type=int, default=2, help="include managers up to this tier")
+
     sub.add_parser("stats", help="print a DB summary")
 
     args = parser.parse_args(argv)
@@ -93,6 +154,7 @@ def main(argv: list[str] | None = None) -> int:
         "initdb": _cmd_initdb,
         "ingest": _cmd_ingest,
         "export": _cmd_export,
+        "digest": _cmd_digest,
         "stats": _cmd_stats,
     }
     return handlers[args.command](args)
