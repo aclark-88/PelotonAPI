@@ -58,6 +58,7 @@ _VEHICLE_NOISE = [
     "investment",
     "the",
     "series",
+    "sample",  # demo-data prefix marker; never part of a real platform identity
 ]
 
 _OFFSHORE_DOMICILES = {

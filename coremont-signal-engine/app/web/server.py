@@ -17,7 +17,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy import distinct, func, or_, select
 from sqlalchemy.orm import Session, selectinload
 
-from .. import personas, signals as sig
+from .. import config, personas, signals as sig
 from ..db import get_session, init_db
 from ..ingestion import export_job
 from ..models import Filing, FundVehicle, Manager, Signal
@@ -52,6 +52,7 @@ def _money(v) -> str:
 templates.env.filters["money"] = _money
 templates.env.globals["tier_labels"] = TIER_LABELS
 templates.env.globals["signal_labels"] = sig.LABELS
+templates.env.globals["data_source"] = config.get_data_source
 
 
 # --- Ranked managers (home) --------------------------------------------------

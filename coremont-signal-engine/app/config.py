@@ -103,3 +103,21 @@ def smtp_config() -> dict | None:
 def digest_recipients() -> list[str]:
     raw = os.environ.get("DIGEST_TO", "").strip()
     return [a.strip() for a in raw.split(",") if a.strip()]
+
+
+# --- Data provenance ----------------------------------------------------------
+# Records whether the data currently loaded came from live SEC ("live") or the
+# bundled synthetic sample ("seed"), so the UI/digest can warn accordingly.
+def _data_source_path() -> Path:
+    return export_dir() / "data_source.txt"
+
+
+def set_data_source(source: str) -> None:
+    _data_source_path().write_text(source.strip())
+
+
+def get_data_source() -> str | None:
+    p = _data_source_path()
+    if not p.exists():
+        return None
+    return p.read_text().strip() or None

@@ -72,7 +72,7 @@ def test_full_pipeline_scores_and_tiers(session):
 
     # Venture fund should be low tier (negative strategy terms).
     venture = session.scalar(
-        select(Manager).where(Manager.legal_name.like("Northpath%"))
+        select(Manager).where(Manager.legal_name.like("%Northpath%"))
     )
     assert venture.tier >= 3
 

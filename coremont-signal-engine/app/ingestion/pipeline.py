@@ -21,10 +21,16 @@ def _record_from_seed(d: dict) -> FormDRecord:
     def _date(s):
         return dt.date.fromisoformat(s) if s else None
 
+    # Prefix seeded issuers so synthetic demo data can never be mistaken for a
+    # real SEC filing in the UI, digest, or CRM export.
+    name = d["issuer_name"]
+    if not name.startswith("SAMPLE"):
+        name = f"SAMPLE — {name}"
+
     return FormDRecord(
         accession_no=d.get("accession_no", ""),
         cik=d.get("cik", ""),
-        issuer_name=d["issuer_name"],
+        issuer_name=name,
         jurisdiction=d.get("jurisdiction"),
         entity_type=d.get("entity_type"),
         hq_city=d.get("hq_city"),
@@ -71,6 +77,8 @@ def run_pipeline(*, seed: bool = False, lookback_days: int | None = None, export
         csv_path = export_job.write_csv(session, min_tier=export_min_tier)  # Job 5
         rows = export_job.build_rows(session, min_tier=export_min_tier)
         crm_stats = export_job.push_to_hubspot(rows)
+
+    config.set_data_source(source)
 
     return {
         "source": source,

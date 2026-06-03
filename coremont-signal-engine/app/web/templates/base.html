@@ -19,6 +19,9 @@
     </nav>
     <div class="tagline">SEC Form D → Clarion PMS fit</div>
   </header>
+  {% if data_source() == 'seed' %}
+  <div class="sample-banner">⚠ SAMPLE DATA — synthetic demo records, <strong>not real SEC filings</strong>. Run <code>python -m app.cli ingest</code> (no <code>--seed</code>) to load live SEC Form D data.</div>
+  {% endif %}
   <main>
     {% block content %}{% endblock %}
   </main>

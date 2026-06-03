@@ -117,6 +117,25 @@ uvicorn app.web.server:app --reload --port 8000
 # → http://localhost:8000
 ```
 
+### ⚠ Sample data vs. real SEC data
+
+`--seed` loads **synthetic demo records** (issuer names are prefixed `SAMPLE —`,
+CIKs are placeholders like `1900001`). They are **not real filings** and will not
+appear on SEC. When sample data is loaded, the web UI shows a red banner and the
+email digest is prefixed `[SAMPLE DATA]`.
+
+To load **real** data, run live ingestion (below). To sanity-check the live path
+against SEC itself, run `python -m app.cli verify` — it fetches real recent
+Form D filings and prints each one with a `verify ►` URL you can open on
+sec.gov to confirm the parsed values match exactly:
+
+```bash
+python -m app.cli verify --lookback 4 --limit 5
+```
+
+(Requires outbound access to `www.sec.gov` — works on a normal network; blocked
+in some locked-down sandboxes.)
+
 ### Live SEC ingestion
 
 ```bash

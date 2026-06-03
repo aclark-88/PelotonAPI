@@ -44,6 +44,11 @@ class Digest:
     generated_at: dt.datetime
     rows: list[DigestRow] = field(default_factory=list)
     first_run: bool = False
+    data_source: str | None = None
+
+    @property
+    def is_sample(self) -> bool:
+        return self.data_source == "seed"
 
     @property
     def tier1(self) -> int:
@@ -112,7 +117,12 @@ def build_digest(session: Session, min_tier: int = 2) -> Digest:
                 is_new=(not first_run and m.id not in prior),
             )
         )
-    return Digest(generated_at=dt.datetime.now(), rows=rows, first_run=first_run)
+    return Digest(
+        generated_at=dt.datetime.now(),
+        rows=rows,
+        first_run=first_run,
+        data_source=config.get_data_source(),
+    )
 
 
 def save_state(session: Session, min_tier: int = 2) -> None:
@@ -128,7 +138,8 @@ def subject(d: Digest) -> str:
     bits = f"{d.tier1} Tier 1 · {d.tier2} Tier 2"
     if d.new_count and not d.first_run:
         bits += f" · {d.new_count} new"
-    return f"Coremont Signal Engine — {d.generated_at:%a %b %-d}: {bits}"
+    prefix = "[SAMPLE DATA] " if d.is_sample else ""
+    return f"{prefix}Coremont Signal Engine — {d.generated_at:%a %b %-d}: {bits}"
 
 
 def _esc(s: str) -> str:
@@ -144,7 +155,14 @@ def _chip(text: str, bg: str, fg: str = "#ffffff") -> str:
 
 
 def render_html(d: Digest) -> str:
-    head = f"""\
+    sample_banner = (
+        '<div style="background:#5a1d1d;color:#ffd9d9;padding:10px 22px;font-size:13px;'
+        'font-family:Arial,sans-serif;border-radius:10px 10px 0 0">'
+        "&#9888; SAMPLE DATA — synthetic demo records, <b>not real SEC filings</b>. "
+        "Run live ingestion to populate real Form D data.</div>"
+        if d.is_sample else ""
+    )
+    head = sample_banner + f"""\
 <div style="background:#0f1216;color:#e7ecf2;padding:18px 22px;border-radius:10px 10px 0 0;font-family:Arial,Helvetica,sans-serif">
   <div style="font-size:18px"><span style="color:#4ea1ff">◆</span> Coremont <b>Signal Engine</b> — Daily Digest</div>
   <div style="color:#8b97a6;font-size:13px;margin-top:4px">{d.generated_at:%A, %B %-d, %Y} · SEC Form D → Clarion PMS fit</div>
@@ -203,6 +221,10 @@ def render_text(d: Digest) -> str:
     """Plain-text fallback for email clients that block HTML."""
     lines = [
         f"Coremont Signal Engine — Daily Digest — {d.generated_at:%Y-%m-%d}",
+    ]
+    if d.is_sample:
+        lines.append("*** SAMPLE DATA — synthetic demo records, NOT real SEC filings. ***")
+    lines += [
         f"Tier 1: {d.tier1}  |  Tier 2: {d.tier2}"
         + ("" if d.first_run else f"  |  New: {d.new_count}"),
         "",
