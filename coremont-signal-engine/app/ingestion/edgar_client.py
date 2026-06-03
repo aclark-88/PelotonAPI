@@ -1,9 +1,13 @@
 """SEC EDGAR client + Form D XML parser.
 
-Discovery uses EDGAR's daily index (which lists every filing of a given form
-type for a date); the structured Form D data lives in each filing's
-``primary_doc.xml``. SEC requires a descriptive User-Agent with a contact email
-and rate-limits to ~10 req/s, which we respect with a small delay.
+Discovery has two paths that back each other up:
+  * full-text search (efts) over ICP terms — fast and also catches body-only
+    matches, but the FTS service throttles and can return partial pages;
+  * a daily-index crawl filtered to ICP issuer names — slower but deterministic
+    and complete, independent of FTS.
+The structured Form D data lives in each filing's ``primary_doc.xml``. SEC
+requires a descriptive User-Agent with a contact email and rate-limits to
+~10 req/s; we respect that with a small delay and back off on 429/5xx.
 
 The XML parser is pure and unit-tested against a real-shaped ``primary_doc.xml``
 so it keeps working even when this environment has no outbound SEC access.
@@ -32,6 +36,7 @@ PRIMARY_DOC_URL = ARCHIVES_DIR_URL + "primary_doc.xml"
 EFTS_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index"
 
 _RATE_DELAY_S = 0.15  # ~6-7 req/s, comfortably under SEC's limit
+_MAX_RETRIES = 4      # exponential backoff on SEC throttling / transient errors
 
 
 @dataclass
@@ -90,6 +95,19 @@ ICP_SEARCH_TERMS = [
     "event driven",
     "special situations",
 ]
+
+
+def name_matches_icp(name: str) -> bool:
+    """Cheap ICP screen on an issuer name, used by the daily-index backup path.
+
+    Most ICP fund vehicles carry the strategy in the name itself ("… Multi-
+    Strategy …", "… Global Macro …", "… Relative Value …"), so a taxonomy match
+    on the name is a reliable, deterministic filter that needs no full-text
+    search service.
+    """
+    from .. import taxonomy
+
+    return taxonomy.match_text(name or "").positive_weight > 0
 
 
 @dataclass
@@ -272,6 +290,43 @@ class EdgarClient:
     def __exit__(self, *exc) -> None:
         self.close()
 
+    def _get(self, url: str, params: dict | None = None) -> httpx.Response:
+        """GET with polite rate-limiting + exponential backoff on throttling.
+
+        SEC returns 429/403 when its ~10 req/s limit is exceeded; transient
+        5xx and network blips also happen. Retrying with backoff (honouring any
+        ``Retry-After`` header) keeps a pull complete and deterministic instead
+        of silently dropping pages — which is what made coverage vary run to run.
+        """
+        delay = 1.0
+        last_exc: Exception | None = None
+        for _ in range(_MAX_RETRIES):
+            try:
+                resp = self._client.get(url, params=params)
+            except (httpx.TransportError, httpx.TimeoutException) as exc:
+                last_exc = exc
+                time.sleep(delay)
+                delay = min(delay * 2, 16.0)
+                continue
+            finally:
+                time.sleep(_RATE_DELAY_S)
+            if resp.status_code in (429, 403, 502, 503, 504):
+                retry_after = (resp.headers.get("Retry-After") or "").strip()
+                wait = float(retry_after) if retry_after.isdigit() else delay
+                last_exc = httpx.HTTPStatusError(
+                    f"SEC returned {resp.status_code}",
+                    request=resp.request,
+                    response=resp,
+                )
+                time.sleep(min(wait, 16.0))
+                delay = min(delay * 2, 16.0)
+                continue
+            resp.raise_for_status()
+            return resp
+        if last_exc:
+            raise last_exc
+        raise httpx.HTTPError("SEC request failed without a specific error")
+
     @staticmethod
     def parse_daily_index(text: str) -> list[IndexEntry]:
         """Parse a daily ``form.YYYYMMDD.idx`` and return Form D / D/A rows."""
@@ -301,17 +356,13 @@ class EdgarClient:
     def fetch_daily_index(self, day: dt.date) -> list[IndexEntry]:
         qtr = (day.month - 1) // 3 + 1
         url = DAILY_INDEX_URL.format(year=day.year, qtr=qtr, date=day.strftime("%Y%m%d"))
-        resp = self._client.get(url)
-        time.sleep(_RATE_DELAY_S)
-        resp.raise_for_status()
+        resp = self._get(url)
         return self.parse_daily_index(resp.text)
 
     def fetch_form_d(self, cik: str, accession_no: str, date_filed: str | None = None) -> FormDRecord:
         acc_nodash = accession_no.replace("-", "")
         url = PRIMARY_DOC_URL.format(cik=cik.lstrip("0"), acc_nodash=acc_nodash)
-        resp = self._client.get(url)
-        time.sleep(_RATE_DELAY_S)
-        resp.raise_for_status()
+        resp = self._get(url)
         return parse_form_d_xml(resp.text, accession_no=accession_no, date_filed=date_filed)
 
     def fetch_recent_form_d(self, lookback_days: int) -> list[FormDRecord]:
@@ -327,6 +378,33 @@ class EdgarClient:
             except httpx.HTTPError:
                 continue
             for e in entries:
+                try:
+                    records.append(self.fetch_form_d(e.cik, e.accession_no, e.date_filed))
+                except httpx.HTTPError:
+                    continue
+        return records
+
+    def fetch_form_d_by_index(self, days: int) -> list[FormDRecord]:
+        """Deterministic *backup* discovery: crawl the daily index over the last
+        ``days`` and download only Form Ds whose issuer name matches an ICP
+        signal. Independent of EDGAR full-text search, so coverage is stable
+        run-to-run even when the FTS service throttles or returns partial pages.
+        """
+        end = dt.date.today()
+        seen: set[str] = set()
+        records: list[FormDRecord] = []
+        for delta in range(days):
+            day = end - dt.timedelta(days=delta)
+            if day.weekday() >= 5:  # SEC posts on business days
+                continue
+            try:
+                entries = self.fetch_daily_index(day)
+            except httpx.HTTPError:
+                continue
+            for e in entries:
+                if e.accession_no in seen or not name_matches_icp(e.company):
+                    continue
+                seen.add(e.accession_no)
                 try:
                     records.append(self.fetch_form_d(e.cik, e.accession_no, e.date_filed))
                 except httpx.HTTPError:
@@ -373,9 +451,7 @@ class EdgarClient:
                 "enddt": end,
                 "from": offset,
             }
-            resp = self._client.get(EFTS_SEARCH_URL, params=params)
-            time.sleep(_RATE_DELAY_S)
-            resp.raise_for_status()
+            resp = self._get(EFTS_SEARCH_URL, params=params)
             page = self.parse_search_hits(resp.json())
             hits.extend(page)
             if len(page) < 10:  # last page

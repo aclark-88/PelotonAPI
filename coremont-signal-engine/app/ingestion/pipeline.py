@@ -61,12 +61,38 @@ def fetch_live_records(lookback_days: int | None = None) -> list[FormDRecord]:
         return client.fetch_recent_form_d(lookback)
 
 
-def fetch_search_records(days: int = 90, terms: list[str] | None = None) -> list[FormDRecord]:
-    """Targeted: pull only Form D filings that mention ICP terms (recommended)."""
+def fetch_search_records(
+    days: int = 90,
+    terms: list[str] | None = None,
+    use_index_backup: bool = True,
+) -> list[FormDRecord]:
+    """Targeted ICP pull with a deterministic backup.
+
+    Primary: EDGAR full-text search over the ICP terms (fast, also catches
+    body-only matches). Backup: a daily-index crawl filtered to ICP issuer
+    names, which doesn't depend on the (throttle-prone) full-text service. We
+    always merge both so a run can't silently drop marquee names when FTS
+    returns partial results — coverage stays stable run to run.
+    """
     from .edgar_client import ICP_SEARCH_TERMS
 
+    terms = terms or ICP_SEARCH_TERMS
+    records: list[FormDRecord] = []
     with EdgarClient() as client:
-        return client.fetch_form_d_by_terms(terms or ICP_SEARCH_TERMS, days)
+        try:
+            records = client.fetch_form_d_by_terms(terms, days)
+        except Exception:  # noqa: BLE001 — fall through to the backup
+            records = []
+        if use_index_backup or not records:
+            seen = {r.accession_no for r in records}
+            try:
+                for r in client.fetch_form_d_by_index(days):
+                    if r.accession_no not in seen:
+                        seen.add(r.accession_no)
+                        records.append(r)
+            except Exception:  # noqa: BLE001 — backup is best-effort
+                pass
+    return records
 
 
 def run_pipeline(
