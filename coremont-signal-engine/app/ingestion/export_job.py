@@ -29,6 +29,9 @@ EXPORT_COLUMNS = [
     "last_signal_date",
     "hq",
     "suggested_persona",
+    "contact_name",
+    "contact_title",
+    "contact_email",
     "reason",
 ]
 
@@ -38,6 +41,16 @@ def _suggested_persona(manager: Manager) -> str:
         if c.persona:
             return personas.label_for(c.persona)
     return personas.label_for(personas.DEFAULT_PERSONA_ORDER[0])
+
+
+def _best_contact(manager: Manager):
+    """Pick the highest-priority buyer contact (COO first, then ops/risk/…)."""
+    if not manager.contacts:
+        return None
+    order = {p: i for i, p in enumerate(personas.DEFAULT_PERSONA_ORDER)}
+    return sorted(
+        manager.contacts, key=lambda c: order.get(c.persona or "", 99)
+    )[0]
 
 
 def _manager_reason(manager: Manager) -> str:
@@ -58,6 +71,7 @@ def build_rows(session: Session, min_tier: int = 2) -> list[dict]:
     rows = []
     for m in managers:
         first = m.signals[0] if m.signals else None
+        contact = _best_contact(m)
         rows.append(
             {
                 "manager": m.legal_name,
@@ -71,6 +85,9 @@ def build_rows(session: Session, min_tier: int = 2) -> list[dict]:
                 "last_signal_date": m.last_signal_date.isoformat() if m.last_signal_date else "",
                 "hq": ", ".join(p for p in (m.hq_city, m.hq_state) if p),
                 "suggested_persona": _suggested_persona(m),
+                "contact_name": contact.full_name if contact else "",
+                "contact_title": contact.title if contact else "",
+                "contact_email": (contact.email or "") if contact else "",
                 "reason": _manager_reason(m),
             }
         )

@@ -36,6 +36,7 @@ class DigestRow:
     signal_labels: list[str]
     reason: str
     persona: str
+    contact: str  # "Name — Title (email)" or "" if not enriched
     is_new: bool
 
 
@@ -85,6 +86,20 @@ def _persona_for(manager: Manager) -> str:
     return personas.label_for(personas.DEFAULT_PERSONA_ORDER[0])
 
 
+def _contact_for(manager: Manager) -> str:
+    """Highest-priority buyer contact as a display string, or '' if none."""
+    if not manager.contacts:
+        return ""
+    order = {p: i for i, p in enumerate(personas.DEFAULT_PERSONA_ORDER)}
+    c = sorted(manager.contacts, key=lambda c: order.get(c.persona or "", 99))[0]
+    bits = c.full_name or ""
+    if c.title:
+        bits += f" — {c.title}"
+    if c.email:
+        bits += f" ({c.email})"
+    return bits
+
+
 def build_digest(session: Session, min_tier: int = 2) -> Digest:
     """Build the digest over the current Tier ≤ min_tier queue."""
     managers = session.scalars(
@@ -113,6 +128,7 @@ def build_digest(session: Session, min_tier: int = 2) -> Digest:
                 signal_labels=[sig.LABELS.get(s.signal_type, s.signal_type) for s in m.signals],
                 reason=reason,
                 persona=_persona_for(m),
+                contact=_contact_for(m),
                 # First run is the baseline: nothing flagged "new".
                 is_new=(not first_run and m.id not in prior),
             )
@@ -198,6 +214,7 @@ def render_html(d: Digest) -> str:
     <div style="color:#5b6673;font-size:12px;margin:2px 0 6px">{_esc(r.hq)}{' · ' if r.hq else ''}fresh {_esc(r.last_signal_date)} · buyer: {_esc(r.persona)}</div>
     <div style="margin-bottom:6px">{tags}{sigs}</div>
     <div style="color:#33404f;font-size:13px;line-height:1.45">{_esc(r.reason)}</div>
+    {f'<div style="color:#1f6feb;font-size:12px;margin-top:5px">▸ Contact: {_esc(r.contact)}</div>' if r.contact else ''}
   </td>
 </tr>"""
         )
@@ -236,6 +253,8 @@ def render_text(d: Digest) -> str:
             lines.append(f"    {r.hq} · fresh {r.last_signal_date} · buyer: {r.persona}")
         if r.tags:
             lines.append(f"    tags: {', '.join(r.tags)}")
+        if r.contact:
+            lines.append(f"    contact: {r.contact}")
         lines.append(f"    {r.reason}")
         lines.append("")
     return "\n".join(lines)

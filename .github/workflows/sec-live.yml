@@ -19,6 +19,7 @@ jobs:
         working-directory: coremont-signal-engine
     env:
       SEC_USER_AGENT: "Coremont Signal Engine malex.clark@gmail.com"
+      APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

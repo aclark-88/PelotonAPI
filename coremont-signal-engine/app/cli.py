@@ -203,7 +203,7 @@ def main(argv: list[str] | None = None) -> int:
     p_ingest.add_argument("--seed", action="store_true", help="use bundled sample data")
     p_ingest.add_argument("--search", action="store_true",
                           help="targeted: pull only Form D filings matching ICP terms (recommended)")
-    p_ingest.add_argument("--days", type=int, default=60, help="search look-back window in days (--search)")
+    p_ingest.add_argument("--days", type=int, default=90, help="search look-back window in days (--search)")
     p_ingest.add_argument("--lookback", type=int, default=None, help="business days back to scan (full firehose)")
     p_ingest.add_argument("--min-tier", type=int, default=2, help="export tier threshold")
 
@@ -214,7 +214,7 @@ def main(argv: list[str] | None = None) -> int:
     p_digest.add_argument("--seed", action="store_true", help="refresh from bundled sample data")
     p_digest.add_argument("--no-refresh", action="store_true", help="skip ingestion; rebuild from current DB")
     p_digest.add_argument("--no-email", action="store_true", help="write the HTML file but don't send email")
-    p_digest.add_argument("--days", type=int, default=60, help="ICP search look-back window (days)")
+    p_digest.add_argument("--days", type=int, default=90, help="ICP search look-back window (days)")
     p_digest.add_argument("--min-tier", type=int, default=2, help="include managers up to this tier")
 
     p_verify = sub.add_parser("verify", help="fetch real Form D filings from SEC and print with source URLs")

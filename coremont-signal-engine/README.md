@@ -194,6 +194,31 @@ managers flagged **NEW**.
    On macOS/Linux, schedule `python -m app.cli digest` via cron, e.g.
    `0 7 * * * cd /path/to/coremont-signal-engine && .venv/bin/python -m app.cli digest`.
 
+### Run it in the cloud (no PC required)
+
+`.github/workflows/daily-digest.yml` emails the digest every weekday morning on
+GitHub's runners (which reach SEC directly). To activate:
+
+1. Add repo **Secrets** (Settings → Secrets and variables → Actions):
+   `SMTP_USER`, `SMTP_PASSWORD`, `DIGEST_TO` (Gmail app password), and optionally
+   `APOLLO_API_KEY`.
+2. The workflow must be on the **default branch** for `schedule:` to fire (merge
+   the branch, or trigger manually via **Actions → Daily Digest Email → Run
+   workflow**). The "new since last digest" baseline persists across runs via the
+   Actions cache.
+
+`.github/workflows/sec-live.yml` runs the live pull on every push and validates
+the pipeline against real SEC, uploading the CSV/digest as artifacts.
+
+### Buyer-contact enrichment (Apollo)
+
+Set `APOLLO_API_KEY` and Tier 1/2 managers are automatically enriched with likely
+Clarion buyers (COO, operations, risk, finance, treasury) via Apollo People
+Search — the firm is inferred from the fund-vehicle name. Contacts populate the
+`contacts` table, lift the reachability score, and appear in the manager page,
+CSV export (`contact_name/title/email`), and the daily digest. No key → graceful
+no-op.
+
 ### CRM export
 
 ```bash

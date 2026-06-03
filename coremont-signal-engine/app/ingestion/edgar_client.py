@@ -55,18 +55,40 @@ class SearchHit:
 # These target Clarion's multi-strat / macro / rates / credit / structured-credit
 # sweet spot rather than the full firehose of Form D issuers.
 ICP_SEARCH_TERMS = [
-    "structured credit",
+    # multi-strategy / macro
     "multi-strategy",
+    "multistrategy",
     "global macro",
+    "systematic macro",
+    "discretionary macro",
+    # rates / relative value
     "relative value",
+    "fixed income relative value",
+    "rates trading",
+    "interest rate",
+    # credit
+    "structured credit",
     "opportunistic credit",
-    "fixed income",
+    "private credit",
+    "direct lending",
+    "distressed credit",
+    "credit opportunities",
+    "alternative credit",
+    "high yield",
+    "leveraged loan",
+    "emerging markets debt",
+    # securitized / structured products
     "asset backed",
     "mortgage backed",
+    "residential mortgage",
+    "commercial mortgage",
     "collateralized loan",
-    "credit opportunities",
-    "systematic macro",
+    "securitized products",
+    # vol / event / special sits
     "volatility arbitrage",
+    "convertible arbitrage",
+    "event driven",
+    "special situations",
 ]
 
 
@@ -335,13 +357,30 @@ class EdgarClient:
             )
         return hits
 
-    def search_form_d(self, term: str, start: str, end: str) -> list["SearchHit"]:
-        """Full-text search Form D filings for a phrase within a date range."""
-        params = {"q": f'"{term}"', "forms": "D", "startdt": start, "enddt": end}
-        resp = self._client.get(EFTS_SEARCH_URL, params=params)
-        time.sleep(_RATE_DELAY_S)
-        resp.raise_for_status()
-        return self.parse_search_hits(resp.json())
+    def search_form_d(
+        self, term: str, start: str, end: str, max_results: int = 30
+    ) -> list["SearchHit"]:
+        """Full-text search Form D filings for a phrase within a date range.
+
+        Paginates the EDGAR FTS API (10 hits/page) up to ``max_results``.
+        """
+        hits: list[SearchHit] = []
+        for offset in range(0, max_results, 10):
+            params = {
+                "q": f'"{term}"',
+                "forms": "D",
+                "startdt": start,
+                "enddt": end,
+                "from": offset,
+            }
+            resp = self._client.get(EFTS_SEARCH_URL, params=params)
+            time.sleep(_RATE_DELAY_S)
+            resp.raise_for_status()
+            page = self.parse_search_hits(resp.json())
+            hits.extend(page)
+            if len(page) < 10:  # last page
+                break
+        return hits
 
     def fetch_form_d_by_terms(self, terms: list[str], days: int) -> list[FormDRecord]:
         """Search each ICP term over the last ``days`` and fetch matching Form Ds.

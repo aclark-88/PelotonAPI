@@ -12,7 +12,7 @@ from pathlib import Path
 from .. import config
 from ..db import session_scope
 from .edgar_client import EdgarClient, FormDRecord, parse_form_d_xml
-from . import export_job, formd, signal_job
+from . import apollo, export_job, formd, signal_job
 
 
 def _record_from_seed(d: dict) -> FormDRecord:
@@ -61,7 +61,7 @@ def fetch_live_records(lookback_days: int | None = None) -> list[FormDRecord]:
         return client.fetch_recent_form_d(lookback)
 
 
-def fetch_search_records(days: int = 60, terms: list[str] | None = None) -> list[FormDRecord]:
+def fetch_search_records(days: int = 90, terms: list[str] | None = None) -> list[FormDRecord]:
     """Targeted: pull only Form D filings that mention ICP terms (recommended)."""
     from .edgar_client import ICP_SEARCH_TERMS
 
@@ -73,7 +73,7 @@ def run_pipeline(
     *,
     seed: bool = False,
     search: bool = False,
-    days: int = 60,
+    days: int = 90,
     lookback_days: int | None = None,
     export_min_tier: int = 2,
 ) -> dict:
@@ -92,6 +92,13 @@ def run_pipeline(
         ingest_stats = formd.persist_records(session, records)   # Job 1 + Job 2
         # Job 3 (adviser) runs inside Job 4 per-manager.
         signal_stats = signal_job.run(session)                   # Job 4
+
+        # Job 3b: enrich the top tiers with buyer contacts (Apollo), then re-score
+        # so reachability reflects the people we found. No-op without APOLLO_API_KEY.
+        enrich_stats = apollo.enrich_top_managers(session, max_tier=export_min_tier)
+        if enrich_stats.get("enriched"):
+            signal_stats = signal_job.run(session)
+
         csv_path = export_job.write_csv(session, min_tier=export_min_tier)  # Job 5
         rows = export_job.build_rows(session, min_tier=export_min_tier)
         crm_stats = export_job.push_to_hubspot(rows)
@@ -102,6 +109,7 @@ def run_pipeline(
         "source": source,
         "ingest": ingest_stats,
         "signals": signal_stats,
+        "contacts": enrich_stats,
         "export_csv": csv_path,
         "export_rows": len(rows),
         "crm": crm_stats,

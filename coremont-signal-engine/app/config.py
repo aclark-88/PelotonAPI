@@ -74,6 +74,11 @@ def hubspot_token() -> str | None:
     return token or None
 
 
+def apollo_api_key() -> str | None:
+    key = os.environ.get("APOLLO_API_KEY", "").strip()
+    return key or None
+
+
 def export_dir() -> Path:
     d = BASE_DIR / "exports"
     d.mkdir(exist_ok=True)
