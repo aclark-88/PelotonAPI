@@ -28,10 +28,10 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Verify SEC access — print REAL Form D filings + source URLs
-        run: python -m app.cli verify --lookback 7 --limit 12
+        run: python -m app.cli verify --lookback 6 --limit 15
 
       - name: Live ingest (real SEC Form D) + score
-        run: python -m app.cli ingest --lookback 7
+        run: python -m app.cli ingest --lookback 1
 
       - name: Summary of real data ingested
         run: python -m app.cli stats
