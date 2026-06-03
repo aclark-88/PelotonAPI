@@ -9,6 +9,41 @@ from app.ingestion.pipeline import load_seed_records
 from app.models import Filing, FundVehicle, Manager, Signal
 
 
+def test_parse_search_hits_from_edgar_fts_json():
+    from app.ingestion.edgar_client import EdgarClient
+
+    payload = {
+        "hits": {
+            "total": {"value": 2},
+            "hits": [
+                {
+                    "_id": "0001234567-26-000123:primary_doc.xml",
+                    "_source": {
+                        "ciks": ["0001234567"],
+                        "display_names": ["Acme Structured Credit Fund LP  (CIK 0001234567)"],
+                        "file_date": "2026-05-20",
+                        "forms": ["D"],
+                    },
+                },
+                {
+                    "_id": "0007654321-26-000045:primary_doc.xml",
+                    "_source": {
+                        "ciks": ["0007654321"],
+                        "display_names": ["Global Macro Opportunities LP"],
+                        "file_date": "2026-05-22",
+                    },
+                },
+            ],
+        }
+    }
+    hits = EdgarClient.parse_search_hits(payload)
+    assert len(hits) == 2
+    assert hits[0].cik == "1234567"  # leading zeros stripped
+    assert hits[0].accession_no == "0001234567-26-000123"
+    assert hits[0].date_filed == "2026-05-20"
+    assert "Structured Credit" in hits[0].display_name
+
+
 def test_form_d_xml_parser_against_real_shaped_doc():
     import pathlib
 

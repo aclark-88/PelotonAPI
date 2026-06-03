@@ -30,7 +30,11 @@ def _cmd_initdb(_args) -> int:
 def _cmd_ingest(args) -> int:
     init_db()
     result = pipeline.run_pipeline(
-        seed=args.seed, lookback_days=args.lookback, export_min_tier=args.min_tier
+        seed=args.seed,
+        search=args.search,
+        days=args.days,
+        lookback_days=args.lookback,
+        export_min_tier=args.min_tier,
     )
     print(json.dumps(result, indent=2, default=str))
     return 0
@@ -58,7 +62,8 @@ def _cmd_digest(args) -> int:
             pipeline.run_pipeline(seed=True, export_min_tier=args.min_tier)
         else:
             try:
-                pipeline.run_pipeline(seed=False, lookback_days=args.lookback,
+                # Targeted ICP search over the last N days = relevant managers.
+                pipeline.run_pipeline(search=True, days=args.days,
                                       export_min_tier=args.min_tier)
             except Exception as exc:  # noqa: BLE001 — degrade to seed if SEC unreachable
                 print(f"Live ingest failed ({exc}); falling back to bundled seed.")
@@ -196,7 +201,10 @@ def main(argv: list[str] | None = None) -> int:
 
     p_ingest = sub.add_parser("ingest", help="run the daily pipeline (Jobs 1-5)")
     p_ingest.add_argument("--seed", action="store_true", help="use bundled sample data")
-    p_ingest.add_argument("--lookback", type=int, default=None, help="days back to scan (live)")
+    p_ingest.add_argument("--search", action="store_true",
+                          help="targeted: pull only Form D filings matching ICP terms (recommended)")
+    p_ingest.add_argument("--days", type=int, default=60, help="search look-back window in days (--search)")
+    p_ingest.add_argument("--lookback", type=int, default=None, help="business days back to scan (full firehose)")
     p_ingest.add_argument("--min-tier", type=int, default=2, help="export tier threshold")
 
     p_export = sub.add_parser("export", help="write the CSV export queue (Job 5)")
@@ -206,7 +214,7 @@ def main(argv: list[str] | None = None) -> int:
     p_digest.add_argument("--seed", action="store_true", help="refresh from bundled sample data")
     p_digest.add_argument("--no-refresh", action="store_true", help="skip ingestion; rebuild from current DB")
     p_digest.add_argument("--no-email", action="store_true", help="write the HTML file but don't send email")
-    p_digest.add_argument("--lookback", type=int, default=None, help="days back to scan (live)")
+    p_digest.add_argument("--days", type=int, default=60, help="ICP search look-back window (days)")
     p_digest.add_argument("--min-tier", type=int, default=2, help="include managers up to this tier")
 
     p_verify = sub.add_parser("verify", help="fetch real Form D filings from SEC and print with source URLs")

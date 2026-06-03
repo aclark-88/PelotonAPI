@@ -27,6 +27,10 @@ DAILY_INDEX_URL = (
 ARCHIVES_DIR_URL = "https://www.sec.gov/Archives/edgar/data/{cik}/{acc_nodash}/"
 PRIMARY_DOC_URL = ARCHIVES_DIR_URL + "primary_doc.xml"
 
+# EDGAR full-text search — lets us target ICP terms instead of pulling every
+# Form D. Returns JSON hits with CIK / accession / date / display name.
+EFTS_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index"
+
 _RATE_DELAY_S = 0.15  # ~6-7 req/s, comfortably under SEC's limit
 
 
@@ -37,6 +41,33 @@ class IndexEntry:
     cik: str
     date_filed: str
     accession_no: str  # dashed form, e.g. 0001234567-26-000123
+
+
+@dataclass
+class SearchHit:
+    cik: str
+    accession_no: str
+    date_filed: str | None
+    display_name: str = ""
+
+
+# ICP phrases to search EDGAR for (multi-word phrases match best in full text).
+# These target Clarion's multi-strat / macro / rates / credit / structured-credit
+# sweet spot rather than the full firehose of Form D issuers.
+ICP_SEARCH_TERMS = [
+    "structured credit",
+    "multi-strategy",
+    "global macro",
+    "relative value",
+    "opportunistic credit",
+    "fixed income",
+    "asset backed",
+    "mortgage backed",
+    "collateralized loan",
+    "credit opportunities",
+    "systematic macro",
+    "volatility arbitrage",
+]
 
 
 @dataclass
@@ -200,11 +231,12 @@ class EdgarClient:
     """
 
     def __init__(self, user_agent: str | None = None, timeout: float = 20.0):
+        # No hard-coded Host header: httpx sets it per request URL, so the same
+        # client works for www.sec.gov (archives/index) and efts.sec.gov (search).
         self._client = httpx.Client(
             headers={
                 "User-Agent": user_agent or config.sec_user_agent(),
                 "Accept-Encoding": "gzip, deflate",
-                "Host": "www.sec.gov",
             },
             timeout=timeout,
         )
@@ -275,6 +307,65 @@ class EdgarClient:
             for e in entries:
                 try:
                     records.append(self.fetch_form_d(e.cik, e.accession_no, e.date_filed))
+                except httpx.HTTPError:
+                    continue
+        return records
+
+    # --- Targeted full-text search (ICP terms) -------------------------------
+    @staticmethod
+    def parse_search_hits(payload: dict) -> list["SearchHit"]:
+        """Parse an EDGAR full-text search JSON response into hits."""
+        hits: list[SearchHit] = []
+        for h in payload.get("hits", {}).get("hits", []):
+            _id = h.get("_id", "")
+            accession = _id.split(":", 1)[0]  # "0001234567-26-000123:primary_doc.xml"
+            src = h.get("_source", {})
+            ciks = src.get("ciks") or src.get("cik") or []
+            if isinstance(ciks, str):
+                ciks = [ciks]
+            cik = (ciks[0].lstrip("0") if ciks else "")
+            names = src.get("display_names") or []
+            hits.append(
+                SearchHit(
+                    cik=cik,
+                    accession_no=accession,
+                    date_filed=src.get("file_date"),
+                    display_name=(names[0] if names else ""),
+                )
+            )
+        return hits
+
+    def search_form_d(self, term: str, start: str, end: str) -> list["SearchHit"]:
+        """Full-text search Form D filings for a phrase within a date range."""
+        params = {"q": f'"{term}"', "forms": "D", "startdt": start, "enddt": end}
+        resp = self._client.get(EFTS_SEARCH_URL, params=params)
+        time.sleep(_RATE_DELAY_S)
+        resp.raise_for_status()
+        return self.parse_search_hits(resp.json())
+
+    def fetch_form_d_by_terms(self, terms: list[str], days: int) -> list[FormDRecord]:
+        """Search each ICP term over the last ``days`` and fetch matching Form Ds.
+
+        Only filings that mention an ICP term are downloaded, so this surfaces
+        relevant managers far faster than scanning every Form D.
+        """
+        end = dt.date.today()
+        start = end - dt.timedelta(days=days)
+        seen: set[str] = set()
+        records: list[FormDRecord] = []
+        for term in terms:
+            try:
+                hits = self.search_form_d(term, start.isoformat(), end.isoformat())
+            except httpx.HTTPError:
+                continue
+            for hit in hits:
+                if not hit.cik or hit.accession_no in seen:
+                    continue
+                seen.add(hit.accession_no)
+                try:
+                    records.append(
+                        self.fetch_form_d(hit.cik, hit.accession_no, hit.date_filed)
+                    )
                 except httpx.HTTPError:
                     continue
         return records

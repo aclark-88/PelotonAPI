@@ -61,11 +61,29 @@ def fetch_live_records(lookback_days: int | None = None) -> list[FormDRecord]:
         return client.fetch_recent_form_d(lookback)
 
 
-def run_pipeline(*, seed: bool = False, lookback_days: int | None = None, export_min_tier: int = 2) -> dict:
+def fetch_search_records(days: int = 60, terms: list[str] | None = None) -> list[FormDRecord]:
+    """Targeted: pull only Form D filings that mention ICP terms (recommended)."""
+    from .edgar_client import ICP_SEARCH_TERMS
+
+    with EdgarClient() as client:
+        return client.fetch_form_d_by_terms(terms or ICP_SEARCH_TERMS, days)
+
+
+def run_pipeline(
+    *,
+    seed: bool = False,
+    search: bool = False,
+    days: int = 60,
+    lookback_days: int | None = None,
+    export_min_tier: int = 2,
+) -> dict:
     """Execute Jobs 1-5 end-to-end inside one transaction."""
     if seed:
         records = load_seed_records()
         source = "seed"
+    elif search:
+        records = fetch_search_records(days)
+        source = "live"
     else:
         records = fetch_live_records(lookback_days)
         source = "live"
