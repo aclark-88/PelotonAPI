@@ -1,0 +1,15 @@
+# Morning-brief 13F watchlist — managers to always track for AUM growth and
+# new-derivatives signals, in addition to whatever the brief auto-discovers in
+# the lookback window.
+#
+# One entry per line: a CIK (e.g. 0001067983) or a ticker the manager is known
+# by. Lines starting with # are ignored. edgartools resolves each to its latest
+# 13F-HR; unresolved entries are silently skipped.
+#
+# The brief already AUTO-DISCOVERS and tracks any 13F filer it sees in the
+# lookback window, so this file is optional — use it to pin specific funds you
+# care about even between their filing windows.
+#
+# Examples (uncomment / replace with your targets):
+# 0001067983   # (CIK) example manager
+# 0001364742   # (CIK) example manager

@@ -29,6 +29,13 @@ before acting.
 
 Pipeline: **01_sec_data_ingestion → 02_evaluate_prospects → 03_outreach_generation.**
 
+Daily entrypoint: **`tools/morning_brief.py`** (the ranked signal dashboard). Its
+Form D "new launch" signals MUST be verified via **workflow 04_verify_candidates**
+before being treated as real targets — Form D self-classification and fund names
+are unreliable (a real-estate private lender can file as "Hedge Fund" with
+"Credit" in its name). Verification is authoritative and persisted in
+`config/verifications.json`.
+
 ---
 
 ## 4-Tier autonomy boundaries

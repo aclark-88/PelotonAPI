@@ -10,6 +10,10 @@ data/
 # Generated outreach drafts (contain prospect-specific copy)
 drafts/*.md
 
+# Generated morning-brief dashboards
+briefs/*.html
+briefs/*.json
+
 # Python
 __pycache__/
 *.py[cod]
@@ -21,3 +25,4 @@ venv/
 !db/.gitkeep
 !drafts/.gitkeep
 !data/.gitkeep
+!briefs/.gitkeep

@@ -1,0 +1,39 @@
+{
+  "_comment": "Verification overrides keyed by issuer CIK (leading zeros stripped). is_target=false DROPS the candidate (authoritative, beats name/type heuristics); is_target=true KEEPS and promotes it; a CIK absent here is treated as 'unverified - needs review'. Written by web/agent verification of the actual manager's business.",
+  "2064620": {
+    "is_target": false,
+    "business": "Real-estate / historic-tax-credit rehab private lender (Octagon Finance LLC, Charlottesville VA) - NOT a securities hedge fund",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2134708": {
+    "is_target": true,
+    "business": "Structured-credit / absolute-return hedge fund (LMCG / Lee Munder, ~$6.3B AUM, 13F filer)",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2135124": {
+    "is_target": true,
+    "business": "Structured-credit / absolute-return hedge fund (LMCG / Lee Munder, offshore feeder)",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2136776": {
+    "is_target": true,
+    "business": "Long/short equity hedge fund (DX2 Capital Management, New York)",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2136321": {
+    "is_target": true,
+    "business": "Quantitative global-macro hedge fund (Plettenberg Capital)",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2135433": {
+    "is_target": false,
+    "business": "Late-stage technology venture capital / growth equity (AI, cybersecurity, fintech) - not a trading hedge fund",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  }
+}

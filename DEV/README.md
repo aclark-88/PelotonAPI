@@ -18,7 +18,80 @@ Built on the **WAT v2** three-layer pattern:
 > the repo-root `coremont-signal-engine/`; they differ in **architecture** (this
 > is the WAT v2 agentic layer), not data source.
 
-## Quickstart
+## Daily morning brief (start here)
+
+The everyday way to use this: **double-click `brief.ps1`** (or run `.\brief.ps1`).
+It scans recent EDGAR activity for buying signals, ranks them, and **opens a
+dashboard** (`briefs/latest.html`) you read with coffee.
+
+```powershell
+.\brief.ps1                      # last few days, opens the dashboard
+.\brief.ps1 --days 7             # widen the Form D lookback
+.\brief.ps1 --cap-13f 150        # scan more 13F managers (use around 13F deadlines)
+```
+
+What it surfaces, ranked High / Medium / Watch:
+
+| Signal | Meaning | Cadence |
+|---|---|---|
+| **New fund launch** | a new pooled **hedge-fund** Form D notice (VC/PE/RE filtered out) | daily |
+| **AUM growth** | a tracked manager's 13F book up >15% vs. the prior quarter | quarterly* |
+| **New derivatives** | a manager's options crossed/rose past 15% of the 13F book | quarterly* |
+
+\* 13F is filed quarterly, so growth/derivatives signals cluster around the
+filing deadlines (mid-Feb / May / Aug / Nov). Most mornings the brief is
+launch-driven. The engine **auto-tracks** every 13F manager it sees, so the
+quarter-over-quarter baselines build themselves over time (first sighting =
+baseline, no signal). Pin specific funds in `config/watchlist.txt`.
+
+Each card links to the EDGAR filing and shows the one-liner to draft outreach:
+`py tools/sales_copilot.py --crd CIK<cik>`. **Nothing is ever sent** — drafting
+only (Tier-4).
+
+### Tuning the ICP filter (cutting the noise)
+
+Form D has **no strategy field** — it only tags a fund as Hedge Fund / Private
+Equity / Venture Capital / Other Investment Fund. So PE, VC, real-estate, and
+private-credit vehicles leak in (mostly as "Other Investment Fund"). The brief
+classifies each launch from its **name + type** using editable lexicons in
+**`config/icp_filters.json`**:
+
+- `exclude_fund_types` — hard-drop these Form D types (default: PE, VC).
+- `negative_terms` — drop any fund whose name signals real estate, private
+  credit / direct lending, infrastructure, energy, buyout, royalty, etc.
+- `positive_terms` — strategy keywords (global macro, relative value, fixed
+  income, structured credit, CLO, convertible/vol arb, multi-strategy, …) with
+  weights that score and rank a fund.
+- `require_strategy_match` (default `true`) — non-hedge-fund types must name an
+  ICP strategy to appear; "Hedge Fund" type is always kept (ranked low unless a
+  strategy is named). Set `false` to broaden.
+
+The dashboard shows a green banner with how many non-ICP vehicles were filtered
+and why, so you can audit and tune. Only pooled investment funds are considered;
+operating companies and non-fund issuers are dropped automatically.
+
+### Verification (the noise-killer that name filters can't do)
+
+Form D self-classification is unreliable — a real-estate HTC private lender
+(Octagon Finance) filed as "Hedge Fund" with "Credit" in its name. So the brief
+also consumes an **authoritative verdict store**, `config/verifications.json`,
+that overrides the heuristics. A verdict is produced by checking what the manager
+*actually is* (web / Form ADV), following **`workflows/04_verify_candidates.md`**:
+
+```powershell
+py tools/verify_store.py pending          # candidates needing a verdict
+py tools/verify_store.py set --cik 2064620 --target false `
+    --business "Real-estate / HTC private lender (Octagon Finance)"
+py tools/morning_brief.py                 # re-run; non-targets drop, targets -> High + "Verified"
+```
+
+Verdicts persist, so verification knowledge **compounds** — a manager confirmed
+as noise is never surfaced again. Cards show a green **Verified** badge with the
+confirmed business; un-checked candidates show **Unverified – needs review**.
+Run verification agentically: ask Claude Code to "verify today's pending
+candidates" and it web-checks each and records the verdicts.
+
+## Quickstart (one-time setup)
 
 ```powershell
 cd DEV

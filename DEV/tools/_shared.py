@@ -39,6 +39,8 @@ DB_PATH: Path = DB_DIR / "memory.db"
 DRAFTS_DIR: Path = PROJECT_ROOT / "drafts"
 DATA_DIR: Path = PROJECT_ROOT / "data"
 FILINGS_DIR: Path = DATA_DIR / "filings"
+BRIEFS_DIR: Path = PROJECT_ROOT / "briefs"
+CONFIG_DIR: Path = PROJECT_ROOT / "config"
 
 # Valid envelope statuses.
 SUCCESS = "success"
@@ -99,5 +101,5 @@ def run_cli(result: dict[str, Any]) -> None:
 
 def ensure_dirs() -> None:
     """Create the runtime directories if they do not yet exist."""
-    for d in (DB_DIR, DRAFTS_DIR, DATA_DIR, FILINGS_DIR):
+    for d in (DB_DIR, DRAFTS_DIR, DATA_DIR, FILINGS_DIR, BRIEFS_DIR, CONFIG_DIR):
         d.mkdir(parents=True, exist_ok=True)

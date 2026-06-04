@@ -1,0 +1,54 @@
+{
+  "_comment": "ICP classifier for Form D launches. Form D has no strategy field, so a fund is scored from its NAME + fund type. Edit these lists to tune what the morning brief keeps. Terms are matched on word boundaries (case-insensitive), so 'abs' matches 'ABS Fund' but not 'absolute'.",
+
+  "exclude_fund_types": ["Private Equity Fund", "Venture Capital Fund"],
+
+  "require_strategy_match": true,
+  "_require_strategy_match_note": "When true, a fund must hit at least one positive strategy term to appear at all. This is the high-precision setting that weeds out PE / VC / real-estate / private-credit noise that slips in as 'Other Investment Fund'. Set false to also include hedge funds whose names don't name a strategy (more recall, more noise).",
+
+  "require_verification": true,
+  "_require_verification_note": "When true (default), a Form D launch is NEVER shown on the dashboard until it has a verdict in verifications.json confirming it is a real trading hedge fund. Unverified candidates are held in a 'pending' queue for the verification step (workflow 04) instead of being presented. This guarantees the dashboard only ever shows verified funds. Set false to also show unverified candidates marked 'needs review'.",
+
+  "negative_terms": [
+    "real estate", "realty", "realties", "property", "properties", "propco",
+    "development", "developers", "homebuilder", "housing", "residential",
+    "multifamily", "office", "retail center", "hospitality", "hotel", "resort",
+    "land", "farmland", "timber", "timberland", "agriculture", "agricultural",
+    "infrastructure", "infra", "power", "energy", "renewables", "renewable",
+    "solar", "wind", "oil", "gas", "midstream", "mineral", "minerals", "mining",
+    "royalty", "royalties", "aircraft", "aviation", "shipping", "maritime",
+    "equity partners", "buyout", "leveraged buyout", "growth equity",
+    "growth fund", "growth partners", "venture", "ventures", "seed",
+    "early stage", "incubator", "accelerator", "private equity",
+    "private credit", "direct lending", "direct lend", "senior lending",
+    "senior secured loan", "middle market", "mezzanine", "unitranche",
+    "specialty finance", "consumer finance", "loan fund", "warehouse",
+    "sbic", "bdc", "business development company", "opportunity zone",
+    "life settlement", "litigation finance", "insurance", "reinsurance",
+    "annuity", "trade finance", "factoring", "equipment finance", "film",
+    "media fund", "sports", "cannabis", "web3", "nft", "blockchain ventures",
+    "holdco", "co-invest", "coinvest", "continuation fund", "spv",
+    "special purpose", "acquisition corp", "spac", "blank check", "search fund",
+    "family office", "foundation", "endowment fund", "pension",
+    "secondaries", "secondary fund", "buy-out"
+  ],
+
+  "positive_terms": {
+    "global macro": 15, "macro": 9, "relative value": 15, "rel val": 13,
+    "fixed income": 12, "rates": 9, "duration": 7, "yield curve": 11,
+    "structured credit": 16, "securitized": 12, "asset backed": 12,
+    "asset-backed": 12, "abs": 9, "rmbs": 11, "cmbs": 11, "clo": 12, "cdo": 11,
+    "mbs": 9, "mortgage": 7, "credit opportunities": 13, "structured": 9,
+    "credit": 6, "distressed": 10, "high yield": 10, "emerging market debt": 12,
+    "em debt": 12, "sovereign": 8, "convertible": 12, "converts": 11,
+    "arbitrage": 12, "vol arb": 14, "volatility": 11, "options": 9, "futures": 9,
+    "swaps": 12, "derivatives": 12, "systematic": 10, "quantitative": 10,
+    "quant": 9, "statistical": 10, "market neutral": 13, "long/short": 9,
+    "long short": 9, "multi-strategy": 14, "multi strat": 14, "multistrategy": 14,
+    "multi-strat": 14, "absolute return": 10, "total return": 7,
+    "event driven": 10, "event-driven": 10, "special situations": 9, "merger": 8,
+    "tactical": 6, "directional": 6, "opportunistic": 6, "alpha": 5
+  },
+
+  "tiers": { "high": 78, "medium": 60 }
+}

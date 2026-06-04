@@ -49,10 +49,27 @@ CREATE TABLE IF NOT EXISTS execution_history (
     timestamp     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Quarter-over-quarter 13F snapshots, so the morning brief can detect AUM
+-- growth and new derivatives exposure by diffing a manager's latest filing
+-- against the prior one we recorded.
+CREATE TABLE IF NOT EXISTS manager_snapshots (
+    id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+    cik                   TEXT NOT NULL,
+    manager_name          TEXT,
+    accession             TEXT NOT NULL,
+    report_period         TEXT,
+    total_value           REAL,
+    total_holdings        INTEGER,
+    options_concentration REAL,
+    captured_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (cik, accession)
+);
+
 CREATE INDEX IF NOT EXISTS idx_entities_status      ON entities(status);
 CREATE INDEX IF NOT EXISTS idx_observations_entity  ON observations(entity_id);
 CREATE INDEX IF NOT EXISTS idx_observations_category ON observations(category);
 CREATE INDEX IF NOT EXISTS idx_exec_workflow        ON execution_history(workflow_name);
+CREATE INDEX IF NOT EXISTS idx_snapshots_cik        ON manager_snapshots(cik);
 """
 
 

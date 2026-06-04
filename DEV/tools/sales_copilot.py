@@ -48,9 +48,21 @@ COPY_BLOCKS: dict[str, str] = {
         "build-out, letting you stand up with **minimal middle-office "
         "headcount** and scale as the book grows."
     ),
+    "aum_growth": (
+        "Your book has grown materially quarter-over-quarter. Rapid AUM growth "
+        "is exactly where operational scaling pain shows up — reconciliations, "
+        "financing, treasury, and cross-book P&L. Clarion's unified PMS plus "
+        "Coremont's managed middle office let you **scale without a "
+        "proportional middle-office build-out**."
+    ),
 }
 
-_SIGNAL_PRIORITY = ("audit_delay", "derivatives_complex", "greenfield_launch")
+_SIGNAL_PRIORITY = (
+    "audit_delay",
+    "derivatives_complex",
+    "aum_growth",
+    "greenfield_launch",
+)
 
 
 def _slug(name: str) -> str:
