@@ -1,0 +1,54 @@
+SEC connectivity probe  (UA = 'Coremont Clarion Prospecting malex.clark@gmail.com')
+========================================================================
+[    HTTP] www Archives full-index (the 403'd path), proper UA
+           https://www.sec.gov/Archives/edgar/full-index/2026/QTR2/
+           -> HTTP 403 Forbidden
+[    HTTP] www Archives full-index, NO custom UA (tests UA vs IP)
+           https://www.sec.gov/Archives/edgar/full-index/2026/QTR2/
+           -> HTTP 403 Forbidden
+[    HTTP] www browse-edgar current Form D (atom)
+           https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=D&output=atom&count=10
+           -> HTTP 403 Forbidden
+[    HTTP] data.sec.gov submissions JSON (Apple)
+           https://data.sec.gov/submissions/CIK0000320193.json
+           -> HTTP 403 Forbidden
+[    HTTP] efts.sec.gov full-text search API (Form D)
+           https://efts.sec.gov/LATEST/search-index?q=%22fund%22&forms=D&startdt=2026-06-01&enddt=2026-06-03
+           -> HTTP 403 Forbidden
+[    HTTP] efts.sec.gov full-text search API (no UA)
+           https://efts.sec.gov/LATEST/search-index?q=%22fund%22&forms=D
+           -> HTTP 403 Forbidden
+
+JSON:
+[
+  {
+    "label": "www Archives full-index (the 403'd path), proper UA",
+    "url": "https://www.sec.gov/Archives/edgar/full-index/2026/QTR2/",
+    "result": "HTTP 403 Forbidden"
+  },
+  {
+    "label": "www Archives full-index, NO custom UA (tests UA vs IP)",
+    "url": "https://www.sec.gov/Archives/edgar/full-index/2026/QTR2/",
+    "result": "HTTP 403 Forbidden"
+  },
+  {
+    "label": "www browse-edgar current Form D (atom)",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=D&output=atom&count=10",
+    "result": "HTTP 403 Forbidden"
+  },
+  {
+    "label": "data.sec.gov submissions JSON (Apple)",
+    "url": "https://data.sec.gov/submissions/CIK0000320193.json",
+    "result": "HTTP 403 Forbidden"
+  },
+  {
+    "label": "efts.sec.gov full-text search API (Form D)",
+    "url": "https://efts.sec.gov/LATEST/search-index?q=%22fund%22&forms=D&startdt=2026-06-01&enddt=2026-06-03",
+    "result": "HTTP 403 Forbidden"
+  },
+  {
+    "label": "efts.sec.gov full-text search API (no UA)",
+    "url": "https://efts.sec.gov/LATEST/search-index?q=%22fund%22&forms=D",
+    "result": "HTTP 403 Forbidden"
+  }
+]
