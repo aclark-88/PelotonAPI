@@ -53,5 +53,47 @@
     "business": "Bitcoin covered-call / crypto options strategy fund (Boca Raton FL); very small AUM (70K at launch); crypto-derivative focus is not a traditional liquid-securities book requiring OTC / structured-credit risk infrastructure",
     "verified_by": "agent",
     "date": "2026-06-04"
+  },
+  "2138093": {
+    "is_target": true,
+    "business": "Multi-strategy investment firm (Daimyo Holdings, West LA) deploying across public equities, structured credit, and real estate; KC James Dorame as Investment Director; multi-strategy tag on Form D and confirmed institutional platform",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2135594": {
+    "is_target": false,
+    "business": "Veridian Capital Partners (CRD 314290) is a Frederick MD retail wealth-management RIA with 6 advisors, ~$471M AUM across 2,494 individual accounts - not a securities-trading hedge fund",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2134789": {
+    "is_target": false,
+    "business": "Kubair Capital Fund LP - residential San Jose CA address, no ADV registration, no web presence, $0 raised; no evidence of institutional trading operation; default FALSE",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2136635": {
+    "is_target": false,
+    "business": "Christine Messmer, P.C. (CRD 121202) is a CFP/wealth-management RIA in Collegeville PA serving individual clients; not an institutional hedge fund; virtual NY office at 390 Madison does not change the character of the manager",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2137709": {
+    "is_target": true,
+    "business": "Lumenai Investments LLC (Stamford CT) - confirmed AI-driven quantitative hedge fund; global equity long/short, market-neutral, multi-asset; launching Lumenai Innovation Fund June 2026 as first fully-agentic AI hedge fund; CRD 309918; partnership with ETS Asset Management Factory",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2136855": {
+    "is_target": false,
+    "business": "Paradigm Fund Series 1 LP (The Woodlands TX) - no ADV registration, no web presence, no strategy tags; $3.5M raised from $25M offering; inconclusive on strategy type; default FALSE",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2137109": {
+    "is_target": false,
+    "business": "Prime Spectrum Fund LP - residential Tampa FL address (unit apartment), no ADV, no web presence, $0 raised; no evidence of institutional trading operation; default FALSE",
+    "verified_by": "agent",
+    "date": "2026-06-04"
   }
 }
