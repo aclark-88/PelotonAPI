@@ -1,0 +1,170 @@
+{
+  "generated_at": "2026-06-04 13:47",
+  "window": {
+    "form_d": "2026-05-31 \u2192 2026-06-04",
+    "thirteenf": "2026-05-28 \u2192 2026-06-04"
+  },
+  "candidates": [
+    {
+      "cik": "0002136776",
+      "fund": "DX2 Capital Concentrated LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002136776-26-000001",
+      "filed": "2026-06-03",
+      "jurisdiction": "DELAWARE",
+      "address": "2901 Hemingway Drive Los Angeles, CALIFORNIA 90039",
+      "related_persons": [
+        "Cheng-Chih Cheng-Chih",
+        "N/A N/A"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": []
+    },
+    {
+      "cik": "0002134708",
+      "fund": "LMCG Absolute Return Fund, LP",
+      "fund_type": "Other Investment Fund",
+      "accession": "0001652684-26-000006",
+      "filed": "2026-06-03",
+      "jurisdiction": "DELAWARE",
+      "address": "C/O LMCG INVESTMENTS, LLC 201 WASHINGTON STREET, 29TH FLOOR BOSTON, MASSACHUSETTS 02108",
+      "related_persons": [
+        "n/a n/a",
+        "Kenneth Kenneth",
+        "John John"
+      ],
+      "amount_sold": 200000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [
+        "absolute return"
+      ]
+    },
+    {
+      "cik": "0002135124",
+      "fund": "LMCG Absolute Return Offshore Fund, LP",
+      "fund_type": "Other Investment Fund",
+      "accession": "0001652684-26-000007",
+      "filed": "2026-06-03",
+      "jurisdiction": "CAYMAN ISLANDS",
+      "address": "89 NEXUS WAY CAMANA BAY, CAYMAN ISLANDS KY1-9009",
+      "related_persons": [
+        "n/a n/a",
+        "Kenneth Kenneth",
+        "John John"
+      ],
+      "amount_sold": 325000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [
+        "absolute return"
+      ]
+    },
+    {
+      "cik": "0002136321",
+      "fund": "Plettenberg Capital III LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002136321-26-000001",
+      "filed": "2026-06-03",
+      "jurisdiction": "DELAWARE",
+      "address": "8 West 40th St, Floor #4 New York, NEW YORK 10018",
+      "related_persons": [
+        "Alexander Alexander",
+        "N/A N/A"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": []
+    },
+    {
+      "cik": "0002126718",
+      "fund": "Summit Partners IDF Series of the SALI Multi-Series Fund, L.P.",
+      "fund_type": "Hedge Fund",
+      "accession": "0002126718-26-000001",
+      "filed": "2026-06-03",
+      "jurisdiction": "DELAWARE",
+      "address": "6850 AUSTIN CENTER BOULEVARD SUITE 300 AUSTIN, TEXAS 78731",
+      "related_persons": [
+        "Cameron Cameron",
+        "NA NA"
+      ],
+      "amount_sold": 100000000.0,
+      "total_offering": null,
+      "first_sale": "2026-05-27",
+      "strategy_tags": []
+    },
+    {
+      "cik": "0002136716",
+      "fund": "AB TA Alpha Fund, L.P.",
+      "fund_type": "Hedge Fund",
+      "accession": "0000902664-26-002657",
+      "filed": "2026-06-02",
+      "jurisdiction": "DELAWARE",
+      "address": "501 COMMERCE STREET NASHVILLE, TENNESSEE 37203",
+      "related_persons": [
+        "- -"
+      ],
+      "amount_sold": 106972785.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [
+        "alpha"
+      ]
+    },
+    {
+      "cik": "0002135332",
+      "fund": "Bitachon Capital Fund LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002135332-26-000001",
+      "filed": "2026-06-02",
+      "jurisdiction": "DELAWARE",
+      "address": "6859 SW 18TH STREET SUITE 100 BOCA RATON, FLORIDA 33433",
+      "related_persons": [
+        "Yitzchok Yitzchok",
+        "Marc Marc",
+        "Andrew Andrew",
+        "Prabhjeet Prabhjeet",
+        "n/a n/a"
+      ],
+      "amount_sold": 470000.0,
+      "total_offering": null,
+      "first_sale": "2026-05-01",
+      "strategy_tags": []
+    }
+  ],
+  "moves": [],
+  "scan": {
+    "scanned": 250,
+    "total": 698,
+    "truncated": true,
+    "rejected": {
+      "verified_not_target": 2,
+      "excluded_type": 90,
+      "negative_term": 3,
+      "no_strategy": 11,
+      "not_pooled": 84
+    },
+    "rejected_sample": [
+      "AI Select Fund of Funds 2025, L.P. [excluded_type: Venture Capital Fund]",
+      "AI V Apr 2026 a Series of Moreno VC LLC [excluded_type: Venture Capital Fund]",
+      "AMULETxRODEOGP a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]",
+      "ARKVIEW CAPITAL CO-INVEST X - COLUMBIA LP [excluded_type: Private Equity Fund]",
+      "Anthem Laboratories Preseed SAFE a Series of CGF [excluded_type: Venture Capital Fund]",
+      "Arkhouse Value Fund XII LP [no_strategy: Other Investment Fund]",
+      "BP OpenAI LP [excluded_type: Venture Capital Fund]",
+      "BU-0304 Fund III, a series of JMWTX Investments, [excluded_type: Venture Capital Fund]",
+      "BV Select SPV II, L.P. [excluded_type: Private Equity Fund]",
+      "Banyan BioInnovations Capital Fund I LP [excluded_type: Venture Capital Fund]",
+      "Blockskye LV II a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]",
+      "Browder-YU-0515 Fund I, a series of Platform Fun [excluded_type: Venture Capital Fund]"
+    ]
+  },
+  "coverage_13f": {
+    "tracked": 0,
+    "baselined": 0,
+    "truncated": false
+  }
+}
