@@ -1,0 +1,8 @@
+Schedule D 7B(1) data-set discovery
+============================================================
+
+## links on https://adviserinfo.sec.gov/compilation
+
+## links on https://adviserinfo.sec.gov/adv
+
+## inspecting candidate dataset files
