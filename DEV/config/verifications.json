@@ -35,5 +35,23 @@
     "business": "Late-stage technology venture capital / growth equity (AI, cybersecurity, fintech) - not a trading hedge fund",
     "verified_by": "web",
     "date": "2026-06-03"
+  },
+  "2126718": {
+    "is_target": false,
+    "business": "Summit Partners IDF administered by SALI Fund Services (Insurance Dedicated Fund wrapper for Summit Partners growth-equity / PE fund); SALI address 6850 Austin Center Blvd is fund administrator, not a securities-trading hedge fund",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2136716": {
+    "is_target": true,
+    "business": "AllianceBernstein (AB) new hedge fund under their alternatives / fundamental-alpha platform; 501 Commerce St Nashville = AB HQ; AB runs equity L/S, absolute-return and systematic hedge-fund strategies; 07M first-sale confirms institutional product",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2135332": {
+    "is_target": false,
+    "business": "Bitcoin covered-call / crypto options strategy fund (Boca Raton FL); very small AUM (70K at launch); crypto-derivative focus is not a traditional liquid-securities book requiring OTC / structured-credit risk infrastructure",
+    "verified_by": "agent",
+    "date": "2026-06-04"
   }
 }
