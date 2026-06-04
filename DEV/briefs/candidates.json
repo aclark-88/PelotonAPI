@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-04 13:47",
+  "generated_at": "2026-06-04 14:05",
   "window": {
     "form_d": "2026-05-31 \u2192 2026-06-04",
     "thirteenf": "2026-05-28 \u2192 2026-06-04"
@@ -20,7 +20,10 @@
       "amount_sold": 0.0,
       "total_offering": null,
       "first_sale": "",
-      "strategy_tags": []
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false
     },
     {
       "cik": "0002134708",
@@ -40,7 +43,10 @@
       "first_sale": "2026-06-01",
       "strategy_tags": [
         "absolute return"
-      ]
+      ],
+      "large_raise": false,
+      "vehicle_count": 2,
+      "platform_expansion": true
     },
     {
       "cik": "0002135124",
@@ -60,7 +66,10 @@
       "first_sale": "2026-06-01",
       "strategy_tags": [
         "absolute return"
-      ]
+      ],
+      "large_raise": false,
+      "vehicle_count": 2,
+      "platform_expansion": true
     },
     {
       "cik": "0002136321",
@@ -77,24 +86,10 @@
       "amount_sold": 0.0,
       "total_offering": null,
       "first_sale": "",
-      "strategy_tags": []
-    },
-    {
-      "cik": "0002126718",
-      "fund": "Summit Partners IDF Series of the SALI Multi-Series Fund, L.P.",
-      "fund_type": "Hedge Fund",
-      "accession": "0002126718-26-000001",
-      "filed": "2026-06-03",
-      "jurisdiction": "DELAWARE",
-      "address": "6850 AUSTIN CENTER BOULEVARD SUITE 300 AUSTIN, TEXAS 78731",
-      "related_persons": [
-        "Cameron Cameron",
-        "NA NA"
-      ],
-      "amount_sold": 100000000.0,
-      "total_offering": null,
-      "first_sale": "2026-05-27",
-      "strategy_tags": []
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false
     },
     {
       "cik": "0002136716",
@@ -112,54 +107,186 @@
       "first_sale": "2026-06-01",
       "strategy_tags": [
         "alpha"
-      ]
+      ],
+      "large_raise": true,
+      "vehicle_count": 1,
+      "platform_expansion": false
     },
     {
-      "cik": "0002135332",
-      "fund": "Bitachon Capital Fund LP",
+      "cik": "0002138093",
+      "fund": "Daimyo Multi-Strategy Fund I LP",
       "fund_type": "Hedge Fund",
-      "accession": "0002135332-26-000001",
+      "accession": "0000935836-26-000309",
       "filed": "2026-06-02",
       "jurisdiction": "DELAWARE",
-      "address": "6859 SW 18TH STREET SUITE 100 BOCA RATON, FLORIDA 33433",
+      "address": "10880 WILSHIRE BLVD., SUITE 985 LOS ANGELES, CALIFORNIA 90024",
       "related_persons": [
-        "Yitzchok Yitzchok",
-        "Marc Marc",
-        "Andrew Andrew",
-        "Prabhjeet Prabhjeet",
-        "n/a n/a"
+        "- -",
+        "James James"
       ],
-      "amount_sold": 470000.0,
+      "amount_sold": 0.0,
       "total_offering": null,
-      "first_sale": "2026-05-01",
-      "strategy_tags": []
+      "first_sale": "",
+      "strategy_tags": [
+        "multi-strategy"
+      ],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false
+    },
+    {
+      "cik": "0002135594",
+      "fund": "Helix Opportunities Fund LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0001941040-26-000392",
+      "filed": "2026-06-02",
+      "jurisdiction": "DELAWARE",
+      "address": "238 VIA LAS BRISAS PALM BEACH, FLORIDA 33480",
+      "related_persons": [
+        "n/a n/a",
+        "Frederick Frederick",
+        "John John"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false
+    },
+    {
+      "cik": "0002134789",
+      "fund": "Kubair Capital Fund, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002134789-26-000001",
+      "filed": "2026-06-02",
+      "jurisdiction": "DELAWARE",
+      "address": "5346 GERINE BLOSSOM DR SAN JOSE, CALIFORNIA 95123",
+      "related_persons": [
+        "Neerav Neerav",
+        "N/A N/A"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false
+    },
+    {
+      "cik": "0002136635",
+      "fund": "Select Alpha Fund II, L.P.",
+      "fund_type": "Hedge Fund",
+      "accession": "0002136635-26-000001",
+      "filed": "2026-06-02",
+      "jurisdiction": "DELAWARE",
+      "address": "390 MADISON AVENUE 32ND FLOOR NEW YORK, NEW YORK 10017",
+      "related_persons": [
+        "Robert Robert",
+        "Christine Christine"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [
+        "alpha"
+      ],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false
+    },
+    {
+      "cik": "0002137709",
+      "fund": "Lumenai Innovation Fund, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002137709-26-000001",
+      "filed": "2026-06-01",
+      "jurisdiction": "DELAWARE",
+      "address": "C/O LUMENAI INNOVATION GP, LLC 700 CANAL STREET, SUITE 119 STAMFORD, CONNECTICUT 06902",
+      "related_persons": [
+        "N/A N/A",
+        "John John"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false
+    },
+    {
+      "cik": "0002136855",
+      "fund": "Paradigm Fund Series 1, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002136855-26-000001",
+      "filed": "2026-06-01",
+      "jurisdiction": "TEXAS",
+      "address": "4 Waterway Square Pl Suite 400 THE WOODLANDS, TEXAS 77380",
+      "related_persons": [
+        "Donald Donald",
+        "Christopher Christopher",
+        "Austin Austin"
+      ],
+      "amount_sold": 3500000.0,
+      "total_offering": 25000000.0,
+      "first_sale": "2026-05-14",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false
+    },
+    {
+      "cik": "0002137109",
+      "fund": "Prime Spectrum Fund, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002137109-26-000001",
+      "filed": "2026-06-01",
+      "jurisdiction": "DELAWARE",
+      "address": "1505 E COMANCHE AVE UNIT 16 TAMPA, FLORIDA 33610",
+      "related_persons": [
+        "Mark Mark",
+        "Myles Myles",
+        "N/A N/A"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false
     }
   ],
   "moves": [],
   "scan": {
-    "scanned": 250,
+    "scanned": 206,
     "total": 698,
-    "truncated": true,
+    "eligible": 206,
+    "efts_filtered": true,
+    "truncated": false,
     "rejected": {
-      "verified_not_target": 2,
-      "excluded_type": 90,
-      "negative_term": 3,
-      "no_strategy": 11,
-      "not_pooled": 84
+      "verified_not_target": 4,
+      "excluded_type": 0,
+      "negative_term": 9,
+      "no_strategy": 32,
+      "not_pooled": 0
     },
     "rejected_sample": [
-      "AI Select Fund of Funds 2025, L.P. [excluded_type: Venture Capital Fund]",
-      "AI V Apr 2026 a Series of Moreno VC LLC [excluded_type: Venture Capital Fund]",
-      "AMULETxRODEOGP a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]",
-      "ARKVIEW CAPITAL CO-INVEST X - COLUMBIA LP [excluded_type: Private Equity Fund]",
-      "Anthem Laboratories Preseed SAFE a Series of CGF [excluded_type: Venture Capital Fund]",
       "Arkhouse Value Fund XII LP [no_strategy: Other Investment Fund]",
-      "BP OpenAI LP [excluded_type: Venture Capital Fund]",
-      "BU-0304 Fund III, a series of JMWTX Investments, [excluded_type: Venture Capital Fund]",
-      "BV Select SPV II, L.P. [excluded_type: Private Equity Fund]",
-      "Banyan BioInnovations Capital Fund I LP [excluded_type: Venture Capital Fund]",
-      "Blockskye LV II a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]",
-      "Browder-YU-0515 Fund I, a series of Platform Fun [excluded_type: Venture Capital Fund]"
+      "COLLINS INVESTMENT PARTNERS LP [verified: Late-stage technology venture capital / growth equity (AI, c]",
+      "Canal Grande Fund LP [no_strategy: Other Investment Fund]",
+      "Contraline-5, a series of Jason's Syndicate, LLC [no_strategy: Other Investment Fund]",
+      "Crescent Ridgeway LLC [no_strategy: Other Investment Fund]",
+      "Dragoneer Connection1-BL 2026, LP [no_strategy: Other Investment Fund]",
+      "Dynamic Private Credit Fund I, LP [negative_term: ['private credit']]",
+      "ESP, a series of E Squared Investment Fund, LLC [no_strategy: Other Investment Fund]",
+      "LS Power Equity Partners VI Access LLC [negative_term: ['power', 'equity partners']]",
+      "Navigate Capital Partners SBIC Fund II, LP [negative_term: ['sbic']]",
+      "Neuberger Talon LP [no_strategy: Other Investment Fund]",
+      "OCTAGON CREDIT PARTNERS II FEEDER, LP [verified: Real-estate / historic-tax-credit rehab private lender (Octa]"
     ]
   },
   "coverage_13f": {
