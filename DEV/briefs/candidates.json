@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-04 14:49",
+  "generated_at": "2026-06-04 15:07",
   "window": {
     "form_d": "2026-05-31 \u2192 2026-06-04",
     "thirteenf": "2026-05-28 \u2192 2026-06-04"
@@ -48,7 +48,22 @@
       "large_raise": false,
       "vehicle_count": 2,
       "platform_expansion": true,
-      "adv_matched": false
+      "adv_matched": true,
+      "adv_name": "KENNETH FRENKE & CO",
+      "adv_crd": "109352",
+      "adv_status": "Approved",
+      "adv_status_date": "02/26/1999",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
     },
     {
       "cik": "0002135124",
@@ -72,7 +87,22 @@
       "large_raise": false,
       "vehicle_count": 2,
       "platform_expansion": true,
-      "adv_matched": false
+      "adv_matched": true,
+      "adv_name": "KENNETH FRENKE & CO",
+      "adv_crd": "109352",
+      "adv_status": "Approved",
+      "adv_status_date": "02/26/1999",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
     },
     {
       "cik": "0002136321",
@@ -160,7 +190,22 @@
       "large_raise": false,
       "vehicle_count": 1,
       "platform_expansion": false,
-      "adv_matched": false
+      "adv_matched": true,
+      "adv_name": "VERIDIAN CAPITAL PARTNERS",
+      "adv_crd": "314290",
+      "adv_status": "Approved",
+      "adv_status_date": "05/28/2021",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
     },
     {
       "cik": "0002134789",
@@ -204,7 +249,22 @@
       "large_raise": false,
       "vehicle_count": 1,
       "platform_expansion": false,
-      "adv_matched": false
+      "adv_matched": true,
+      "adv_name": "CHRISTINE MESSMER, P.C.",
+      "adv_crd": "121202",
+      "adv_status": "Approved",
+      "adv_status_date": "06/30/2020",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
     },
     {
       "cik": "0002137709",
@@ -270,13 +330,133 @@
       "vehicle_count": 1,
       "platform_expansion": false,
       "adv_matched": false
+    },
+    {
+      "cik": "2137933",
+      "fund": "Stillwater Private Wealth, LLC",
+      "fund_type": "",
+      "first_13f": true,
+      "total_value": 118176000.0,
+      "accession": "0002137933-26-000001",
+      "filed": "2026-06-03",
+      "related_persons": [],
+      "strategy_tags": [],
+      "adv_matched": true,
+      "adv_name": "STILLWATER PRIVATE WEALTH",
+      "adv_crd": "339794",
+      "adv_status": "Approved",
+      "adv_status_date": "01/02/2026",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": true
+    },
+    {
+      "cik": "2129058",
+      "fund": "Dala Group, LLC",
+      "fund_type": "",
+      "first_13f": true,
+      "total_value": 119647452.0,
+      "accession": "0001104659-26-068449",
+      "filed": "2026-06-01",
+      "related_persons": [],
+      "strategy_tags": [],
+      "adv_matched": false
+    },
+    {
+      "cik": "2135269",
+      "fund": "Financial Solutions Advisory Group, Inc.",
+      "fund_type": "",
+      "first_13f": true,
+      "total_value": 723361789.0,
+      "accession": "0002085853-26-000621",
+      "filed": "2026-06-01",
+      "related_persons": [],
+      "strategy_tags": [],
+      "adv_matched": true,
+      "adv_name": "FINANCIAL SOLUTIONS ADVISORY GROUP",
+      "adv_crd": "125218",
+      "adv_status": "Approved",
+      "adv_status_date": "06/06/2003",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "2089761",
+      "fund": "Immaculate Wealth Management LLC",
+      "fund_type": "",
+      "first_13f": true,
+      "total_value": 12654684.0,
+      "accession": "0002089761-26-000001",
+      "filed": "2026-05-29",
+      "related_persons": [],
+      "strategy_tags": [],
+      "adv_matched": true,
+      "adv_name": "IMMACULATE WEALTH MANAGEMENT, LLC",
+      "adv_crd": "167657",
+      "adv_status": "Approved",
+      "adv_status_date": "04/17/2025",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "2136913",
+      "fund": "Krane Financial Solutions LLC",
+      "fund_type": "",
+      "first_13f": true,
+      "total_value": 147091877.0,
+      "accession": "0002136913-26-000002",
+      "filed": "2026-05-29",
+      "related_persons": [],
+      "strategy_tags": [],
+      "adv_matched": true,
+      "adv_name": "KRANE FINANCIAL SOLUTIONS",
+      "adv_crd": "153594",
+      "adv_status": "Approved",
+      "adv_status_date": "04/15/2010",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
     }
   ],
   "moves": [],
   "scan": {
-    "scanned": 205,
+    "scanned": 206,
     "total": 698,
-    "eligible": 205,
+    "eligible": 206,
     "efts_filtered": true,
     "truncated": false,
     "rejected": {
@@ -302,9 +482,11 @@
     ],
     "adv": {
       "ok": true,
-      "matched": 0,
+      "matched": 8,
       "advisers": 23427
-    }
+    },
+    "new_13f_filers": 5,
+    "new_13f_checked": 48
   },
   "coverage_13f": {
     "tracked": 0,
