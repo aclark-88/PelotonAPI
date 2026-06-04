@@ -99,22 +99,58 @@ def _to_float(v: Any) -> float | None:
         return None
 
 
+def _brand(name: str, n_tokens: int) -> str:
+    """First N significant tokens of a normalized name = the manager 'brand'."""
+    toks = _norm_entity(name).split()
+    return " ".join(toks[:n_tokens]) if len(toks) >= n_tokens else ""
+
+
 def build_index(zip_blobs: bytes | list[bytes]) -> dict[str, Any]:
-    """Parse one or more ADV roster zips into a merged {by_cik, by_name, count}."""
+    """Parse one or more ADV roster zips into a merged index.
+
+    Returns {by_cik, by_name, by_brand, count}. ``by_brand`` maps a manager brand
+    (first 1 and first 2 normalized tokens of the adviser name) to a record, but
+    ONLY when that brand is unique across all advisers — ambiguous brands map to
+    None so we never make a wrong guess.
+    """
     if isinstance(zip_blobs, (bytes, bytearray)):
         zip_blobs = [zip_blobs]
     by_cik: dict[str, dict] = {}
     by_name: dict[str, dict] = {}
+    brand_owner: dict[str, str] = {}   # brand -> normalized adviser name (or "*" if many)
+    brand_rec: dict[str, dict] = {}
     count = 0
     for blob in zip_blobs:
         try:
-            count += _index_one(blob, by_cik, by_name)
+            count += _index_one(blob, by_cik, by_name, brand_owner, brand_rec)
         except Exception:  # noqa: BLE001 - skip a bad file, keep the rest
             continue
-    return {"by_cik": by_cik, "by_name": by_name, "count": count}
+    by_brand = {b: brand_rec[b] for b, owner in brand_owner.items() if owner != "*" and len(b) >= 4}
+    return {"by_cik": by_cik, "by_name": by_name, "by_brand": by_brand, "count": count}
 
 
-def _index_one(zip_bytes: bytes, by_cik: dict, by_name: dict) -> int:
+# Generic first-words that must never be used as a 1-token brand match.
+_GENERIC_BRANDS = {
+    "the", "new", "global", "prime", "select", "core", "alpha", "capital",
+    "fund", "asset", "investment", "investments", "partners", "advisors",
+    "advisers", "management", "group", "us", "american", "first", "north",
+}
+
+
+def _brands_of(name: str) -> list[str]:
+    """Candidate brand keys for a fund/adviser name (2-token first, then 1-token
+    if distinctive)."""
+    out = []
+    b2 = _brand(name, 2)
+    if b2:
+        out.append(b2)
+    b1 = _brand(name, 1)
+    if b1 and b1 not in _GENERIC_BRANDS and len(b1) >= 4:
+        out.append(b1)
+    return out
+
+
+def _index_one(zip_bytes: bytes, by_cik: dict, by_name: dict, brand_owner: dict, brand_rec: dict) -> int:
     zf = zipfile.ZipFile(io.BytesIO(zip_bytes))
     csv_name = next((n for n in zf.namelist() if n.lower().endswith(".csv")), None)
     if not csv_name:
@@ -155,10 +191,20 @@ def _index_one(zip_bytes: bytes, by_cik: dict, by_name: dict) -> int:
         cik = re.sub(r"\D", "", str(rec.get("cik") or "")).lstrip("0")
         if cik:
             by_cik.setdefault(cik, rec)
+        adviser_norm = _norm_entity(rec.get("primary") or rec.get("legal") or "")
         for nm in (rec.get("primary"), rec.get("legal")):
             k = _norm_entity(nm or "")
             if k:
                 by_name.setdefault(k, rec)
+        # brand index with ambiguity tracking
+        brands = set(_brands_of(rec.get("primary") or "")) | set(_brands_of(rec.get("legal") or ""))
+        for b in brands:
+            owner = brand_owner.get(b)
+            if owner is None:
+                brand_owner[b] = adviser_norm
+                brand_rec[b] = rec
+            elif owner != adviser_norm:
+                brand_owner[b] = "*"  # used by >1 adviser -> never match on it
     return n
 
 
@@ -166,12 +212,18 @@ def _match(cand: dict[str, Any], index: dict[str, Any]) -> dict | None:
     cik = re.sub(r"\D", "", str(cand.get("cik") or "")).lstrip("0")
     if cik and cik in index["by_cik"]:
         return index["by_cik"][cik]
-    # exact normalized name match on related persons or fund name
     names = list(cand.get("related_persons") or []) + [cand.get("fund", "")]
+    # 1) exact normalized name match (highest precision)
     for nm in names:
         k = _norm_entity(nm)
         if k and k in index["by_name"]:
             return index["by_name"][k]
+    # 2) unique-brand match: the fund/manager brand maps to exactly one adviser
+    by_brand = index.get("by_brand", {})
+    for nm in names:
+        for b in _brands_of(nm):
+            if b in by_brand:
+                return by_brand[b]
     return None
 
 
