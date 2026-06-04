@@ -658,6 +658,17 @@ def _options_concentration(obj: Any) -> float | None:
     return conc["data"]["options_concentration"]
 
 
+def _icp_13f_ok(c: dict[str, Any]) -> bool:
+    """A first-13F filer is an ICP candidate only with private-fund evidence
+    (ADV private funds > 0 / hedge confirmed) or a named strategy — otherwise
+    it's a wealth manager / RIA crossing $100M in client SMAs, not a hedge fund."""
+    return (
+        (c.get("adv_private_funds") or 0) > 0
+        or bool(c.get("adv_hedge_confirmed"))
+        or bool(c.get("strategy_tags"))
+    )
+
+
 def scan_13f_new_filers(date_from: str, date_to: str, cap: int) -> dict[str, Any]:
     """Find FIRST-EVER 13F-HR filers in the window — a manager that just crossed
     $100M in 13(f) securities (institutional-scale inflection / scaler).
@@ -882,6 +893,12 @@ def run_brief(
         # Form ADV enrichment (adviser AUM, hedge-fund confirmation, new
         # registration). Annotates candidates in place; never fatal.
         adv_cov = adv_enrich.enrich(candidates)
+        # Tighten the 13F-first stream: most new 13F filers are wealth managers /
+        # RIAs crossing $100M in client SMAs, not hedge funds. A real hedge-fund
+        # manager runs private funds (ADV) or names a strategy; drop the rest.
+        before = len(candidates)
+        candidates = [c for c in candidates if not (c.get("first_13f") and not _icp_13f_ok(c))]
+        new13f_dropped = before - len(candidates)
         moves_signals = moves.get("signals", [])
         scan_meta = {
             "scanned": launches.get("scanned", 0),
@@ -892,8 +909,9 @@ def run_brief(
             "rejected": launches.get("rejected", {}),
             "rejected_sample": launches.get("rejected_sample", []),
             "adv": adv_cov,
-            "new_13f_filers": len(new13f.get("candidates", [])),
+            "new_13f_filers": sum(1 for c in candidates if c.get("first_13f")),
             "new_13f_checked": new13f.get("checked", 0),
+            "new_13f_dropped_noise": new13f_dropped,
         }
         cov13 = {
             "tracked": moves.get("tracked", 0),
