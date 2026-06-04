@@ -13,6 +13,8 @@ drafts/*.md
 # Generated morning-brief dashboards
 briefs/*.html
 briefs/*.json
+# ...but the SEC-scan hand-off artifact IS committed (GitHub runner -> cloud)
+!briefs/candidates.json
 
 # Python
 __pycache__/

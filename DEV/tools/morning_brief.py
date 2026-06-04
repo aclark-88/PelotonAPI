@@ -244,22 +244,38 @@ def _edgar_url(cik: str) -> str:
 # ---------------------------------------------------------------------------
 # Form D — new hedge-fund launches
 # ---------------------------------------------------------------------------
+def _related_person_names(obj: Any) -> list[str]:
+    names: list[str] = []
+    for p in (getattr(obj, "related_persons", None) or []):
+        n = getattr(p, "name", None) or str(p)
+        n = str(n).strip()
+        if n and n not in names:
+            names.append(n)
+    return names[:8]
+
+
 def scan_form_d_launches(date_from: str, date_to: str, cap: int) -> dict[str, Any]:
+    """SEC-FETCH stage (runs where SEC is reachable, e.g. a GitHub runner).
+
+    Returns RAW candidates — pooled investment funds that survive the cheap
+    name/type filters — with the issuer detail the verifier needs (related
+    persons, address). Verdict application + presentation happen later in
+    _split_candidates(), so this stage never needs the verification store and the
+    render stage never needs SEC.
+    """
     if cap <= 0:
-        return {"signals": [], "scanned": 0, "truncated": False}
+        return {"candidates": [], "scanned": 0, "truncated": False, "total": 0}
     try:
         filings = edgar.get_filings(form="D", filing_date=f"{date_from}:{date_to}")
     except Exception as exc:  # noqa: BLE001
-        return {"signals": [], "scanned": 0, "truncated": False, "total": 0, "error": str(exc)}
+        return {"candidates": [], "scanned": 0, "truncated": False, "total": 0, "error": str(exc)}
     if not filings:
         # EDGAR reachable but returned nothing. A multi-day window should never be
         # truly empty, so flag it as suspect (likely a connectivity/index issue).
-        return {"signals": [], "scanned": 0, "truncated": False, "total": 0, "empty_window": True}
+        return {"candidates": [], "scanned": 0, "truncated": False, "total": 0, "empty_window": True}
 
-    require_verification = FILTERS.get("require_verification", True)
     total = len(filings)
-    signals: list[dict[str, Any]] = []
-    pending: list[dict[str, Any]] = []
+    candidates: list[dict[str, Any]] = []
     scanned = 0
     rejected: dict[str, int] = {
         "verified_not_target": 0, "excluded_type": 0, "negative_term": 0,
@@ -291,22 +307,16 @@ def scan_form_d_launches(date_from: str, date_to: str, cap: int) -> dict[str, An
             rejected["not_pooled"] += 1
             continue
 
-        # Verification verdict is authoritative — it overrides name/type heuristics.
+        # A fund survives the cheap filter if it's already a confirmed target OR
+        # it passes the name/type classifier. Confirmed non-targets are dropped
+        # here; everything else is decided later from the verdict store.
         ver = VERIFICATIONS.get(_norm_cik(cik)) if cik else None
-        verified: bool | None = None
-        business: str | None = None
         if ver is not None and not ver.get("is_target", False):
             rejected["verified_not_target"] += 1
             if len(rejected_sample) < 12:
                 rejected_sample.append(f"{name[:48]} [verified: {ver.get('business', 'not a target')[:60]}]")
             continue
-        if ver is not None and ver.get("is_target"):
-            tags = _term_hits(name, FILTERS["positive_terms"].keys())
-            high = FILTERS.get("tiers", {}).get("high", 78)
-            score = max(58 + sum(FILTERS["positive_terms"][m] for m in tags), high)
-            verified = True
-            business = ver.get("business")
-        else:
+        if not (ver and ver.get("is_target")):
             verdict = classify_icp(name, fund_type)
             if not verdict["include"]:
                 rejected[verdict["reason"]] = rejected.get(verdict["reason"], 0) + 1
@@ -314,62 +324,101 @@ def scan_form_d_launches(date_from: str, date_to: str, cap: int) -> dict[str, An
                     why = verdict.get("neg") or fund_type or verdict["reason"]
                     rejected_sample.append(f"{name[:48]} [{verdict['reason']}: {why}]")
                 continue
-            tags = verdict["matched"]
-            score = verdict["score"]
-            if require_verification:
-                # Verification gate: an unverified candidate is NEVER presented.
-                # Hold it for workflow 04; it appears only once a verdict confirms
-                # it is a real trading hedge fund.
-                pending.append(
-                    {
-                        "cik": cik,
-                        "fund": name,
-                        "fund_type": fund_type,
-                        "accession": str(getattr(filings[i], "accession_no", "")),
-                        "strategy_tags": tags,
-                    }
-                )
-                continue
 
         osa = getattr(od, "offering_sales_amounts", None)
-        sold = _num(getattr(osa, "total_amount_sold", None)) if osa else None
-        offering = _num(getattr(osa, "total_offering_amount", None)) if osa else None
-        if sold and sold >= 500e6:
-            score += 15
-        elif sold and sold >= 100e6:
-            score += 10
-
-        strat_txt = business or (", ".join(tags) if tags else fund_type)
-        signals.append(
+        candidates.append(
             {
-                "signal": "greenfield_launch",
-                "fund": name,
                 "cik": cik,
-                "score": score,
-                "verified": verified,
-                "business": business,
+                "fund": name,
                 "fund_type": fund_type,
-                "amount_sold": sold,
-                "total_offering": offering,
-                "first_sale": str(getattr(od, "date_of_first_sale", "")),
-                "jurisdiction": str(getattr(issuer, "jurisdiction", "")) if issuer else "",
                 "accession": str(getattr(filings[i], "accession_no", "")),
                 "filed": str(getattr(filings[i], "filing_date", "")),
-                "strategy_tags": tags,
-                "why": f"New {fund_type or 'fund'} ({strat_txt}) just filed its first Form D"
-                + (f", ${sold/1e6:.0f}M raised so far" if sold else "")
-                + " — an active-management launch that needs real-time risk/P&L infrastructure.",
+                "jurisdiction": str(getattr(issuer, "jurisdiction", "")) if issuer else "",
+                "address": " ".join(str(getattr(issuer, "primary_address", "")).split()) if issuer else "",
+                "related_persons": _related_person_names(obj),
+                "amount_sold": _num(getattr(osa, "total_amount_sold", None)) if osa else None,
+                "total_offering": _num(getattr(osa, "total_offering_amount", None)) if osa else None,
+                "first_sale": str(getattr(od, "date_of_first_sale", "")) if od else "",
+                "strategy_tags": _term_hits(name, FILTERS["positive_terms"].keys()),
             }
         )
     return {
-        "signals": signals,
-        "pending": pending,
+        "candidates": candidates,
         "scanned": scanned,
         "truncated": total > cap,
         "total": total,
         "rejected": rejected,
         "rejected_sample": rejected_sample,
     }
+
+
+def _score_candidate(c: dict[str, Any], verified: bool) -> int:
+    tags = c.get("strategy_tags") or []
+    weight = sum(FILTERS["positive_terms"].get(t, 0) for t in tags)
+    if verified:
+        score = max(58 + weight, FILTERS.get("tiers", {}).get("high", 78))
+    else:
+        is_hedge = str(c.get("fund_type", "")).strip().lower() == "hedge fund"
+        score = 50 + (8 if is_hedge else 0) + weight
+    sold = c.get("amount_sold")
+    if sold and sold >= 500e6:
+        score += 15
+    elif sold and sold >= 100e6:
+        score += 10
+    return score
+
+
+def _candidate_to_signal(c: dict[str, Any], verified: bool, business: str | None) -> dict[str, Any]:
+    tags = c.get("strategy_tags") or []
+    strat_txt = business or (", ".join(tags) if tags else c.get("fund_type") or "fund")
+    sold = c.get("amount_sold")
+    return {
+        "signal": "greenfield_launch",
+        "fund": c.get("fund", ""),
+        "cik": c.get("cik", ""),
+        "score": _score_candidate(c, verified),
+        "verified": verified or None,
+        "business": business,
+        "fund_type": c.get("fund_type", ""),
+        "amount_sold": sold,
+        "total_offering": c.get("total_offering"),
+        "first_sale": c.get("first_sale", ""),
+        "jurisdiction": c.get("jurisdiction", ""),
+        "accession": c.get("accession", ""),
+        "filed": c.get("filed", ""),
+        "strategy_tags": tags,
+        "why": f"New {c.get('fund_type') or 'fund'} ({strat_txt}) just filed its first Form D"
+        + (f", ${sold/1e6:.0f}M raised so far" if sold else "")
+        + " — an active-management launch that needs real-time risk/P&L infrastructure.",
+    }
+
+
+def split_candidates(candidates: list[dict[str, Any]]) -> dict[str, Any]:
+    """Apply the (current) verdict store to raw candidates — NO network.
+
+    Confirmed targets become presented signals; confirmed non-targets are
+    dropped; un-verdicted candidates are held in the pending queue (unless
+    require_verification is off, in which case they're shown as 'unverified').
+    """
+    require_verification = FILTERS.get("require_verification", True)
+    verdicts = _load_verifications()
+    signals: list[dict[str, Any]] = []
+    pending: list[dict[str, Any]] = []
+    dropped = 0
+    for c in candidates:
+        ver = verdicts.get(_norm_cik(c.get("cik", ""))) if c.get("cik") else None
+        if ver is not None and not ver.get("is_target", False):
+            dropped += 1
+            continue
+        if ver is not None and ver.get("is_target"):
+            signals.append(_candidate_to_signal(c, True, ver.get("business")))
+        elif require_verification:
+            pending.append(
+                {k: c.get(k) for k in ("cik", "fund", "fund_type", "accession", "address", "related_persons")}
+            )
+        else:
+            signals.append(_candidate_to_signal(c, False, None))
+    return {"signals": signals, "pending": pending, "verified_not_target": dropped}
 
 
 # ---------------------------------------------------------------------------
@@ -551,61 +600,120 @@ def run_brief(
     date_from_13f: str,
     formd_cap: int,
     cap_13f: int,
+    from_candidates: str | None = None,
 ) -> dict[str, Any]:
-    if not _ensure_identity():
-        return fatal("EDGAR_IDENTITY is not set in .env; cannot scan EDGAR")
+    """Produce the brief. Two stages, split so the cloud never touches SEC:
+
+    - SCAN (default): fetch SEC (Form D + 13F), write briefs/candidates.json.
+      Run where SEC is reachable (a GitHub runner, or locally).
+    - RENDER (from_candidates=<path>): read candidates.json, apply current
+      verdicts, render. No network — safe in the SEC-blocked cloud sandbox.
+    """
     ensure_dirs()
     if not DB_PATH.exists():
         return fatal("memory.db not found; run tools/init_memory_db.py first")
-
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute("PRAGMA foreign_keys = ON")
-    _ensure_snapshot_table(conn)
-
-    launches = scan_form_d_launches(date_from_d, date_to, formd_cap)
-    moves = scan_13f_moves(conn, date_from_13f, date_to, cap_13f)
-    conn.close()
-
-    # Scan-health diagnostics: an empty brief caused by a fetch error must be
-    # loud, never silently presented as a clean "nothing today".
+    candidates_path = BRIEFS_DIR / "candidates.json"
     scan_errors: list[str] = []
-    if launches.get("error"):
-        scan_errors.append(f"Form D scan failed: {launches['error']}")
-    elif launches.get("empty_window") and formd_cap > 0:
-        scan_errors.append(
-            f"Form D scan returned 0 filings for {date_from_d}→{date_to} "
-            "(a multi-day window is never truly empty — likely EDGAR was unreachable)."
-        )
-    if moves.get("error"):
-        scan_errors.append(f"13F scan failed: {moves['error']}")
 
-    pending = launches.get("pending", [])
-    signals = launches["signals"] + moves["signals"]
+    if from_candidates:
+        path = Path(from_candidates)
+        if not path.exists():
+            return fatal(f"candidates file not found: {path}")
+        try:
+            cached = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError) as exc:
+            return fatal(f"could not read candidates file: {exc}")
+        candidates = cached.get("candidates", [])
+        moves_signals = cached.get("moves", [])
+        scan_meta = cached.get("scan", {})
+        cov13 = cached.get("coverage_13f", {})
+        window = cached.get("window", {"form_d": "(cached)", "thirteenf": "(cached)"})
+        source_label = f"cached candidates from {cached.get('generated_at', '?')} (no SEC fetch)"
+    else:
+        if not _ensure_identity():
+            return fatal("EDGAR_IDENTITY is not set; cannot scan EDGAR")
+        conn = sqlite3.connect(DB_PATH)
+        conn.execute("PRAGMA foreign_keys = ON")
+        _ensure_snapshot_table(conn)
+        launches = scan_form_d_launches(date_from_d, date_to, formd_cap)
+        moves = scan_13f_moves(conn, date_from_13f, date_to, cap_13f)
+        conn.close()
+        candidates = launches.get("candidates", [])
+        moves_signals = moves.get("signals", [])
+        scan_meta = {
+            "scanned": launches.get("scanned", 0),
+            "total": launches.get("total", 0),
+            "truncated": launches.get("truncated", False),
+            "rejected": launches.get("rejected", {}),
+            "rejected_sample": launches.get("rejected_sample", []),
+        }
+        cov13 = {
+            "tracked": moves.get("tracked", 0),
+            "baselined": moves.get("baselined", 0),
+            "truncated": moves.get("truncated", False),
+        }
+        window = {"form_d": f"{date_from_d} → {date_to}", "thirteenf": f"{date_from_13f} → {date_to}"}
+        source_label = "live SEC scan"
+        if launches.get("error"):
+            scan_errors.append(f"Form D scan failed: {launches['error']}")
+        elif launches.get("empty_window") and formd_cap > 0:
+            scan_errors.append(
+                f"Form D scan returned 0 filings for {date_from_d}→{date_to} "
+                "(a multi-day window is never truly empty — likely SEC was unreachable)."
+            )
+        if moves.get("error"):
+            scan_errors.append(f"13F scan failed: {moves['error']}")
+        # Commit-able hand-off artifact for the render stage.
+        candidates_path.write_text(
+            json.dumps(
+                {
+                    "generated_at": dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
+                    "window": window,
+                    "candidates": candidates,
+                    "moves": moves_signals,
+                    "scan": scan_meta,
+                    "coverage_13f": cov13,
+                },
+                indent=2,
+                default=str,
+            ),
+            encoding="utf-8",
+        )
+
+    # Apply current verdicts (no network) and assemble the presented brief.
+    split = split_candidates(candidates)
+    pending = split["pending"]
+    launch_signals = split["signals"]
+    signals = launch_signals + moves_signals
     for s in signals:
         s["tier"] = _tier(s["score"])
         _persist(s)
     signals.sort(key=lambda s: s["score"], reverse=True)
 
+    rejected = dict(scan_meta.get("rejected", {}))
+    rejected["verified_not_target"] = rejected.get("verified_not_target", 0) + split["verified_not_target"]
+
     meta = {
         "generated_at": dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "window": {"form_d": f"{date_from_d} → {date_to}", "thirteenf": f"{date_from_13f} → {date_to}"},
+        "source": source_label,
+        "window": window,
         "counts": {
             "total": len(signals),
-            "launches": len(launches["signals"]),
-            "aum_growth": sum(1 for s in moves["signals"] if s["signal"] == "aum_growth"),
-            "derivatives": sum(1 for s in moves["signals"] if s["signal"] == "derivatives_complex"),
+            "launches": len(launch_signals),
+            "aum_growth": sum(1 for s in moves_signals if s["signal"] == "aum_growth"),
+            "derivatives": sum(1 for s in moves_signals if s["signal"] == "derivatives_complex"),
             "high": sum(1 for s in signals if s["tier"] == "High"),
             "pending_verification": len(pending),
         },
         "coverage": {
-            "form_d_scanned": launches.get("scanned", 0),
-            "form_d_kept": len(launches["signals"]),
-            "form_d_filtered": launches.get("rejected", {}),
-            "form_d_rejected_sample": launches.get("rejected_sample", []),
-            "form_d_truncated": launches.get("truncated", False),
-            "managers_tracked": moves.get("tracked", 0),
-            "managers_baselined": moves.get("baselined", 0),
-            "thirteenf_truncated": moves.get("truncated", False),
+            "form_d_scanned": scan_meta.get("scanned", 0),
+            "form_d_kept": len(launch_signals),
+            "form_d_filtered": rejected,
+            "form_d_rejected_sample": scan_meta.get("rejected_sample", []),
+            "form_d_truncated": scan_meta.get("truncated", False),
+            "managers_tracked": cov13.get("tracked", 0),
+            "managers_baselined": cov13.get("baselined", 0),
+            "thirteenf_truncated": cov13.get("truncated", False),
         },
         "scan_errors": scan_errors,
         "scan_ok": not scan_errors,
@@ -620,9 +728,14 @@ def run_brief(
     status = "retry" if scan_errors else "success"
     log_execution("morning_brief", "run", status, json.dumps(meta["counts"]))
 
-    payload = {"html": str(html_path), "json": str(json_path), "pending": pending, **meta}
+    payload = {
+        "html": str(html_path),
+        "json": str(json_path),
+        "candidates": str(candidates_path),
+        "pending": pending,
+        **meta,
+    }
     if scan_errors:
-        # Loud failure: the dashboard rendered but the data is incomplete.
         return retry("; ".join(scan_errors), data=payload)
     return ok(payload)
 
@@ -859,6 +972,14 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--to", dest="date_to", default=None, help="override end YYYY-MM-DD")
     p.add_argument("--formd-cap", type=int, default=DEFAULT_FORMD_CAP)
     p.add_argument("--cap-13f", type=int, default=DEFAULT_13F_CAP)
+    p.add_argument(
+        "--from-candidates",
+        dest="from_candidates",
+        default=None,
+        metavar="PATH",
+        help="RENDER stage: build the brief from a candidates.json (no SEC fetch). "
+        "Use briefs/candidates.json produced by an earlier SEC scan.",
+    )
     return p
 
 
@@ -874,6 +995,7 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         date_from_13f=date_from_13f,
         formd_cap=args.formd_cap,
         cap_13f=args.cap_13f,
+        from_candidates=args.from_candidates,
     )
 
 

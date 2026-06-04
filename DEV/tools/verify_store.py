@@ -25,6 +25,7 @@ from _shared import BRIEFS_DIR, CONFIG_DIR, ensure_dirs, fatal, ok, run_cli, ski
 
 STORE = CONFIG_DIR / "verifications.json"
 LATEST = BRIEFS_DIR / "latest.json"
+CANDIDATES = BRIEFS_DIR / "candidates.json"
 
 _DEFAULT_COMMENT = (
     "Verification overrides keyed by issuer CIK (leading zeros stripped). "
@@ -83,35 +84,38 @@ def list_verdicts() -> dict[str, Any]:
 
 
 def list_pending() -> dict[str, Any]:
-    """Greenfield candidates in the latest brief that have no verdict yet."""
-    if not LATEST.exists():
-        return skip("no briefs/latest.json yet; run tools/morning_brief.py first")
+    """Candidates from the committed candidates.json that have no verdict yet.
+
+    Reads briefs/candidates.json (the SEC-scan hand-off artifact, committed by the
+    fetch stage) rather than the git-ignored latest.json, so it works in the
+    cloud render stage. Includes issuer detail (address, related persons) so the
+    verifier can identify the real manager.
+    """
+    source = CANDIDATES if CANDIDATES.exists() else LATEST
+    if not source.exists():
+        return skip("no candidates.json/latest.json yet; run the SEC scan first")
     try:
         data = _load()
-        brief = json.loads(LATEST.read_text(encoding="utf-8"))
+        blob = json.loads(source.read_text(encoding="utf-8"))
     except (RuntimeError, json.JSONDecodeError, OSError) as exc:
-        return fatal(f"cannot read store/brief: {exc}")
+        return fatal(f"cannot read store/candidates: {exc}")
     known = {k for k in data if not k.startswith("_")}
-    # The brief holds unverified candidates in a dedicated 'pending' queue. Fall
-    # back to scanning signals for older briefs that predate the queue.
-    queue = brief.get("pending")
+    # candidates.json -> 'candidates'; latest.json fallback -> 'pending'.
+    queue = blob.get("candidates")
     if queue is None:
-        queue = [
-            s
-            for s in brief.get("signals", [])
-            if s.get("signal") == "greenfield_launch" and not s.get("verified")
-        ]
+        queue = blob.get("pending", [])
     pending = [
         {
-            "cik": s.get("cik"),
-            "fund": s.get("fund"),
-            "fund_type": s.get("fund_type"),
-            "accession": s.get("accession"),
+            "cik": c.get("cik"),
+            "fund": c.get("fund"),
+            "fund_type": c.get("fund_type"),
+            "address": c.get("address"),
+            "related_persons": c.get("related_persons"),
         }
-        for s in queue
-        if _norm_cik(s.get("cik", "")) not in known
+        for c in queue
+        if _norm_cik(c.get("cik", "")) not in known
     ]
-    return ok({"count": len(pending), "pending": pending})
+    return ok({"count": len(pending), "pending": pending, "source": source.name})
 
 
 def _build_parser() -> argparse.ArgumentParser:

@@ -1,0 +1,53 @@
+name: DEV Morning Brief — SEC Scan
+
+# Stage 1 of the morning brief: fetch SEC (Form D launches) on a GitHub-hosted
+# runner, which CAN reach sec.gov (the Anthropic cloud sandbox cannot). Produces
+# DEV/briefs/candidates.json and commits it. The cloud routine then verifies +
+# renders from that file at 09:00 ET — it never touches SEC.
+on:
+  schedule:
+    - cron: "30 12 * * 1-5"   # 08:30 America/New_York (EDT) on weekdays
+  workflow_dispatch:
+  push:
+    branches: ["claude/coremont-edgar-signal-engine-KQYJb"]
+    paths: [".github/workflows/dev-morning-brief.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dev-morning-brief
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    env:
+      EDGAR_IDENTITY: "Coremont Clarion Prospecting malex.clark@gmail.com"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/coremont-edgar-signal-engine-KQYJb
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        working-directory: DEV
+        run: pip install -r requirements.txt
+      - name: Init memory DB (idempotent)
+        working-directory: DEV
+        run: python tools/init_memory_db.py
+      - name: SEC scan -> candidates.json (Form D launches)
+        working-directory: DEV
+        run: python tools/morning_brief.py --cap-13f 0
+      - name: Commit candidates hand-off
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add DEV/briefs/candidates.json
+          git commit -m "SEC scan candidates $(date -u +%F) [skip ci]" || { echo "no change"; exit 0; }
+          for i in 1 2 3; do
+            git pull --rebase origin claude/coremont-edgar-signal-engine-KQYJb && \
+            git push origin HEAD:claude/coremont-edgar-signal-engine-KQYJb && break
+            echo "retry push $i"; sleep 5
+          done
