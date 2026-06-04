@@ -59,6 +59,7 @@ from _shared import (
     ensure_dirs,
     fatal,
     ok,
+    retry,
     run_cli,
 )
 from db_client import add_observation, log_execution, set_status, upsert_entity
@@ -249,9 +250,11 @@ def scan_form_d_launches(date_from: str, date_to: str, cap: int) -> dict[str, An
     try:
         filings = edgar.get_filings(form="D", filing_date=f"{date_from}:{date_to}")
     except Exception as exc:  # noqa: BLE001
-        return {"signals": [], "scanned": 0, "truncated": False, "error": str(exc)}
+        return {"signals": [], "scanned": 0, "truncated": False, "total": 0, "error": str(exc)}
     if not filings:
-        return {"signals": [], "scanned": 0, "truncated": False}
+        # EDGAR reachable but returned nothing. A multi-day window should never be
+        # truly empty, so flag it as suspect (likely a connectivity/index issue).
+        return {"signals": [], "scanned": 0, "truncated": False, "total": 0, "empty_window": True}
 
     require_verification = FILTERS.get("require_verification", True)
     total = len(filings)
@@ -384,16 +387,18 @@ def _read_watchlist() -> list[str]:
     return out
 
 
-def _collect_13f(date_from: str, date_to: str, cap: int) -> tuple[dict[str, Any], bool]:
+def _collect_13f(date_from: str, date_to: str, cap: int) -> tuple[dict[str, Any], bool, str | None]:
     """Map cik -> Filing for recent 13F-HR + explicit watchlist entries."""
     targets: dict[str, Any] = {}
     truncated = False
+    error: str | None = None
     window = None
     if cap > 0:
         try:
             window = edgar.get_filings(form="13F-HR", filing_date=f"{date_from}:{date_to}")
-        except Exception:  # noqa: BLE001
+        except Exception as exc:  # noqa: BLE001
             window = None
+            error = str(exc)
     if window:
         n = len(window)
         truncated = n > cap
@@ -409,7 +414,7 @@ def _collect_13f(date_from: str, date_to: str, cap: int) -> tuple[dict[str, Any]
                 targets.setdefault(str(getattr(latest, "cik", entry)), latest)
         except Exception:  # noqa: BLE001 - defensive, watchlist entries may not resolve
             continue
-    return targets, truncated
+    return targets, truncated, error
 
 
 def _options_concentration(obj: Any) -> float | None:
@@ -426,7 +431,7 @@ def _options_concentration(obj: Any) -> float | None:
 
 
 def scan_13f_moves(conn: sqlite3.Connection, date_from: str, date_to: str, cap: int) -> dict[str, Any]:
-    targets, truncated = _collect_13f(date_from, date_to, cap)
+    targets, truncated, error = _collect_13f(date_from, date_to, cap)
     signals: list[dict[str, Any]] = []
     baselined = 0
 
@@ -508,7 +513,7 @@ def scan_13f_moves(conn: sqlite3.Connection, date_from: str, date_to: str, cap: 
                     }
                 )
     conn.commit()
-    return {"signals": signals, "tracked": len(targets), "baselined": baselined, "truncated": truncated}
+    return {"signals": signals, "tracked": len(targets), "baselined": baselined, "truncated": truncated, "error": error}
 
 
 # ---------------------------------------------------------------------------
@@ -561,6 +566,19 @@ def run_brief(
     moves = scan_13f_moves(conn, date_from_13f, date_to, cap_13f)
     conn.close()
 
+    # Scan-health diagnostics: an empty brief caused by a fetch error must be
+    # loud, never silently presented as a clean "nothing today".
+    scan_errors: list[str] = []
+    if launches.get("error"):
+        scan_errors.append(f"Form D scan failed: {launches['error']}")
+    elif launches.get("empty_window") and formd_cap > 0:
+        scan_errors.append(
+            f"Form D scan returned 0 filings for {date_from_d}→{date_to} "
+            "(a multi-day window is never truly empty — likely EDGAR was unreachable)."
+        )
+    if moves.get("error"):
+        scan_errors.append(f"13F scan failed: {moves['error']}")
+
     pending = launches.get("pending", [])
     signals = launches["signals"] + moves["signals"]
     for s in signals:
@@ -589,6 +607,8 @@ def run_brief(
             "managers_baselined": moves.get("baselined", 0),
             "thirteenf_truncated": moves.get("truncated", False),
         },
+        "scan_errors": scan_errors,
+        "scan_ok": not scan_errors,
     }
 
     html_path = render_html(signals, meta, pending)
@@ -597,9 +617,14 @@ def run_brief(
         json.dumps({"meta": meta, "signals": signals, "pending": pending}, indent=2, default=str),
         encoding="utf-8",
     )
-    log_execution("morning_brief", "run", "success", json.dumps(meta["counts"]))
+    status = "retry" if scan_errors else "success"
+    log_execution("morning_brief", "run", status, json.dumps(meta["counts"]))
 
-    return ok({"html": str(html_path), "json": str(json_path), "pending": pending, **meta})
+    payload = {"html": str(html_path), "json": str(json_path), "pending": pending, **meta}
+    if scan_errors:
+        # Loud failure: the dashboard rendered but the data is incomplete.
+        return retry("; ".join(scan_errors), data=payload)
+    return ok(payload)
 
 
 # ---------------------------------------------------------------------------
@@ -695,6 +720,15 @@ def render_html(signals: list[dict[str, Any]], meta: dict[str, Any], pending: li
         + " 13F-driven signals (AUM growth / derivatives) cluster around quarterly "
         "filing deadlines (mid-Feb / May / Aug / Nov).</div>"
     )
+    error_note = ""
+    scan_errors = meta.get("scan_errors") or []
+    if scan_errors:
+        items = "".join(f"<li>{html.escape(e)}</li>" for e in scan_errors)
+        error_note = (
+            "<div class='note err'><strong>&#9888; Scan incomplete — this brief may be missing funds.</strong>"
+            f"<ul style='margin:6px 0 0 18px'>{items}</ul></div>"
+        )
+
     pending_note = ""
     if pending:
         pending_note = (
@@ -752,6 +786,7 @@ def render_html(signals: list[dict[str, Any]], meta: dict[str, Any], pending: li
   .note {{ background:#fef9c3; border:1px solid #fde047; color:#713f12; padding:10px 14px;
           border-radius:8px; font-size:13px; margin:8px 0 16px; }}
   .note.ok {{ background:#dcfce7; border-color:#86efac; color:#14532d; }}
+  .note.err {{ background:#fee2e2; border-color:#fca5a5; color:#7f1d1d; }}
   .card {{ background:#fff; border:1px solid #e2e8f0; border-left-width:5px; border-radius:10px;
           padding:16px 18px; margin:12px 0; box-shadow:0 1px 2px rgba(0,0,0,.04); }}
   .card-top {{ display:flex; align-items:center; gap:10px; }}
@@ -793,6 +828,7 @@ def render_html(signals: list[dict[str, Any]], meta: dict[str, Any], pending: li
     <div class="stat"><div class="n">{c.get('pending_verification', 0)}</div><div class="l">Pending verify</div></div>
   </div>
   <div class="wrap">
+    {error_note}
     {pending_note}
     {filter_note}
     {trunc_note}
