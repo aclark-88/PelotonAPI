@@ -1,20 +1,20 @@
 SEC connectivity probe  (UA = 'Coremont Clarion Prospecting malex.clark@gmail.com')
 ========================================================================
-[    HTTP] www Archives full-index (the 403'd path), proper UA
+[      OK] www Archives full-index (the 403'd path), proper UA
            https://www.sec.gov/Archives/edgar/full-index/2026/QTR2/
-           -> HTTP 403 Forbidden
+           -> OK 200  (400+ bytes; b'\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\x03\xbd\x1bis\xdb6\xf6\xbb\x7f\x05*\xef\xac\x9cnH\xea\xb2l\xcb\xc7\x8eb+i\xda$v}L\xa6\x9b\xe9d \x12\xa2`\x93\x04\r\x80\x92\xe5m\xff\xfb>\x00$')
 [    HTTP] www Archives full-index, NO custom UA (tests UA vs IP)
            https://www.sec.gov/Archives/edgar/full-index/2026/QTR2/
            -> HTTP 403 Forbidden
-[    HTTP] www browse-edgar current Form D (atom)
+[      OK] www browse-edgar current Form D (atom)
            https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=D&output=atom&count=10
-           -> HTTP 403 Forbidden
-[    HTTP] data.sec.gov submissions JSON (Apple)
+           -> OK 200  (400+ bytes; b'\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\x03\xcd\x99ks\xe26\x14\x86\xbf\xf3+4\xfe\xb0\x93\xcc\x04$\xdf/kH\tI\xb6\xb4\xdd4-L\xf7\xb3\xb0\x15\xf0\xd4\x17F\x96C\xe8\xaf\xef\xf1\x85\xc51\xb0q\xd3')
+[      OK] data.sec.gov submissions JSON (Apple)
            https://data.sec.gov/submissions/CIK0000320193.json
-           -> HTTP 403 Forbidden
-[    HTTP] efts.sec.gov full-text search API (Form D)
+           -> OK 200  (400+ bytes; b'\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\x00\xec\xbd[\x93\x1d\xc7u&\xfaW\x18x:\x13\xd1\xa0\xf2~\xe1\x1bM\xd13\n\xeb\x90<\x12\x1c\xb6\xc7\xe1`@\xe8&\x05\x0b\x04\xe0\x068\x92\xc6\xe1\xff~\xd6\x97\xb7')
+[      OK] efts.sec.gov full-text search API (Form D)
            https://efts.sec.gov/LATEST/search-index?q=%22fund%22&forms=D&startdt=2026-06-01&enddt=2026-06-03
-           -> HTTP 403 Forbidden
+           -> OK 200  (400+ bytes; b'\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\x00\xd5]mS\xdb\xc8\xb2\xfe+S\xfep\xebl\x95\x9d3/\xd2\x8c\x94o\xc6\x18\xe2\r\x06/6$\xb9\xb7\xb6(\xc5V\xc0\x15c\xb1\xb2\xbd\x81M\xed\x7f\xbf=\x92\x01')
 [    HTTP] efts.sec.gov full-text search API (no UA)
            https://efts.sec.gov/LATEST/search-index?q=%22fund%22&forms=D
            -> HTTP 403 Forbidden
@@ -24,7 +24,7 @@ JSON:
   {
     "label": "www Archives full-index (the 403'd path), proper UA",
     "url": "https://www.sec.gov/Archives/edgar/full-index/2026/QTR2/",
-    "result": "HTTP 403 Forbidden"
+    "result": "OK 200  (400+ bytes; b'\\x1f\\x8b\\x08\\x00\\x00\\x00\\x00\\x00\\x00\\x03\\xbd\\x1bis\\xdb6\\xf6\\xbb\\x7f\\x05*\\xef\\xac\\x9cnH\\xea\\xb2l\\xcb\\xc7\\x8eb+i\\xda$v}L\\xa6\\x9b\\xe9d \\x12\\xa2`\\x93\\x04\\r\\x80\\x92\\xe5m\\xff\\xfb>\\x00$')"
   },
   {
     "label": "www Archives full-index, NO custom UA (tests UA vs IP)",
@@ -34,17 +34,17 @@ JSON:
   {
     "label": "www browse-edgar current Form D (atom)",
     "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=D&output=atom&count=10",
-    "result": "HTTP 403 Forbidden"
+    "result": "OK 200  (400+ bytes; b'\\x1f\\x8b\\x08\\x00\\x00\\x00\\x00\\x00\\x00\\x03\\xcd\\x99ks\\xe26\\x14\\x86\\xbf\\xf3+4\\xfe\\xb0\\x93\\xcc\\x04$\\xdf/kH\\tI\\xb6\\xb4\\xdd4-L\\xf7\\xb3\\xb0\\x15\\xf0\\xd4\\x17F\\x96C\\xe8\\xaf\\xef\\xf1\\x85\\xc51\\xb0q\\xd3')"
   },
   {
     "label": "data.sec.gov submissions JSON (Apple)",
     "url": "https://data.sec.gov/submissions/CIK0000320193.json",
-    "result": "HTTP 403 Forbidden"
+    "result": "OK 200  (400+ bytes; b'\\x1f\\x8b\\x08\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xec\\xbd[\\x93\\x1d\\xc7u&\\xfaW\\x18x:\\x13\\xd1\\xa0\\xf2~\\xe1\\x1bM\\xd13\\n\\xeb\\x90<\\x12\\x1c\\xb6\\xc7\\xe1`@\\xe8&\\x05\\x0b\\x04\\xe0\\x068\\x92\\xc6\\xe1\\xff~\\xd6\\x97\\xb7')"
   },
   {
     "label": "efts.sec.gov full-text search API (Form D)",
     "url": "https://efts.sec.gov/LATEST/search-index?q=%22fund%22&forms=D&startdt=2026-06-01&enddt=2026-06-03",
-    "result": "HTTP 403 Forbidden"
+    "result": "OK 200  (400+ bytes; b'\\x1f\\x8b\\x08\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xd5]mS\\xdb\\xc8\\xb2\\xfe+S\\xfep\\xebl\\x95\\x9d3/\\xd2\\x8c\\x94o\\xc6\\x18\\xe2\\r\\x06/6$\\xb9\\xb7\\xb6(\\xc5V\\xc0\\x15c\\xb1\\xb2\\xbd\\x81M\\xed\\x7f\\xbf=\\x92\\x01')"
   },
   {
     "label": "efts.sec.gov full-text search API (no UA)",
