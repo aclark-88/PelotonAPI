@@ -43,7 +43,7 @@ jobs:
         working-directory: DEV
         # EFTS narrows to ICP fund types; the high cap is a safety backstop for
         # the rare EFTS-unavailable fallback (full coverage on a clean runner IP).
-        run: python tools/morning_brief.py --cap-13f 0 --formd-cap 600
+        run: python tools/morning_brief.py --cap-13f 0 --formd-cap 600 --cap-new13f 150
       - name: Commit candidates hand-off
         run: |
           git config user.name "github-actions[bot]"

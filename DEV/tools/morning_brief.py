@@ -478,6 +478,8 @@ def _score_candidate(c: dict[str, Any], verified: bool) -> int:
     adv_aum = c.get("adv_aum") or 0
     if adv_aum >= 1e9:
         score += 8
+    if c.get("first_13f"):
+        score += 25  # crossed the $100M institutional threshold = strong scaler
     return score
 
 
@@ -513,16 +515,31 @@ def _candidate_to_signal(c: dict[str, Any], verified: bool, business: str | None
     strat_txt = business or (", ".join(tags) if tags else c.get("fund_type") or "fund")
     sold = c.get("amount_sold")
     infl = _inflection_labels(c)
-    why = (
-        f"New {c.get('fund_type') or 'fund'} ({strat_txt}) just filed its first Form D"
-        + (f", ${sold/1e6:.0f}M raised so far" if sold else "")
-        + ". "
-    )
-    if infl:
-        why += "Infrastructure inflection: " + "; ".join(infl) + " — "
-    why += "evaluating its operating platform for the first time and must scale to pass operational due diligence."
+    is_first_13f = bool(c.get("first_13f"))
+
+    if is_first_13f:
+        tv = c.get("total_value")
+        sig = "first_13f"
+        infl = ["first-ever 13F filing — crossed the $100M institutional threshold"] + infl
+        why = (
+            f"{c.get('fund', 'This manager')} just filed its FIRST 13F"
+            + (f" (~{_money(tv)} in 13(f) securities)" if tv else "")
+            + " — it has scaled past the institutional-coverage threshold and "
+            "is exactly where operational due diligence on its platform begins."
+        )
+    else:
+        sig = "greenfield_launch"
+        why = (
+            f"New {c.get('fund_type') or 'fund'} ({strat_txt}) just filed its first Form D"
+            + (f", ${sold/1e6:.0f}M raised so far" if sold else "")
+            + ". "
+        )
+        if infl:
+            why += "Infrastructure inflection: " + "; ".join(infl) + " — "
+        why += "evaluating its operating platform for the first time and must scale to pass operational due diligence."
+
     return {
-        "signal": "greenfield_launch",
+        "signal": sig,
         "fund": c.get("fund", ""),
         "cik": c.get("cik", ""),
         "score": _score_candidate(c, verified),
@@ -530,6 +547,7 @@ def _candidate_to_signal(c: dict[str, Any], verified: bool, business: str | None
         "business": business,
         "fund_type": c.get("fund_type", ""),
         "amount_sold": sold,
+        "total_value": c.get("total_value"),
         "total_offering": c.get("total_offering"),
         "first_sale": c.get("first_sale", ""),
         "jurisdiction": c.get("jurisdiction", ""),
@@ -638,6 +656,65 @@ def _options_concentration(obj: Any) -> float | None:
     if conc["status"] != "success":
         return None
     return conc["data"]["options_concentration"]
+
+
+def scan_13f_new_filers(date_from: str, date_to: str, cap: int) -> dict[str, Any]:
+    """Find FIRST-EVER 13F-HR filers in the window — a manager that just crossed
+    $100M in 13(f) securities (institutional-scale inflection / scaler).
+
+    Returns candidate dicts (joined to the Form D candidate pool) so they get the
+    same classify -> ADV-enrich -> verify -> render treatment. SEC-fetch stage.
+    """
+    if cap <= 0:
+        return {"candidates": [], "checked": 0}
+    try:
+        filings = edgar.get_filings(form="13F-HR", filing_date=f"{date_from}:{date_to}")
+    except Exception as exc:  # noqa: BLE001
+        return {"candidates": [], "checked": 0, "error": str(exc)}
+    if not filings:
+        return {"candidates": [], "checked": 0}
+
+    candidates: list[dict[str, Any]] = []
+    seen_cik: set[str] = set()
+    checked = 0
+    for i in range(len(filings)):
+        if checked >= cap:
+            break
+        f = filings[i]
+        cik = str(getattr(f, "cik", ""))
+        if not cik or cik in seen_cik:
+            continue
+        seen_cik.add(cik)
+        checked += 1
+        # First-ever 13F-HR? (the entity has exactly one in its EDGAR history)
+        try:
+            hist = edgar.Company(cik).get_filings(form="13F-HR")
+            if hist is None or len(hist) != 1:
+                continue
+        except Exception:  # noqa: BLE001
+            continue
+        try:
+            obj = f.obj()
+        except Exception:  # noqa: BLE001
+            continue
+        name = str(getattr(obj, "management_company_name", "") or getattr(f, "company", ""))
+        # Drop obvious non-ICP 13F filers (banks, insurers, pensions) cheaply.
+        if _term_hits(name, FILTERS["negative_terms"] + ["bank", "insurance", "pension", "trust company", "advisors inc"]):
+            continue
+        candidates.append(
+            {
+                "cik": cik,
+                "fund": name,
+                "fund_type": "",
+                "first_13f": True,
+                "total_value": _num(getattr(obj, "total_value", None)),
+                "accession": str(getattr(f, "accession_no", "")),
+                "filed": str(getattr(f, "filing_date", "")),
+                "related_persons": [],
+                "strategy_tags": _term_hits(name, FILTERS["positive_terms"].keys()),
+            }
+        )
+    return {"candidates": candidates, "checked": checked}
 
 
 def scan_13f_moves(conn: sqlite3.Connection, date_from: str, date_to: str, cap: int) -> dict[str, Any]:
@@ -761,6 +838,7 @@ def run_brief(
     date_from_13f: str,
     formd_cap: int,
     cap_13f: int,
+    cap_new13f: int = 0,
     from_candidates: str | None = None,
 ) -> dict[str, Any]:
     """Produce the brief. Two stages, split so the cloud never touches SEC:
@@ -797,9 +875,10 @@ def run_brief(
         conn.execute("PRAGMA foreign_keys = ON")
         _ensure_snapshot_table(conn)
         launches = scan_form_d_launches(date_from_d, date_to, formd_cap)
+        new13f = scan_13f_new_filers(date_from_13f, date_to, cap_new13f)
         moves = scan_13f_moves(conn, date_from_13f, date_to, cap_13f)
         conn.close()
-        candidates = launches.get("candidates", [])
+        candidates = launches.get("candidates", []) + new13f.get("candidates", [])
         # Form ADV enrichment (adviser AUM, hedge-fund confirmation, new
         # registration). Annotates candidates in place; never fatal.
         adv_cov = adv_enrich.enrich(candidates)
@@ -813,6 +892,8 @@ def run_brief(
             "rejected": launches.get("rejected", {}),
             "rejected_sample": launches.get("rejected_sample", []),
             "adv": adv_cov,
+            "new_13f_filers": len(new13f.get("candidates", [])),
+            "new_13f_checked": new13f.get("checked", 0),
         }
         cov13 = {
             "tracked": moves.get("tracked", 0),
@@ -912,11 +993,13 @@ def run_brief(
 # ---------------------------------------------------------------------------
 SIGNAL_LABEL = {
     "greenfield_launch": "New fund launch",
+    "first_13f": "First 13F (institutional scale)",
     "aum_growth": "AUM growth",
     "derivatives_complex": "New derivatives",
 }
 SIGNAL_COLOR = {
     "greenfield_launch": "#2563eb",
+    "first_13f": "#0891b2",
     "aum_growth": "#16a34a",
     "derivatives_complex": "#9333ea",
 }
@@ -1150,6 +1233,12 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--formd-cap", type=int, default=DEFAULT_FORMD_CAP)
     p.add_argument("--cap-13f", type=int, default=DEFAULT_13F_CAP)
     p.add_argument(
+        "--cap-new13f",
+        type=int,
+        default=0,
+        help="scan up to N recent 13F-HR filings for FIRST-time filers (scaler signal)",
+    )
+    p.add_argument(
         "--from-candidates",
         dest="from_candidates",
         default=None,
@@ -1172,6 +1261,7 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         date_from_13f=date_from_13f,
         formd_cap=args.formd_cap,
         cap_13f=args.cap_13f,
+        cap_new13f=args.cap_new13f,
         from_candidates=args.from_candidates,
     )
 
