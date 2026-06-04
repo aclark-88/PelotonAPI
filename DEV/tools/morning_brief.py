@@ -988,24 +988,58 @@ def run_brief(
         _persist(s)
     signals.sort(key=lambda s: s["score"], reverse=True)
 
-    # Dedup: suppress a (fund, signal) already shown on a PRIOR day's brief, so
-    # every morning is fresh. The cloud render records new ones (--record-surfaced);
-    # the local render just reads the ledger.
+    # Dedup + trajectory. A (fund, signal) already shown on a PRIOR day is
+    # suppressed (fresh briefs, no repeats). BUT if a previously-surfaced fund
+    # trips a NEW signal type (e.g. it launched, then weeks later crossed the
+    # $100M / AUM threshold), it RESURFACES flagged as a trajectory signal with
+    # its history and a score boost — a fund moving through inflection points is
+    # the strongest prospect.
     surfaced = _load_surfaced()
     today_iso = dt.date.today().isoformat()
+    today_date = dt.date.today()
+    prior_by_cik: dict[str, list[tuple[str, str]]] = {}
+    for k, dte in surfaced.items():
+        if ":" in k:
+            cpart, spart = k.split(":", 1)
+            prior_by_cik.setdefault(cpart, []).append((spart, dte))
+
     fresh: list[dict[str, Any]] = []
     newly: dict[str, str] = {}
     hidden = 0
     for s in signals:
-        key = f"{_norm_cik(s.get('cik', ''))}:{s.get('signal')}"
-        prior = surfaced.get(key)
-        if prior and prior < today_iso:
+        cik = _norm_cik(s.get("cik", ""))
+        sig = s.get("signal")
+        key = f"{cik}:{sig}"
+        prior_same = surfaced.get(key)
+        if prior_same and prior_same < today_iso:
             hidden += 1
             continue
+        # trajectory: this fund was surfaced before for a DIFFERENT signal
+        traj = sorted(
+            ((ps, pd) for ps, pd in prior_by_cik.get(cik, []) if ps != sig and pd < today_iso),
+            key=lambda x: x[1],
+        )
+        if traj:
+            first_sig, first_date = traj[0]
+            try:
+                days = (today_date - dt.date.fromisoformat(first_date)).days
+            except ValueError:
+                days = None
+            s["trajectory"] = [{"signal": ps, "date": pd} for ps, pd in traj]
+            label = (
+                f"TRAJECTORY: first surfaced {first_date} as "
+                f"{SIGNAL_LABEL.get(first_sig, first_sig)} → now "
+                f"{SIGNAL_LABEL.get(sig, sig)}"
+                + (f" ({days}d later)" if days is not None else "")
+            )
+            s["inflection"] = [label] + (s.get("inflection") or [])
+            s["score"] = s.get("score", 0) + 20  # progressing fund = premium
+            s["tier"] = _tier(s["score"])
         fresh.append(s)
-        if not prior:
+        if not prior_same:
             newly[key] = today_iso
     signals = fresh
+    signals.sort(key=lambda s: s["score"], reverse=True)
     if record_surfaced and newly:
         surfaced.update(newly)
         _save_surfaced(surfaced)
@@ -1122,6 +1156,7 @@ def _card(s: dict[str, Any]) -> str:
         vbadge = '<span class="vchip warn">Unverified</span>'
     else:
         vbadge = ""
+    traj_badge = '<span class="vchip traj">&#8599; Trajectory</span>' if s.get("trajectory") else ""
     business = s.get("business")
     business_html = f'<div class="biz">{html.escape(business)}</div>' if business else ""
     infl = s.get("inflection") or []
@@ -1136,6 +1171,7 @@ def _card(s: dict[str, Any]) -> str:
         <span class="tier" style="background:{tcolor}">{tier}</span>
         <span class="sig" style="color:{color}">{label}</span>
         {vbadge}
+        {traj_badge}
         <span class="score">{s['score']}</span>
       </div>
       <div class="fund">{fund}</div>
@@ -1246,6 +1282,7 @@ def render_html(signals: list[dict[str, Any]], meta: dict[str, Any], pending: li
   .vchip {{ font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; }}
   .vchip.ok {{ background:#dcfce7; color:#14532d; }}
   .vchip.warn {{ background:#f1f5f9; color:#64748b; border:1px dashed #cbd5e1; }}
+  .vchip.traj {{ background:#fae8ff; color:#86198f; border:1px solid #f0abfc; }}
   .score {{ margin-left:auto; font-size:12px; color:#94a3b8; }}
   .fund {{ font-size:17px; font-weight:700; margin:8px 0 4px; }}
   .biz {{ font-size:12px; color:#16a34a; font-weight:600; margin:-2px 0 6px; }}
