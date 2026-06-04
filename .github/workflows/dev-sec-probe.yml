@@ -9,6 +9,7 @@ on:
     branches: ["claude/coremont-edgar-signal-engine-KQYJb"]
     paths:
       - "DEV/tools/diag_connectivity.py"
+      - "DEV/tools/adv_probe.py"
       - ".github/workflows/dev-sec-probe.yml"
 
 permissions:
@@ -29,11 +30,16 @@ jobs:
         env:
           EDGAR_IDENTITY: "Coremont Clarion Prospecting malex.clark@gmail.com"
         run: python tools/diag_connectivity.py
-      - name: Commit probe result
+      - name: Install openpyxl (for ADV xlsx inspection)
+        run: pip install openpyxl
+      - name: Probe SEC Form ADV data-set schema
+        working-directory: DEV
+        run: python tools/adv_probe.py || echo "adv probe error"
+      - name: Commit probe results
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f DEV/briefs/connectivity.txt
-          git commit -m "GH runner SEC connectivity probe [skip ci]" || echo "no change"
+          git add -f DEV/briefs/connectivity.txt DEV/briefs/adv_schema.txt
+          git commit -m "GH runner probes (connectivity + ADV schema) [skip ci]" || echo "no change"
           git pull --rebase origin claude/coremont-edgar-signal-engine-KQYJb || true
           git push origin HEAD:claude/coremont-edgar-signal-engine-KQYJb
