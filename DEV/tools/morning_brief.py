@@ -510,11 +510,15 @@ def _adv_facts(c: dict[str, Any]) -> list[str]:
     return facts
 
 
-def _candidate_to_signal(c: dict[str, Any], verified: bool, business: str | None) -> dict[str, Any]:
+def _candidate_to_signal(
+    c: dict[str, Any], verified: bool, business: str | None, ops_hiring: list | None = None
+) -> dict[str, Any]:
     tags = c.get("strategy_tags") or []
     strat_txt = business or (", ".join(tags) if tags else c.get("fund_type") or "fund")
     sold = c.get("amount_sold")
     infl = _inflection_labels(c)
+    if ops_hiring:
+        infl = [f"hiring operations roles ({', '.join(ops_hiring[:3])}) — scaling its platform now"] + infl
     is_first_13f = bool(c.get("first_13f"))
 
     if is_first_13f:
@@ -542,7 +546,8 @@ def _candidate_to_signal(c: dict[str, Any], verified: bool, business: str | None
         "signal": sig,
         "fund": c.get("fund", ""),
         "cik": c.get("cik", ""),
-        "score": _score_candidate(c, verified),
+        "score": _score_candidate(c, verified) + (10 if ops_hiring else 0),
+        "ops_hiring": ops_hiring or None,
         "verified": verified or None,
         "business": business,
         "fund_type": c.get("fund_type", ""),
@@ -583,7 +588,7 @@ def split_candidates(candidates: list[dict[str, Any]]) -> dict[str, Any]:
             dropped += 1
             continue
         if ver is not None and ver.get("is_target"):
-            signals.append(_candidate_to_signal(c, True, ver.get("business")))
+            signals.append(_candidate_to_signal(c, True, ver.get("business"), ver.get("ops_hiring")))
         elif require_verification:
             pending.append(
                 {

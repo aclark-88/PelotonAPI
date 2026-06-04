@@ -74,6 +74,25 @@ def set_verdict(cik: str, is_target: bool, business: str, by: str = "agent") -> 
     return ok({"cik": key, **data[key]})
 
 
+def record_ops_hiring(cik: str, roles: str, by: str = "apollo") -> dict[str, Any]:
+    """Annotate an existing verified target with operations-hiring roles (a
+    'scaling operations now' inflection signal). Only annotates funds that
+    already have a verdict — never creates one."""
+    try:
+        data = _load()
+    except RuntimeError as exc:
+        return fatal(str(exc))
+    key = _norm_cik(cik)
+    if key not in data or key.startswith("_"):
+        return skip(f"no verdict for cik {key}; only verified targets are annotated")
+    parsed = [r.strip() for r in roles.split(",") if r.strip()]
+    data[key]["ops_hiring"] = parsed
+    data[key]["ops_hiring_date"] = dt.date.today().isoformat()
+    data[key]["ops_hiring_by"] = by
+    _save(data)
+    return ok({"cik": key, "ops_hiring": parsed})
+
+
 def list_verdicts() -> dict[str, Any]:
     try:
         data = _load()
@@ -128,6 +147,10 @@ def _build_parser() -> argparse.ArgumentParser:
     s.add_argument("--by", default="agent")
     sub.add_parser("list", help="list all verdicts")
     sub.add_parser("pending", help="candidates needing verification")
+    oh = sub.add_parser("ops-hiring", help="annotate a verified target with operations-hiring roles")
+    oh.add_argument("--cik", required=True)
+    oh.add_argument("--roles", required=True, help='comma list, e.g. "COO,Head of Operations,Risk"')
+    oh.add_argument("--by", default="apollo")
     return p
 
 
@@ -139,6 +162,8 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         return list_verdicts()
     if args.cmd == "pending":
         return list_pending()
+    if args.cmd == "ops-hiring":
+        return record_ops_hiring(args.cik, args.roles, args.by)
     return fatal(f"unknown command: {args.cmd}")
 
 
