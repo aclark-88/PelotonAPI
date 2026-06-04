@@ -1,52 +1,60 @@
 ---
 workflow: 01_sec_data_ingestion
-objective: Ingest Form D, Form ADV, and Form 13F metadata and raw filings.
+objective: Ingest Form D and Form 13F metadata and raw filings from SEC EDGAR.
 inputs:
-  - API_KEY            # SEC_API_KEY (from .env, never hardcoded)
+  - EDGAR_IDENTITY     # "Name email" fair-access User-Agent (from .env)
   - date_range         # {from: YYYY-MM-DD, to: YYYY-MM-DD}
   - strategy_keywords  # e.g. ["Hedge Fund", "Private Offering"]
 outputs:
-  - Raw filing XML/HTML documents downloaded to data/filings/
+  - Raw 13F information-table XML + normalized Form D JSON in data/filings/
   - Filing metadata persisted to db/memory.db (entities @ status RAW)
 tools:
-  - tools/sec_downloader.py
+  - tools/sec_downloader.py   # edgartools / free EDGAR backend
   - tools/db_client.py
-tier: 2   # network reads + paid API spend; bounded by the budget guard
+tier: 2   # network reads (free EDGAR, fair-access rate limited)
 ---
 
-# Workflow 01 — SEC Data Ingestion
+# Workflow 01 — SEC Data Ingestion (edgartools / free EDGAR)
 
 ## Preconditions
-- The agent MUST verify `SEC_API_KEY` is present in the environment before any
-  call. If absent, the agent MUST halt this workflow and report a `fatal`.
-- The agent MUST confirm the paid-call budget (`SEC_API_BUDGET_CALLS`) is set and
-  sufficient for the intended `date_range`. The agent MUST NOT launch a
-  high-volume run without this budget verification (cost-safety boundary).
+- The agent MUST verify `EDGAR_IDENTITY` is set before any call. SEC fair access
+  requires a "Name email" User-Agent. If absent, the tool returns `fatal`.
+- The agent SHOULD confirm `EDGAR_MAX_FILINGS` bounds the intended `date_range`
+  so a wide range cannot trigger a runaway pull (volume-safety boundary). EDGAR
+  is free — there is no per-call spend.
 
 ## Execution steps
-1. The agent MUST query the SEC Query API (via `tools/sec_downloader.py query`)
-   to identify **Form D** filings containing strategy keywords matching
-   "Hedge Fund" and "Private Offering" within the target `date_range`.
-2. The agent MUST search for **Form ADV** annual updates and identify funds
-   listed in Schedule D, Section 7.B.(1).
-3. The agent MUST download the latest **13F-HR** filings for target managers,
-   retrieving the XML information tables into `data/filings/`.
+1. The agent MUST query EDGAR for **Form D** filings over the target
+   `date_range` (`tools/sec_downloader.py query --form D ...`). To narrow by
+   strategy keywords ("Hedge Fund", "Private Offering"), the agent MAY use the
+   full-text search path (`... search --query "Hedge Fund" --form D ...`).
+2. The agent MUST download each candidate Form D
+   (`... download --accession <acc> --kind formd`), which normalizes issuer,
+   `industry_group`, `is_pooled_investment`, `is_new`, first-sale date, and
+   offering amounts. A new pooled-investment vehicle sets `greenfield_launch`.
+   > Form ADV is **not** hosted on EDGAR (it is an IARD filing); edgartools
+   > cannot supply it. The `audit_delay` signal therefore depends on an external
+   > ADV feed (see workflow 02) and is NOT produced by this EDGAR step.
+3. The agent MUST download the latest **13F-HR** filings for target managers
+   (`... download --accession <acc> --kind 13f`), persisting the raw XML
+   information table to `data/filings/`.
 4. The parser MUST use high-performance `lxml` methods
-   (`tools/sec_parser.py parse_13f_infotable`) to extract holdings data.
+   (`tools/sec_parser.py parse_13f_infotable`) to extract holdings from that XML.
 5. For each discovered manager, the agent SHOULD `upsert_entity` into
-   `db/memory.db` at status `RAW`, recording `crd`, `cik`, `firm_name`, and the
-   raw `strategies` text for downstream evaluation.
-6. The agent MUST `log_execution` a trace row for each step (success/retry/skip/
-   fatal) so the self-healing loop has an audit trail.
+   `db/memory.db` at status `RAW` (crd/cik/firm_name/strategies). Where no CRD is
+   available from EDGAR, the agent MAY use the issuer CIK as the natural key.
+6. The agent MUST `log_execution` a trace row for each step.
 
 ## Error handling
-- If an API **rate limit (429)** is hit, the tool returns `retry` with a
-  `retry_after`; the agent MUST pause for that window and re-queue the item.
-- If a filing **fails to parse**, the agent MUST log the error as `skip` and move
-  to the next item in the queue — it MUST NOT abort the whole run.
-- On `fatal` (bad credentials / budget exhausted), the agent MUST stop and
-  surface the condition for human attention.
+- On EDGAR **rate limiting (429)** the tool returns `retry`; the agent MUST pause
+  and re-queue the item (edgartools also throttles internally).
+- If a filing **fails to parse**, the agent MUST log `skip` and continue.
+- On `fatal` (missing identity, forbidden, unexpected error), the agent MUST stop
+  and surface the condition.
 
 ## Learnings
 <!-- The self-healing loop appends dated notes here when it adjusts a tool or
      parameter and verifies the fix. Keep newest first. -->
+- 2026-06-03 — Backend migrated from paid api.sec-api.io to edgartools (free
+  EDGAR). Form ADV ingestion dropped (ADV is on IARD, not EDGAR); EDGAR-native
+  signals are `derivatives_complex` (13F) and `greenfield_launch` (new Form D).

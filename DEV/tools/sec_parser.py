@@ -12,16 +12,23 @@ Three responsibilities:
 
 3. Form ADV Schedules A & B -> executive contacts (COO / CCO / CIO).
 
+DATA-SOURCE NOTE (audit_delay / Form ADV)
+-----------------------------------------
+Form ADV is filed on IARD, **not** on EDGAR, so the edgartools ingestion path
+cannot supply it. The ADV parsers below are kept because they are
+source-agnostic — feed them an ADV record (JSON) obtained from any external
+feed (e.g. the SEC IAPD bulk adviser data) and they work. The
+``audit_delay`` signal therefore requires that external ADV feed; it is not
+produced by the EDGAR pipeline.
+
 INTEGRITY NOTE (audit_delay)
 ----------------------------
-The precise field names for ADV Schedule D §7.B.(1) Q.23 ("Has the auditor's
-report been received?" / audit opinion status) in sec-api.io's JSON response
-cannot be verified from this environment. ``parse_adv_audit`` therefore only
-emits an ``audit_delay`` observation when it can *confidently* locate an
+The precise field names for ADV Schedule D §7.B.(1) Q.23 (audit report /
+opinion status) cannot be verified from this environment. ``parse_adv_audit``
+only emits an ``audit_delay`` observation when it can *confidently* locate an
 audit-status field whose value indicates the report has NOT been received.
-Otherwise it returns ``skip`` with a reason — it never guesses. Confirm the
-field path (marked ``# VERIFY``) against live ADV data before trusting this
-signal in production.
+Otherwise it returns ``skip`` — it never guesses. Confirm the field path
+(marked ``# VERIFY``) against live ADV data before trusting this signal.
 
 Pure CPU only — no network. Every public function returns the shared envelope.
 """
@@ -120,6 +127,10 @@ def options_concentration(holdings: list[dict[str, Any]]) -> dict[str, Any]:
         return skip("no holdings supplied")
 
     df = pd.DataFrame(holdings)
+    # Accept either our lxml schema (value/putCall) or edgartools' infotable
+    # DataFrame columns (Value/PutCall) so this works on both inputs.
+    rename = {"Value": "value", "PutCall": "putCall"}
+    df = df.rename(columns={k: v for k, v in rename.items() if k in df.columns})
     if "value" not in df.columns:
         return skip("holdings missing 'value' column")
 

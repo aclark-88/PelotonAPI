@@ -1,7 +1,7 @@
 # WAT v2 — Coremont Clarion SEC prospecting engine
 # Python 3.10+ (uses PEP 604 `X | Y` unions and the stdlib sqlite3 module).
 
-requests>=2.31      # HTTP client for api.sec-api.io
-lxml>=5.1           # high-performance XML parsing of 13F infotables
-pandas>=2.1         # vectorized options-to-equity concentration math
-python-dotenv>=1.0  # load SEC_API_KEY from .env without exporting it
+edgartools>=5.35     # free SEC EDGAR access (Form D, 13F); pulls pandas + lxml + httpx
+pandas>=2.1          # vectorized options-to-equity concentration math (also via edgartools)
+lxml>=5.1            # high-performance XML parsing of 13F infotables (also via edgartools)
+python-dotenv>=1.0   # load EDGAR_IDENTITY from .env

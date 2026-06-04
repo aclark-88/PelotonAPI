@@ -16,32 +16,35 @@ tier: 1   # local CPU + DB only; no spend, no outbound
 # Workflow 02 — Evaluate Prospects
 
 ## Execution steps
-1. The agent MUST check Form ADV **Schedule D, Section 7.B.(1), Question 23(h)**
-   to identify whether a fund has flagged its audit opinion as
-   "Report Not Yet Received" beyond the standard **120-day** distribution window.
-   If flagged, the agent MUST log an `audit_delay` observation
-   (`tools/sec_parser.py --adv <file> --what audit`).
-   > NOTE: This detection is defensive — it only fires when the audit-status
-   > field is confidently located. If the field is absent/ambiguous the parser
-   > returns `skip`; the agent MUST treat a `skip` as "no signal", never as a
-   > positive.
-2. The agent MUST parse Form ADV Part 2A to identify strategy descriptors
-   matching **credit, fixed income, relative value, macro, or multi-strategy**,
-   and record them as a `strategy` observation.
-3. The agent MUST parse the downloaded **13F XML** files. If option positions
-   (Puts/Calls) represent **>15%** of total holdings value, the agent MUST log a
-   `derivatives_complex` observation (`tools/sec_parser.py --13f <file>`).
-4. The agent MUST extract the names of the **Chief Operating Officer, Chief
-   Compliance Officer, and Chief Investment Officer** from Schedules A and B
+1. **(EDGAR-native)** The agent MUST inspect each downloaded **Form D** record
+   (`data/filings/formd_*.json`). If `is_pooled_investment` AND `is_new` (a fresh
+   fund vehicle), the agent MUST log a `greenfield_launch` observation. The agent
+   SHOULD record `industry_group` / issuer text as a `strategy` observation.
+2. **(EDGAR-native)** The agent MUST parse the downloaded **13F XML** files. If
+   option positions (Puts/Calls) represent **>15%** of total holdings value, the
+   agent MUST log a `derivatives_complex` observation
+   (`tools/sec_parser.py --13f <file>`).
+3. **(external ADV feed — optional)** Form ADV is **not** on EDGAR, so this step
+   runs only if an external ADV record is supplied. When available, the agent
+   MUST check Schedule D §7.B.(1) Q.23 for an audit opinion flagged
+   "Report Not Yet Received" past the **120-day** window
+   (`tools/sec_parser.py --adv <file> --what audit`) and, if flagged, log an
+   `audit_delay` observation.
+   > This detection is defensive — it fires only when the audit-status field is
+   > confidently located. A parser `skip` means "no signal", never a positive.
+4. When an external ADV record is available, the agent MAY extract the
+   **COO / CCO / CIO** from Schedules A & B
    (`tools/sec_parser.py --adv <file> --what executives`) and record each as a
    `contact` observation (`key_fact` = role, `value` = name).
-5. If an entity exhibits **either** an `audit_delay` **or** `derivatives_complex`
-   signal **alongside** a relevant strategy tag, the agent MUST update its status
-   to `QUALIFIED`. Otherwise the agent SHOULD leave it `RAW` or mark `REJECTED`.
+5. If an entity exhibits **any** qualifying signal (`derivatives_complex`,
+   `greenfield_launch`, or `audit_delay`) **alongside** a relevant strategy tag,
+   the agent MUST update its status to `QUALIFIED`. Otherwise the agent SHOULD
+   leave it `RAW` or mark `REJECTED`.
 6. The agent MUST `log_execution` the outcome for each entity evaluated.
 
 ## Qualification rule (summary)
-`QUALIFIED  ⟺  (audit_delay OR derivatives_complex) AND strategy_fit`
+`QUALIFIED  ⟺  (derivatives_complex OR greenfield_launch OR audit_delay) AND strategy_fit`
+(`audit_delay` is available only when an external ADV feed is supplied.)
 
 ## Error handling
 - A parser `skip` (unparseable/missing field) MUST NOT fail the entity; record it

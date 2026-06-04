@@ -36,7 +36,7 @@ Pipeline: **01_sec_data_ingestion → 02_evaluate_prospects → 03_outreach_gene
 | Tier | Scope | Autonomy |
 |---|---|---|
 | **1** | Local CPU / DB reads & writes (parsing, scoring, memory.db) | Act freely. |
-| **2** | Network reads + **paid** api.sec-api.io spend | Act, but only after **budget verification**; honor `SEC_API_BUDGET_CALLS`. |
+| **2** | Network reads from **free** SEC EDGAR (via edgartools) | Act; set `EDGAR_IDENTITY` and respect fair-access rate limits + `EDGAR_MAX_FILINGS`. |
 | **3** | Generating outbound **drafts** to `drafts/` | Act freely; output stays local. |
 | **4** | **Sending** email, contacting prospects, writing to CRM, **deleting/overwriting files outside `data/` & `drafts/`**, schema changes | **STOP. Require explicit human approval.** Never perform autonomously. |
 
@@ -63,13 +63,17 @@ own backoff allows.
 
 ---
 
-## Cost & credential safety
+## Cost, identity & credential safety
 
-- **No hardcoded secrets.** `SEC_API_KEY` is read from `.env` only. If it is
-  missing, stop with a `fatal` — do not prompt for it in plaintext or log it.
-- **Budget before volume.** Do not launch a high-volume ingestion run without
-  confirming `SEC_API_BUDGET_CALLS` covers it. The downloader enforces this;
-  overriding with `--force` is a deliberate, logged decision.
+- **Free data source.** SEC filings are pulled from public EDGAR via
+  `edgartools`; there is no API key and no per-call spend.
+- **Fair-access identity.** `EDGAR_IDENTITY` ("Name email") is read from `.env`
+  only and sent as the SEC-required User-Agent. If missing, stop with a `fatal`.
+- **Volume before breadth.** Do not launch a wide ingestion run without
+  confirming `EDGAR_MAX_FILINGS` bounds it, and respect EDGAR's fair-access rate
+  limits (edgartools throttles, but don't hammer it).
+- **Form ADV is off-EDGAR.** The `audit_delay` signal needs an external ADV feed;
+  never fabricate it from EDGAR data.
 - **Public data only.** All inputs are public SEC filings. Drafts are for
   legitimate B2B outreach and always require human review before any contact.
 - **Faithful reporting.** Report `skip`/`retry`/`fatal` outcomes honestly. A
