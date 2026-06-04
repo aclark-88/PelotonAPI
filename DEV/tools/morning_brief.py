@@ -51,6 +51,7 @@ except Exception:  # pragma: no cover
 
 import edgar
 
+import adv_enrich
 import sec_parser
 from _shared import (
     BRIEFS_DIR,
@@ -470,17 +471,41 @@ def _score_candidate(c: dict[str, Any], verified: bool) -> int:
         score += 12
     if c.get("platform_expansion"):
         score += 8
+    if c.get("new_registration"):
+        score += 12
+    if c.get("adv_hedge_confirmed"):
+        score += 8
+    adv_aum = c.get("adv_aum") or 0
+    if adv_aum >= 1e9:
+        score += 8
     return score
 
 
 def _inflection_labels(c: dict[str, Any]) -> list[str]:
     out = []
+    if c.get("new_registration"):
+        out.append("newly SEC-registered adviser (first-time platform build)")
     if c.get("large_raise"):
         sold = c.get("amount_sold") or 0
         out.append(f"institutional-scale raise (${sold/1e6:.0f}M)")
     if c.get("platform_expansion"):
         out.append(f"platform expansion ({c.get('vehicle_count')} vehicles this week)")
+    if c.get("adv_private_funds") and (c.get("adv_private_funds") or 0) >= 5:
+        out.append(f"scaling platform ({int(c['adv_private_funds'])} private funds on ADV)")
     return out
+
+
+def _adv_facts(c: dict[str, Any]) -> list[str]:
+    facts = []
+    if c.get("adv_matched"):
+        if c.get("adv_aum"):
+            facts.append(f"ADV AUM: {_money(c['adv_aum'])}")
+        mix = c.get("adv_fund_mix") or {}
+        if mix.get("hedge"):
+            facts.append(f"{int(mix['hedge'])} hedge fund(s) on ADV")
+        if c.get("adv_status"):
+            facts.append(f"ADV: {c['adv_status']}")
+    return facts
 
 
 def _candidate_to_signal(c: dict[str, Any], verified: bool, business: str | None) -> dict[str, Any]:
@@ -512,6 +537,12 @@ def _candidate_to_signal(c: dict[str, Any], verified: bool, business: str | None
         "filed": c.get("filed", ""),
         "strategy_tags": tags,
         "inflection": infl,
+        "adv_matched": c.get("adv_matched"),
+        "adv_aum": c.get("adv_aum"),
+        "adv_status": c.get("adv_status"),
+        "adv_fund_mix": c.get("adv_fund_mix"),
+        "adv_private_funds": c.get("adv_private_funds"),
+        "new_registration": c.get("new_registration"),
         "why": why,
     }
 
@@ -537,7 +568,14 @@ def split_candidates(candidates: list[dict[str, Any]]) -> dict[str, Any]:
             signals.append(_candidate_to_signal(c, True, ver.get("business")))
         elif require_verification:
             pending.append(
-                {k: c.get(k) for k in ("cik", "fund", "fund_type", "accession", "address", "related_persons")}
+                {
+                    k: c.get(k)
+                    for k in (
+                        "cik", "fund", "fund_type", "accession", "address",
+                        "related_persons", "adv_matched", "adv_name", "adv_aum",
+                        "adv_fund_mix", "adv_hedge_confirmed", "new_registration",
+                    )
+                }
             )
         else:
             signals.append(_candidate_to_signal(c, False, None))
@@ -762,6 +800,9 @@ def run_brief(
         moves = scan_13f_moves(conn, date_from_13f, date_to, cap_13f)
         conn.close()
         candidates = launches.get("candidates", [])
+        # Form ADV enrichment (adviser AUM, hedge-fund confirmation, new
+        # registration). Annotates candidates in place; never fatal.
+        adv_cov = adv_enrich.enrich(candidates)
         moves_signals = moves.get("signals", [])
         scan_meta = {
             "scanned": launches.get("scanned", 0),
@@ -771,6 +812,7 @@ def run_brief(
             "truncated": launches.get("truncated", False),
             "rejected": launches.get("rejected", {}),
             "rejected_sample": launches.get("rejected_sample", []),
+            "adv": adv_cov,
         }
         cov13 = {
             "tracked": moves.get("tracked", 0),
@@ -910,6 +952,7 @@ def _card(s: dict[str, Any]) -> str:
         facts.append(html.escape(s["fund_type"]))
     if s.get("first_sale"):
         facts.append(f"First sale: {html.escape(s['first_sale'])}")
+    facts += [html.escape(x) for x in _adv_facts(s)]
     facts_html = " &middot; ".join(facts)
 
     hook = html.escape(_short_hook(sig))
