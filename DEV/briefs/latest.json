@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "generated_at": "2026-06-04 13:05",
+    "window": {
+      "form_d": "2026-05-31 \u2192 2026-06-04",
+      "thirteenf": "2026-05-28 \u2192 2026-06-04"
+    },
+    "counts": {
+      "total": 0,
+      "launches": 0,
+      "aum_growth": 0,
+      "derivatives": 0,
+      "high": 0,
+      "pending_verification": 0
+    },
+    "coverage": {
+      "form_d_scanned": 0,
+      "form_d_kept": 0,
+      "form_d_filtered": {},
+      "form_d_rejected_sample": [],
+      "form_d_truncated": false,
+      "managers_tracked": 0,
+      "managers_baselined": 0,
+      "thirteenf_truncated": false
+    },
+    "scan_errors": [
+      "Form D scan failed: Client error '403 Forbidden' for url 'https://www.sec.gov/Archives/edgar/full-index/2026/QTR2/form.gz'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "13F scan failed: Client error '403 Forbidden' for url 'https://www.sec.gov/Archives/edgar/full-index/2026/QTR2/form.gz'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    ],
+    "scan_ok": false
+  },
+  "signals": [],
+  "pending": []
+}
