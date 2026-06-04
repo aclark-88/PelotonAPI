@@ -254,6 +254,90 @@ def _related_person_names(obj: Any) -> list[str]:
     return names[:8]
 
 
+# --- infrastructure-inflection enrichment -------------------------------
+# A $50M+ first raise signals an institutional-scale launch that will face
+# operational due diligence (allocators rank investment infrastructure ~78% as
+# very/extremely important) — i.e. it needs to scale its operating platform.
+LARGE_RAISE_THRESHOLD = 50_000_000
+VERY_LARGE_RAISE_THRESHOLD = 250_000_000
+
+_MGR_STOPWORDS = {
+    "lp", "llc", "ltd", "inc", "lllp", "gp", "fund", "funds", "master", "offshore",
+    "onshore", "domestic", "international", "intl", "cayman", "series", "trust",
+    "spc", "sicav", "qp", "the", "a", "of", "co", "company", "vehicle", "feeder",
+}
+
+
+def _manager_key(name: str) -> str:
+    """Collapse a fund's legal name onto its manager identity, so master/feeder/
+    parallel vehicles of one platform group together (platform-expansion signal)."""
+    toks = [t for t in _re.sub(r"[^a-z0-9 ]", " ", (name or "").lower()).split() if t not in _MGR_STOPWORDS]
+    return " ".join(toks[:4])
+
+
+def _enrich_inflection(cands: list[dict[str, Any]]) -> None:
+    """Tag candidates with platform-expansion (same manager filing multiple
+    vehicles this window) in place. ``large_raise`` is set per-candidate already."""
+    counts: dict[str, int] = {}
+    keys = [_manager_key(c.get("fund", "")) for c in cands]
+    for k in keys:
+        if k:
+            counts[k] = counts.get(k, 0) + 1
+    for c, k in zip(cands, keys):
+        n = counts.get(k, 1)
+        c["vehicle_count"] = n
+        c["platform_expansion"] = bool(k) and n >= 2
+
+
+# EDGAR full-text search narrows the daily Form D firehose to the ICP fund
+# types server-side, so we fetch ~3.5x fewer documents AND cover the whole
+# window (no blunt scan cap silently dropping filings past N).
+EFTS_ICP_TYPE_QUERIES = ('"Hedge Fund"', '"Other Investment Fund"')
+
+
+def _efts_icp_accessions(date_from: str, date_to: str) -> tuple[set[str], bool]:
+    """Accessions of Form D whose text names an ICP fund type, via efts.sec.gov.
+
+    Returns (accessions, ok). ok=False means EFTS failed and the caller should
+    fall back to scanning everything. EFTS lags ~1 day, so the caller still
+    fetches the freshest day directly.
+    """
+    import gzip
+    import urllib.parse
+    import urllib.request
+
+    ua = os.environ.get("EDGAR_IDENTITY", "Coremont Clarion Prospecting")
+    accs: set[str] = set()
+    try:
+        for q in EFTS_ICP_TYPE_QUERIES:
+            frm = 0
+            while True:
+                url = (
+                    "https://efts.sec.gov/LATEST/search-index?"
+                    f"q={urllib.parse.quote(q)}&forms=D&startdt={date_from}&enddt={date_to}&from={frm}"
+                )
+                raw = urllib.request.urlopen(
+                    urllib.request.Request(url, headers={"User-Agent": ua}), timeout=25
+                ).read()
+                try:
+                    raw = gzip.decompress(raw)
+                except Exception:  # noqa: BLE001
+                    pass
+                data = json.loads(raw)
+                hits = data.get("hits", {}).get("hits", [])
+                for h in hits:
+                    acc = str(h.get("_id", "")).split(":")[0]
+                    if acc:
+                        accs.add(acc)
+                total = data.get("hits", {}).get("total", {}).get("value", 0)
+                frm += len(hits)
+                if not hits or frm >= total or frm >= 1000:
+                    break
+        return accs, True
+    except Exception:  # noqa: BLE001 - any EFTS failure -> caller falls back
+        return accs, False
+
+
 def scan_form_d_launches(date_from: str, date_to: str, cap: int) -> dict[str, Any]:
     """SEC-FETCH stage (runs where SEC is reachable, e.g. a GitHub runner).
 
@@ -275,6 +359,19 @@ def scan_form_d_launches(date_from: str, date_to: str, cap: int) -> dict[str, An
         return {"candidates": [], "scanned": 0, "truncated": False, "total": 0, "empty_window": True}
 
     total = len(filings)
+    # EFTS pre-filter: only deep-fetch filings whose text names an ICP fund type,
+    # plus the freshest day (EFTS lags ~1 day). Falls back to all on EFTS error.
+    efts_accs, efts_ok = _efts_icp_accessions(date_from, date_to)
+    eligible = []
+    for i in range(total):
+        f = filings[i]
+        if efts_ok:
+            acc = str(getattr(f, "accession_no", ""))
+            fdate = str(getattr(f, "filing_date", ""))
+            if acc not in efts_accs and fdate < date_to:
+                continue
+        eligible.append(f)
+
     candidates: list[dict[str, Any]] = []
     scanned = 0
     rejected: dict[str, int] = {
@@ -282,12 +379,12 @@ def scan_form_d_launches(date_from: str, date_to: str, cap: int) -> dict[str, An
         "no_strategy": 0, "not_pooled": 0,
     }
     rejected_sample: list[str] = []
-    for i in range(total):
+    for f_item in eligible:
         if scanned >= cap:
             break
         scanned += 1
         try:
-            obj = filings[i].obj()
+            obj = f_item.obj()
         except Exception:  # noqa: BLE001 - skip unparseable
             continue
         if str(getattr(obj, "submission_type", "")).upper() != "D":
@@ -326,27 +423,33 @@ def scan_form_d_launches(date_from: str, date_to: str, cap: int) -> dict[str, An
                 continue
 
         osa = getattr(od, "offering_sales_amounts", None)
+        sold = _num(getattr(osa, "total_amount_sold", None)) if osa else None
         candidates.append(
             {
                 "cik": cik,
                 "fund": name,
                 "fund_type": fund_type,
-                "accession": str(getattr(filings[i], "accession_no", "")),
-                "filed": str(getattr(filings[i], "filing_date", "")),
+                "accession": str(getattr(f_item, "accession_no", "")),
+                "filed": str(getattr(f_item, "filing_date", "")),
                 "jurisdiction": str(getattr(issuer, "jurisdiction", "")) if issuer else "",
                 "address": " ".join(str(getattr(issuer, "primary_address", "")).split()) if issuer else "",
                 "related_persons": _related_person_names(obj),
-                "amount_sold": _num(getattr(osa, "total_amount_sold", None)) if osa else None,
+                "amount_sold": sold,
                 "total_offering": _num(getattr(osa, "total_offering_amount", None)) if osa else None,
                 "first_sale": str(getattr(od, "date_of_first_sale", "")) if od else "",
                 "strategy_tags": _term_hits(name, FILTERS["positive_terms"].keys()),
+                # Infrastructure-inflection enrichments (see _enrich_inflection).
+                "large_raise": bool(sold and sold >= LARGE_RAISE_THRESHOLD),
             }
         )
+    _enrich_inflection(candidates)
     return {
         "candidates": candidates,
         "scanned": scanned,
-        "truncated": total > cap,
+        "truncated": len(eligible) > cap,
         "total": total,
+        "eligible": len(eligible),
+        "efts_filtered": efts_ok,
         "rejected": rejected,
         "rejected_sample": rejected_sample,
     }
@@ -360,18 +463,39 @@ def _score_candidate(c: dict[str, Any], verified: bool) -> int:
     else:
         is_hedge = str(c.get("fund_type", "")).strip().lower() == "hedge fund"
         score = 50 + (8 if is_hedge else 0) + weight
-    sold = c.get("amount_sold")
-    if sold and sold >= 500e6:
-        score += 15
-    elif sold and sold >= 100e6:
-        score += 10
+    sold = c.get("amount_sold") or 0
+    if sold >= VERY_LARGE_RAISE_THRESHOLD:
+        score += 20
+    elif sold >= LARGE_RAISE_THRESHOLD:
+        score += 12
+    if c.get("platform_expansion"):
+        score += 8
     return score
+
+
+def _inflection_labels(c: dict[str, Any]) -> list[str]:
+    out = []
+    if c.get("large_raise"):
+        sold = c.get("amount_sold") or 0
+        out.append(f"institutional-scale raise (${sold/1e6:.0f}M)")
+    if c.get("platform_expansion"):
+        out.append(f"platform expansion ({c.get('vehicle_count')} vehicles this week)")
+    return out
 
 
 def _candidate_to_signal(c: dict[str, Any], verified: bool, business: str | None) -> dict[str, Any]:
     tags = c.get("strategy_tags") or []
     strat_txt = business or (", ".join(tags) if tags else c.get("fund_type") or "fund")
     sold = c.get("amount_sold")
+    infl = _inflection_labels(c)
+    why = (
+        f"New {c.get('fund_type') or 'fund'} ({strat_txt}) just filed its first Form D"
+        + (f", ${sold/1e6:.0f}M raised so far" if sold else "")
+        + ". "
+    )
+    if infl:
+        why += "Infrastructure inflection: " + "; ".join(infl) + " — "
+    why += "evaluating its operating platform for the first time and must scale to pass operational due diligence."
     return {
         "signal": "greenfield_launch",
         "fund": c.get("fund", ""),
@@ -387,9 +511,8 @@ def _candidate_to_signal(c: dict[str, Any], verified: bool, business: str | None
         "accession": c.get("accession", ""),
         "filed": c.get("filed", ""),
         "strategy_tags": tags,
-        "why": f"New {c.get('fund_type') or 'fund'} ({strat_txt}) just filed its first Form D"
-        + (f", ${sold/1e6:.0f}M raised so far" if sold else "")
-        + " — an active-management launch that needs real-time risk/P&L infrastructure.",
+        "inflection": infl,
+        "why": why,
     }
 
 
@@ -643,6 +766,8 @@ def run_brief(
         scan_meta = {
             "scanned": launches.get("scanned", 0),
             "total": launches.get("total", 0),
+            "eligible": launches.get("eligible", launches.get("scanned", 0)),
+            "efts_filtered": launches.get("efts_filtered", False),
             "truncated": launches.get("truncated", False),
             "rejected": launches.get("rejected", {}),
             "rejected_sample": launches.get("rejected_sample", []),
@@ -800,6 +925,11 @@ def _card(s: dict[str, Any]) -> str:
         vbadge = ""
     business = s.get("business")
     business_html = f'<div class="biz">{html.escape(business)}</div>' if business else ""
+    infl = s.get("inflection") or []
+    infl_html = (
+        '<div class="infl">' + " ".join(f"<span>&#9889; {html.escape(x)}</span>" for x in infl) + "</div>"
+        if infl else ""
+    )
 
     return f"""
     <div class="card" style="border-left-color:{color}">
@@ -811,6 +941,7 @@ def _card(s: dict[str, Any]) -> str:
       </div>
       <div class="fund">{fund}</div>
       {business_html}
+      {infl_html}
       <div class="why">{why}</div>
       {f'<div class="facts">{facts_html}</div>' if facts_html else ''}
       {f'<div class="tags">{tags}</div>' if tags else ''}
@@ -911,6 +1042,9 @@ def render_html(signals: list[dict[str, Any]], meta: dict[str, Any], pending: li
   .score {{ margin-left:auto; font-size:12px; color:#94a3b8; }}
   .fund {{ font-size:17px; font-weight:700; margin:8px 0 4px; }}
   .biz {{ font-size:12px; color:#16a34a; font-weight:600; margin:-2px 0 6px; }}
+  .infl {{ margin:2px 0 4px; }}
+  .infl span {{ display:inline-block; background:#fff7ed; color:#9a3412; border:1px solid #fed7aa;
+         font-size:11px; font-weight:600; padding:2px 8px; border-radius:999px; margin:0 4px 4px 0; }}
   .why {{ font-size:14px; color:#334155; }}
   .facts {{ font-size:12px; color:#475569; margin-top:8px; }}
   .tags {{ margin-top:8px; }}
