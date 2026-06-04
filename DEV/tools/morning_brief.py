@@ -130,6 +130,32 @@ def _norm_cik(cik: str) -> str:
     return str(int(s)) if s.isdigit() else s
 
 
+SURFACED_PATH = CONFIG_DIR / "surfaced.json"
+
+
+def _load_surfaced() -> dict[str, str]:
+    """Ledger of signals already shown: {"<cik>:<signal>": "YYYY-MM-DD first shown"}.
+    Used to suppress a fund that was already caught, so each brief is fresh."""
+    if not SURFACED_PATH.exists():
+        return {}
+    try:
+        data = json.loads(SURFACED_PATH.read_text(encoding="utf-8"))
+        return {k: v for k, v in data.items() if not k.startswith("_")}
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_surfaced(data: dict[str, str]) -> None:
+    ensure_dirs()
+    payload = {
+        "_comment": "Signals already shown on a brief, so they are not repeated. "
+        "Key is '<cik>:<signal>' -> first-shown date. Recorded by the cloud render "
+        "(--record-surfaced). Delete an entry to let a fund resurface.",
+        **{k: v for k, v in sorted(data.items())},
+    }
+    SURFACED_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
 FILTERS = _load_filters()
 VERIFICATIONS = _load_verifications()
 import re as _re
@@ -856,6 +882,7 @@ def run_brief(
     cap_13f: int,
     cap_new13f: int = 0,
     from_candidates: str | None = None,
+    record_surfaced: bool = False,
 ) -> dict[str, Any]:
     """Produce the brief. Two stages, split so the cloud never touches SEC:
 
@@ -961,6 +988,28 @@ def run_brief(
         _persist(s)
     signals.sort(key=lambda s: s["score"], reverse=True)
 
+    # Dedup: suppress a (fund, signal) already shown on a PRIOR day's brief, so
+    # every morning is fresh. The cloud render records new ones (--record-surfaced);
+    # the local render just reads the ledger.
+    surfaced = _load_surfaced()
+    today_iso = dt.date.today().isoformat()
+    fresh: list[dict[str, Any]] = []
+    newly: dict[str, str] = {}
+    hidden = 0
+    for s in signals:
+        key = f"{_norm_cik(s.get('cik', ''))}:{s.get('signal')}"
+        prior = surfaced.get(key)
+        if prior and prior < today_iso:
+            hidden += 1
+            continue
+        fresh.append(s)
+        if not prior:
+            newly[key] = today_iso
+    signals = fresh
+    if record_surfaced and newly:
+        surfaced.update(newly)
+        _save_surfaced(surfaced)
+
     rejected = dict(scan_meta.get("rejected", {}))
     rejected["verified_not_target"] = rejected.get("verified_not_target", 0) + split["verified_not_target"]
 
@@ -975,6 +1024,7 @@ def run_brief(
             "derivatives": sum(1 for s in moves_signals if s["signal"] == "derivatives_complex"),
             "high": sum(1 for s in signals if s["tier"] == "High"),
             "pending_verification": len(pending),
+            "already_surfaced_hidden": hidden,
         },
         "coverage": {
             "form_d_scanned": scan_meta.get("scanned", 0),
@@ -1129,6 +1179,14 @@ def render_html(signals: list[dict[str, Any]], meta: dict[str, Any], pending: li
             "are intentionally not shown until confirmed to be real trading funds. "
             "Everything below is verified.</div>"
         )
+
+    hidden = c.get("already_surfaced_hidden", 0)
+    fresh_note = ""
+    if hidden:
+        fresh_note = (
+            f"<div class='note ok'>Fresh signals only — {hidden} fund(s) already shown on a "
+            "previous brief are hidden so you don't see the same name twice.</div>"
+        )
     filt = cov.get("form_d_filtered", {}) or {}
     filtered_total = sum(filt.values())
     filter_note = ""
@@ -1225,6 +1283,7 @@ def render_html(signals: list[dict[str, Any]], meta: dict[str, Any], pending: li
   </div>
   <div class="wrap">
     {error_note}
+    {fresh_note}
     {pending_note}
     {filter_note}
     {trunc_note}
@@ -1269,6 +1328,13 @@ def _build_parser() -> argparse.ArgumentParser:
         help="RENDER stage: build the brief from a candidates.json (no SEC fetch). "
         "Use briefs/candidates.json produced by an earlier SEC scan.",
     )
+    p.add_argument(
+        "--record-surfaced",
+        dest="record_surfaced",
+        action="store_true",
+        help="record shown funds to config/surfaced.json so they are not repeated "
+        "on future briefs (the cloud render uses this; local render does not).",
+    )
     return p
 
 
@@ -1286,6 +1352,7 @@ def main(argv: list[str] | None = None) -> dict[str, Any]:
         cap_13f=args.cap_13f,
         cap_new13f=args.cap_new13f,
         from_candidates=args.from_candidates,
+        record_surfaced=args.record_surfaced,
     )
 
 

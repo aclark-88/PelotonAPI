@@ -10,7 +10,7 @@ $branch = "claude/coremont-edgar-signal-engine-KQYJb"
 
 # Grab just the two data files the cloud/GitHub runs commit (no merge, no conflicts).
 git fetch origin $branch 2>$null
-git checkout "origin/$branch" -- "briefs/candidates.json" "config/verifications.json" 2>$null
+git checkout "origin/$branch" -- "briefs/candidates.json" "config/verifications.json" "config/surfaced.json" 2>$null
 
 # Locate a working Python (the bare `python` is a Store stub on this box).
 $py = $null
