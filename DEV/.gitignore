@@ -1,0 +1,23 @@
+# Secrets
+.env
+
+# Runtime state — never commit the memory database or downloaded filings
+db/*.db
+db/*.db-journal
+db/*.db-wal
+data/
+
+# Generated outreach drafts (contain prospect-specific copy)
+drafts/*.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Keep the directories themselves
+!db/.gitkeep
+!drafts/.gitkeep
+!data/.gitkeep
