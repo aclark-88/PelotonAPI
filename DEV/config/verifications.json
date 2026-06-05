@@ -46,7 +46,20 @@
     "is_target": true,
     "business": "AllianceBernstein (AB) new hedge fund under their alternatives / fundamental-alpha platform; 501 Commerce St Nashville = AB HQ; AB runs equity L/S, absolute-return and systematic hedge-fund strategies; 07M first-sale confirms institutional product",
     "verified_by": "agent",
-    "date": "2026-06-04"
+    "date": "2026-06-04",
+    "ops_hiring": [
+      "Trade Support Analyst",
+      "Portfolio Implementation Associate",
+      "Risk Manager",
+      "Fund Administration Analyst",
+      "Cash Management and Margin Associate",
+      "Compliance Analyst",
+      "Derivative Reconciliation Analyst",
+      "Associate Investment Operations",
+      "Broker Dealer Operations Associate"
+    ],
+    "ops_hiring_date": "2026-06-05",
+    "ops_hiring_by": "apollo"
   },
   "2135332": {
     "is_target": false,
@@ -95,5 +108,105 @@
     "business": "Prime Spectrum Fund LP - residential Tampa FL address (unit apartment), no ADV, no web presence, $0 raised; no evidence of institutional trading operation; default FALSE",
     "verified_by": "agent",
     "date": "2026-06-04"
+  },
+  "2137240": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2137239": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2137238": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134142": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134141": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC large-raise series (0M) for systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134139": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2137595": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134138": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC large-raise series (0M) for systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134132": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2115947": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC large-raise series (78M) for systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05",
+    "ops_hiring": [
+      "Flex SMA Operations Dedicated Client Service Associate",
+      "Operations Flex SMA Analyst",
+      "Risk Compliance and Legal Engineering Analyst/Associate",
+      "Portfolio Management Operations Analyst/Associate",
+      "Operations Tax Operations Analyst/Associate",
+      "Data Compliance Associate/VP"
+    ],
+    "ops_hiring_date": "2026-06-05",
+    "ops_hiring_by": "apollo"
+  },
+  "2115938": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2131648": {
+    "is_target": false,
+    "business": "Haus Capital Partners - Delaware registered-agent address, /bin/bash raised, no first sale date, no web presence, no ADV registration; inconclusive on strategy; default FALSE",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2138859": {
+    "is_target": true,
+    "business": "Logos Capital (Arsani William, CIO); biotech/healthcare equity long/short hedge fund; integrates scientific diligence with statistical modeling of clinical trials; public biotech L/S; Logos Opportunities Fund V is the fifth vintage offshore vehicle; ADV match to Edward Jones was a false positive",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2136914": {
+    "is_target": true,
+    "business": "Shinfalls Commodities hedge fund (Bruce Mason founder, London/Singapore); OTC financial derivatives in base, precious, and industrial metals markets; backed by New Holland Capital cornerstone investment; bottom-up fundamental approach with China metals focus",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2138166": {
+    "is_target": false,
+    "business": "Stanhope Capital Group (Daniel Pinto, London) is a multi-family office and wealth manager with >0B in client assets; acquired by Corient in 2026; ADV fund_mix shows re:1 vc:1 (no hedge); NOT a securities-trading hedge fund",
+    "verified_by": "agent",
+    "date": "2026-06-05"
   }
 }
