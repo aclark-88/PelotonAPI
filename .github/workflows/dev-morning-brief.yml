@@ -3,12 +3,12 @@ name: DEV Morning Brief — SEC Scan
 # Stage 1 of the morning brief: fetch SEC (Form D launches) on a GitHub-hosted
 # runner, which CAN reach sec.gov (the Anthropic cloud sandbox cannot). Produces
 # DEV/briefs/candidates.json and commits it. The cloud routine then verifies +
-# renders from that file at 09:00 ET — it never touches SEC.
+# renders from that file at 07:00 ET — it never touches SEC.
 # (generated dashboards are untracked so they don't block the runner's rebase)
 # Includes Form ADV enrichment (adviser AUM, new-registration, hedge confirmation).
 on:
   schedule:
-    - cron: "30 12 * * 1-5"   # 08:30 America/New_York (EDT) on weekdays
+    - cron: "0 10 * * 1-5"   # 06:00 America/New_York (EDT) on weekdays
   workflow_dispatch:
   push:
     branches: ["claude/coremont-edgar-signal-engine-KQYJb"]
