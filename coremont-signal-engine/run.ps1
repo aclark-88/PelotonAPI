@@ -1,6 +1,7 @@
 # run.ps1 — Windows PowerShell launcher for the Coremont Signal Engine.
 #
-#   .\run.ps1                       # set up (if needed), seed, and serve on :8000
+#   .\run.ps1                       # set up, pull TODAY'S live SEC data, serve on :8000
+#   $env:SEED=1; .\run.ps1          # use bundled sample data instead (offline)
 #   $env:PORT=9000; .\run.ps1       # use a different port
 #
 # If PowerShell blocks the script ("running scripts is disabled"), run:
@@ -74,9 +75,20 @@ Write-Host "-> Installing dependencies..."
 & $VPy -m pip install --quiet --upgrade pip
 & $VPy -m pip install --quiet -r requirements.txt
 
-Write-Host "-> Initializing + seeding database..."
+Write-Host "-> Initializing database..."
 & $VPy -m app.cli initdb
-& $VPy -m app.cli ingest --seed
+
+if ($env:SEED) {
+    Write-Host "-> Loading bundled SAMPLE data (because `$env:SEED is set)..."
+    & $VPy -m app.cli ingest --seed
+} else {
+    Write-Host "-> Pulling TODAY'S live SEC Form D data (set `$env:SEED=1 for offline sample)..."
+    & $VPy -m app.cli ingest
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "   Live SEC pull failed (offline / network?). Falling back to sample data." -ForegroundColor Yellow
+        & $VPy -m app.cli ingest --seed
+    }
+}
 
 Write-Host ""
 Write-Host "==================================================================="
