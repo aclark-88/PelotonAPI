@@ -6,6 +6,10 @@ name: DEV Morning Brief — SEC Scan
 # renders from that file at 07:00 ET — it never touches SEC.
 # (generated dashboards are untracked so they don't block the runner's rebase)
 # Includes Form ADV enrichment (adviser AUM, new-registration, hedge confirmation).
+#
+# NOTE: this workflow lives on the default branch (master) ONLY so its `schedule`
+# trigger fires (GitHub runs scheduled workflows from the default branch). All the
+# actual code is on the feature branch, which the job checks out via `ref:` below.
 on:
   schedule:
     - cron: "0 10 * * 1-5"   # 06:00 America/New_York (EDT) on weekdays
@@ -55,4 +59,3 @@ jobs:
             git push origin HEAD:claude/coremont-edgar-signal-engine-KQYJb && break
             echo "retry push $i"; sleep 5
           done
-
