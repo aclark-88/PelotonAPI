@@ -3,7 +3,7 @@ __pycache__/
 .env
 *.db
 *.sqlite3
-exports/*.csv
+exports/
 .pytest_cache/
 .venv/
 venv/
