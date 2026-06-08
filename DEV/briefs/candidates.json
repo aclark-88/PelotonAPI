@@ -1,10 +1,126 @@
 {
-  "generated_at": "2026-06-05 13:08",
+  "generated_at": "2026-06-08 14:04",
   "window": {
-    "form_d": "2026-06-01 \u2192 2026-06-05",
-    "thirteenf": "2026-05-29 \u2192 2026-06-05"
+    "form_d": "2026-06-04 \u2192 2026-06-08",
+    "thirteenf": "2026-06-01 \u2192 2026-06-08"
   },
   "candidates": [
+    {
+      "cik": "0002138854",
+      "fund": "BA Capital Fund I LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002138854-26-000001",
+      "filed": "2026-06-05",
+      "jurisdiction": "FLORIDA",
+      "address": "200 S BISCAYNE BLVD. FLOOR 20 SOUTHEAST FINANCIAL CENTER MIAMI, FLORIDA 33131",
+      "related_persons": [
+        "Mark Mark"
+      ],
+      "amount_sold": 688143.0,
+      "total_offering": null,
+      "first_sale": "2026-05-24",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002139063",
+      "fund": "OCA SSA Portable Alpha Segregated Portfolio",
+      "fund_type": "Hedge Fund",
+      "accession": "0002139063-26-000002",
+      "filed": "2026-06-05",
+      "jurisdiction": "DELAWARE",
+      "address": "485 LEXINGTON AVENUE 19TH FLOOR NEW YORK, NEW YORK 10017",
+      "related_persons": [
+        "Ned Ned",
+        "- -",
+        "Vincent Vincent"
+      ],
+      "amount_sold": 76385000.0,
+      "total_offering": null,
+      "first_sale": "2026-03-01",
+      "strategy_tags": [
+        "alpha"
+      ],
+      "large_raise": true,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "VINCENT WEALTH ADVISORS LLC",
+      "adv_crd": "332759",
+      "adv_status": "Approved",
+      "adv_status_date": "09/06/2024",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002030244",
+      "fund": "Overflow Partners, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002030244-26-000002",
+      "filed": "2026-06-05",
+      "jurisdiction": "DELAWARE",
+      "address": "1020 VALENCIA AVE CORAL GABLES, FLORIDA 33134",
+      "related_persons": [
+        "Luke Luke",
+        "n/a n/a"
+      ],
+      "amount_sold": 2249914.0,
+      "total_offering": null,
+      "first_sale": "2024-07-17",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002139101",
+      "fund": "Pareon Fund LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002139101-26-000001",
+      "filed": "2026-06-05",
+      "jurisdiction": "DELAWARE",
+      "address": "2025 Riverside Dr #626 Columbus, OHIO 43221",
+      "related_persons": [
+        "Jonathan Jonathan",
+        "N/A N/A"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "J. W. COLE ADVISORS, INC.",
+      "adv_crd": "112294",
+      "adv_status": "Approved",
+      "adv_status_date": "11/23/2001",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
     {
       "cik": "0002137240",
       "fund": "AQR Flex 1 Series LLC - Series F34",
@@ -226,28 +342,6 @@
       "adv_matched": false
     },
     {
-      "cik": "0002131648",
-      "fund": "Haus Capital Partners Fund I, L.P.",
-      "fund_type": "Hedge Fund",
-      "accession": "0002131648-26-000001",
-      "filed": "2026-06-04",
-      "jurisdiction": "DELAWARE",
-      "address": "8 THE GREEN STE B DOVER, DELAWARE 19901",
-      "related_persons": [
-        "Varun Varun",
-        "Christian Christian",
-        "N/A N/A"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
       "cik": "0002138859",
       "fund": "Logos Opportunities Fund V (Offshore) LP",
       "fund_type": "Hedge Fund",
@@ -307,244 +401,44 @@
       "vehicle_count": 1,
       "platform_expansion": false,
       "adv_matched": false
-    },
-    {
-      "cik": "0002138166",
-      "fund": "Stanhope Capital Partners LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0001013594-26-000651",
-      "filed": "2026-06-04",
-      "jurisdiction": "DELAWARE",
-      "address": "595 MADISON AVENUE 36TH FLOOR NEW YORK, NEW YORK 10022",
-      "related_persons": [
-        "Zachary Zachary"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": true,
-      "adv_name": "STANHOPE CAPITAL, LLP",
-      "adv_crd": "162512",
-      "adv_status": "Approved",
-      "adv_status_date": "04/15/2021",
-      "adv_aum": null,
-      "adv_total_gav": 19822176.0,
-      "adv_private_funds": 2.0,
-      "adv_hedge_confirmed": false,
-      "adv_fund_mix": {
-        "hedge": null,
-        "pe": null,
-        "re": 1.0,
-        "vc": 1.0
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002136776",
-      "fund": "DX2 Capital Concentrated LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0002136776-26-000001",
-      "filed": "2026-06-03",
-      "jurisdiction": "DELAWARE",
-      "address": "2901 Hemingway Drive Los Angeles, CALIFORNIA 90039",
-      "related_persons": [
-        "Cheng-Chih Cheng-Chih",
-        "N/A N/A"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002134708",
-      "fund": "LMCG Absolute Return Fund, LP",
-      "fund_type": "Other Investment Fund",
-      "accession": "0001652684-26-000006",
-      "filed": "2026-06-03",
-      "jurisdiction": "DELAWARE",
-      "address": "C/O LMCG INVESTMENTS, LLC 201 WASHINGTON STREET, 29TH FLOOR BOSTON, MASSACHUSETTS 02108",
-      "related_persons": [
-        "n/a n/a",
-        "Kenneth Kenneth",
-        "John John"
-      ],
-      "amount_sold": 200000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [
-        "absolute return"
-      ],
-      "large_raise": false,
-      "vehicle_count": 2,
-      "platform_expansion": true,
-      "adv_matched": true,
-      "adv_name": "KENNETH FRENKE & CO",
-      "adv_crd": "109352",
-      "adv_status": "Approved",
-      "adv_status_date": "02/26/1999",
-      "adv_aum": null,
-      "adv_total_gav": 0.0,
-      "adv_private_funds": 0.0,
-      "adv_hedge_confirmed": false,
-      "adv_fund_mix": {
-        "hedge": null,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002135124",
-      "fund": "LMCG Absolute Return Offshore Fund, LP",
-      "fund_type": "Other Investment Fund",
-      "accession": "0001652684-26-000007",
-      "filed": "2026-06-03",
-      "jurisdiction": "CAYMAN ISLANDS",
-      "address": "89 NEXUS WAY CAMANA BAY, CAYMAN ISLANDS KY1-9009",
-      "related_persons": [
-        "n/a n/a",
-        "Kenneth Kenneth",
-        "John John"
-      ],
-      "amount_sold": 325000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [
-        "absolute return"
-      ],
-      "large_raise": false,
-      "vehicle_count": 2,
-      "platform_expansion": true,
-      "adv_matched": true,
-      "adv_name": "KENNETH FRENKE & CO",
-      "adv_crd": "109352",
-      "adv_status": "Approved",
-      "adv_status_date": "02/26/1999",
-      "adv_aum": null,
-      "adv_total_gav": 0.0,
-      "adv_private_funds": 0.0,
-      "adv_hedge_confirmed": false,
-      "adv_fund_mix": {
-        "hedge": null,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002136321",
-      "fund": "Plettenberg Capital III LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0002136321-26-000001",
-      "filed": "2026-06-03",
-      "jurisdiction": "DELAWARE",
-      "address": "8 West 40th St, Floor #4 New York, NEW YORK 10018",
-      "related_persons": [
-        "Alexander Alexander",
-        "N/A N/A"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002136716",
-      "fund": "AB TA Alpha Fund, L.P.",
-      "fund_type": "Hedge Fund",
-      "accession": "0000902664-26-002657",
-      "filed": "2026-06-02",
-      "jurisdiction": "DELAWARE",
-      "address": "501 COMMERCE STREET NASHVILLE, TENNESSEE 37203",
-      "related_persons": [
-        "- -"
-      ],
-      "amount_sold": 106972785.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [
-        "alpha"
-      ],
-      "large_raise": true,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002138093",
-      "fund": "Daimyo Multi-Strategy Fund I LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0000935836-26-000309",
-      "filed": "2026-06-02",
-      "jurisdiction": "DELAWARE",
-      "address": "10880 WILSHIRE BLVD., SUITE 985 LOS ANGELES, CALIFORNIA 90024",
-      "related_persons": [
-        "- -",
-        "James James"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [
-        "multi-strategy"
-      ],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
     }
   ],
   "moves": [],
   "scan": {
-    "scanned": 600,
-    "total": 899,
-    "eligible": 899,
+    "scanned": 526,
+    "total": 526,
+    "eligible": 526,
     "efts_filtered": false,
-    "truncated": true,
+    "truncated": false,
     "rejected": {
-      "verified_not_target": 7,
-      "excluded_type": 204,
-      "negative_term": 16,
-      "no_strategy": 28,
-      "not_pooled": 196
+      "verified_not_target": 2,
+      "excluded_type": 124,
+      "negative_term": 28,
+      "no_strategy": 26,
+      "not_pooled": 149
     },
     "rejected_sample": [
-      "137 Holdings SXXIV, LLC [excluded_type: Private Equity Fund]",
-      "26N Ignite Co-Investment Partners LP [excluded_type: Private Equity Fund]",
-      "26N Polaris Co-Investment Partners (UB) LP [excluded_type: Private Equity Fund]",
-      "A.G.P. Alternative Investment Fund LLC - Series  [excluded_type: Private Equity Fund]",
-      "A.G.P. Alternative Investment QP Fund LLC - Seri [excluded_type: Private Equity Fund]",
-      "ACRE Equity V Holdings, LLC [no_strategy: Other Investment Fund]",
-      "AIX Ventures Fund III, L.P. [excluded_type: Venture Capital Fund]",
-      "ASPF (Onshore) III - Credit Secondaries, L.P. [excluded_type: Private Equity Fund]",
-      "ASPF (Onshore) III - Credit Secondaries, L.P. [excluded_type: Private Equity Fund]",
-      "ASPF (Onshore) III - Credit Secondaries, L.P. [excluded_type: Private Equity Fund]",
-      "ASPF (Onshore) III - Credit Secondaries, L.P. [excluded_type: Private Equity Fund]",
-      "ASPF (Onshore) III - Credit Secondaries, L.P. [excluded_type: Private Equity Fund]"
+      "4PIPO, LLC [excluded_type: Venture Capital Fund]",
+      "8188 Capital III 05 26 a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]",
+      "ALL Get Access Management, a series of Get Acces [excluded_type: Venture Capital Fund]",
+      "AVSF - Replit 2026 Q, LLC [excluded_type: Venture Capital Fund]",
+      "Align Ventures Co-Invest Fund, LP [negative_term: ['ventures', 'co-invest']]",
+      "Alkeon Innovation Special Opportunities Fund, LP [excluded_type: Private Equity Fund]",
+      "American Ventures LLC, Series XLVIII Remag [negative_term: ['ventures']]",
+      "Anduril SPV, a series of Allocations 2026 Master [negative_term: ['spv']]",
+      "Arigon GraphX, a Series of A Master Series, LLC [excluded_type: Venture Capital Fund]",
+      "Astorg VIII Co-Invest Clementine [excluded_type: Private Equity Fund]",
+      "Astro Vault II a Series of Astro Funds LLC [excluded_type: Private Equity Fund]",
+      "BR-0202 Fund I, a series of Roll Up Vehicles, LP [excluded_type: Venture Capital Fund]"
     ],
     "adv": {
       "ok": true,
-      "matched": 8,
+      "matched": 5,
       "advisers": 23427
     },
     "new_13f_filers": 0,
-    "new_13f_checked": 42,
-    "new_13f_dropped_noise": 5
+    "new_13f_checked": 33,
+    "new_13f_dropped_noise": 3
   },
   "coverage_13f": {
     "tracked": 0,
