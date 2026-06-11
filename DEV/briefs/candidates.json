@@ -1,10 +1,215 @@
 {
-  "generated_at": "2026-06-10 12:54",
+  "generated_at": "2026-06-11 13:57",
   "window": {
-    "form_d": "2026-06-06 \u2192 2026-06-10",
-    "thirteenf": "2026-06-03 \u2192 2026-06-10"
+    "form_d": "2026-06-07 \u2192 2026-06-11",
+    "thirteenf": "2026-06-04 \u2192 2026-06-11"
   },
   "candidates": [
+    {
+      "cik": "0002127211",
+      "fund": "AIMTRIX Genesis Fund I LLC",
+      "fund_type": "Hedge Fund",
+      "accession": "0002127211-26-000003",
+      "filed": "2026-06-10",
+      "jurisdiction": "DELAWARE",
+      "address": "780 5th Ave S Suite 200 Naples, FLORIDA 34102",
+      "related_persons": [
+        "Michael Michael"
+      ],
+      "amount_sold": 51000.0,
+      "total_offering": null,
+      "first_sale": "2026-05-27",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002123766",
+      "fund": "AMG BBH Asset-Backed Credit Opportunities Fund, LLC",
+      "fund_type": "Other Investment Fund",
+      "accession": "0002123766-26-000001",
+      "filed": "2026-06-10",
+      "jurisdiction": "DELAWARE",
+      "address": "140 BROADWAY NEW YORK, NEW YORK 10005",
+      "related_persons": [
+        "Daniel Daniel",
+        ". ."
+      ],
+      "amount_sold": 11580388.0,
+      "total_offering": null,
+      "first_sale": "2026-05-28",
+      "strategy_tags": [
+        "asset-backed",
+        "credit opportunities",
+        "credit"
+      ],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002101347",
+      "fund": "Acadian Global Developed Equity Dynamic Extension Fund",
+      "fund_type": "Hedge Fund",
+      "accession": "0002101347-26-000001",
+      "filed": "2026-06-10",
+      "jurisdiction": "CAYMAN ISLANDS",
+      "address": "C/O ACADIAN ASSET MANAGEMENT LLC 260 FRANKLIN STREET BOSTON, MASSACHUSETTS 02110",
+      "related_persons": [
+        "n/a n/a",
+        "Charmaine Charmaine",
+        "Theodore Theodore"
+      ],
+      "amount_sold": 20000000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002123332",
+      "fund": "Acadian U.S. Equity Extension Tax-Aware Fund, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002123332-26-000001",
+      "filed": "2026-06-10",
+      "jurisdiction": "DELAWARE",
+      "address": "C/O ACADIAN ASSET MANAGEMENT LLC 260 FRANKLIN STREET BOSTON, MASSACHUSETTS 02110",
+      "related_persons": [
+        "n/a n/a",
+        "Brendan Brendan",
+        "Charmaine Charmaine",
+        "Scott Scott",
+        "Theodore Theodore",
+        "Alexandre Alexandre",
+        "Kelly Kelly"
+      ],
+      "amount_sold": 85010000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [],
+      "large_raise": true,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "BRENDAN WOOD TOPGUN PARTNERSHIPS INC.",
+      "adv_crd": "327874",
+      "adv_status": "Approved",
+      "adv_status_date": "08/25/2023",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002108654",
+      "fund": "Fortress Multi-Asset Credit Fund",
+      "fund_type": "Other Investment Fund",
+      "accession": "0002108654-26-000001",
+      "filed": "2026-06-10",
+      "jurisdiction": "DELAWARE",
+      "address": "1345 AVENUE OF THE AMERICAS NEW YORK, NEW YORK 10105",
+      "related_persons": [
+        "David David"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [
+        "credit"
+      ],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002127542",
+      "fund": "Principia Global Offshore Fund Ltd.",
+      "fund_type": "Hedge Fund",
+      "accession": "0000919574-26-003927",
+      "filed": "2026-06-10",
+      "jurisdiction": "CAYMAN ISLANDS",
+      "address": "OGIER GLOBAL (CAYMAN) LIMITED 89 NEXUS WAY CAMANA BAY, CAYMAN ISLANDS KY1-9009",
+      "related_persons": [
+        "-- --",
+        "Priya Priya",
+        "Ramona Ramona",
+        "Matt Matt"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "PRINCIPIA GLOBAL CAPITAL LLC",
+      "adv_crd": "340044",
+      "adv_status": "ERA - Active",
+      "adv_status_date": "02/27/2026",
+      "adv_aum": null,
+      "adv_total_gav": 28313536.0,
+      "adv_private_funds": 1.0,
+      "adv_hedge_confirmed": true,
+      "adv_fund_mix": {
+        "hedge": 1.0,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": true
+    },
+    {
+      "cik": "0002137746",
+      "fund": "XPath Partners, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002137746-26-000001",
+      "filed": "2026-06-10",
+      "jurisdiction": "DELAWARE",
+      "address": "69 CLIFTON PL #2 JERSEY CITY, NEW JERSEY 07304",
+      "related_persons": [
+        "Monishwar Monishwar",
+        "George George",
+        "n/a n/a"
+      ],
+      "amount_sold": 1000000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-02",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "GEORGE M. HILLER COMPANIES, LLC",
+      "adv_crd": "112409",
+      "adv_status": "Approved",
+      "adv_status_date": "09/25/1981",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
     {
       "cik": "0002139388",
       "fund": "Eave Capital Partners LP",
@@ -459,40 +664,40 @@
   ],
   "moves": [],
   "scan": {
-    "scanned": 451,
-    "total": 451,
-    "eligible": 451,
+    "scanned": 600,
+    "total": 695,
+    "eligible": 695,
     "efts_filtered": false,
-    "truncated": false,
+    "truncated": true,
     "rejected": {
       "verified_not_target": 0,
-      "excluded_type": 137,
-      "negative_term": 2,
-      "no_strategy": 34,
-      "not_pooled": 133
+      "excluded_type": 212,
+      "negative_term": 5,
+      "no_strategy": 38,
+      "not_pooled": 163
     },
     "rejected_sample": [
-      "9YARDS OPPORTUNITIES LP - SERIES 39 [excluded_type: Private Equity Fund]",
-      "AI INFRASTRUCTURE FUND V a Series of FOG Venture [excluded_type: Venture Capital Fund]",
-      "AZT Fund I, a series of AZT Holdings, LP [excluded_type: Venture Capital Fund]",
-      "American DeepTech Infinite, L.P. [excluded_type: Venture Capital Fund]",
-      "Andover GP Fund I LP [excluded_type: Private Equity Fund]",
-      "Antigravity Capital Fund II, LP [excluded_type: Venture Capital Fund]",
-      "Apollo Co-Investors XI (A), L.P. [excluded_type: Private Equity Fund]",
-      "Apollo Investment Fund XI (M) F, L.P. [excluded_type: Private Equity Fund]",
-      "Apollo Investment Fund XI (M), L.P. [excluded_type: Private Equity Fund]",
-      "Apollo Investment Fund XI (U) F-Feeder, L.P. [excluded_type: Private Equity Fund]",
-      "Apollo Investment Fund XI (U), L.P. [excluded_type: Private Equity Fund]",
-      "Apollo Investment Fund XI F-Feeder, L.P. [excluded_type: Private Equity Fund]"
+      "776 Fund 1956 Stockholm, L.P. [excluded_type: Venture Capital Fund]",
+      "8 Clockwise Fund I, a Series of Decile Start Fun [excluded_type: Venture Capital Fund]",
+      "AR-0314 Fund II, a series of Roll Up Vehicles, L [excluded_type: Venture Capital Fund]",
+      "ARK Early Stage Venture Fund I LP [excluded_type: Venture Capital Fund]",
+      "AV Fund V, L.P. [excluded_type: Venture Capital Fund]",
+      "AV Fund V, L.P. [excluded_type: Venture Capital Fund]",
+      "Aegis Special Situations Fund LLC - Series PAI I [excluded_type: Private Equity Fund]",
+      "Alpha-LU-0503 Fund I, a series of Platform Funds [excluded_type: Venture Capital Fund]",
+      "Anthracite Aviation LLC [negative_term: ['aviation']]",
+      "Ascent Crossover Opportunity Fund III, L.P. [no_strategy: Other Investment Fund]",
+      "Ascent Crossover Opportunity Offshore Fund III,  [no_strategy: Other Investment Fund]",
+      "Bluewatch V a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]"
     ],
     "adv": {
       "ok": true,
-      "matched": 9,
+      "matched": 11,
       "advisers": 23427
     },
     "new_13f_filers": 0,
-    "new_13f_checked": 26,
-    "new_13f_dropped_noise": 2
+    "new_13f_checked": 22,
+    "new_13f_dropped_noise": 1
   },
   "coverage_13f": {
     "tracked": 0,
