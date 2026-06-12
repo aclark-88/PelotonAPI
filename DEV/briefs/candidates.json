@@ -1,10 +1,148 @@
 {
-  "generated_at": "2026-06-11 13:57",
+  "generated_at": "2026-06-12 12:53",
   "window": {
-    "form_d": "2026-06-07 \u2192 2026-06-11",
-    "thirteenf": "2026-06-04 \u2192 2026-06-11"
+    "form_d": "2026-06-08 \u2192 2026-06-12",
+    "thirteenf": "2026-06-05 \u2192 2026-06-12"
   },
   "candidates": [
+    {
+      "cik": "0002139537",
+      "fund": "400 Capital Credit Income Fund LP",
+      "fund_type": "Other Investment Fund",
+      "accession": "0000945621-26-000820",
+      "filed": "2026-06-11",
+      "jurisdiction": "CAYMAN ISLANDS",
+      "address": "660 FIFTH AVENUE, 27TH FLOOR NEW YORK, NEW YORK 10103",
+      "related_persons": [
+        "N/A N/A",
+        "Christopher Christopher"
+      ],
+      "amount_sold": 50000000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [
+        "credit"
+      ],
+      "large_raise": true,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "400 CAPITAL MANAGEMENT LLC",
+      "adv_crd": "160089",
+      "adv_status": "Approved",
+      "adv_status_date": "03/27/2012",
+      "adv_aum": null,
+      "adv_total_gav": 11196337150.0,
+      "adv_private_funds": 19.0,
+      "adv_hedge_confirmed": true,
+      "adv_fund_mix": {
+        "hedge": 6.0,
+        "pe": 13.0,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002139919",
+      "fund": "Bryant Street Capital Management LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002139919-26-000001",
+      "filed": "2026-06-11",
+      "jurisdiction": "DELAWARE",
+      "address": "C/O BSCM PARTNERS LLC 753 BRYANT STREET WOODMERE, NEW YORK 11598",
+      "related_persons": [
+        "N/A N/A",
+        "Elie Elie"
+      ],
+      "amount_sold": 31098454.0,
+      "total_offering": null,
+      "first_sale": "2020-10-26",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002124790",
+      "fund": "Complexitas US Max Return Fund LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002124790-26-000001",
+      "filed": "2026-06-11",
+      "jurisdiction": "DELAWARE",
+      "address": "65 SALEM ROAD FAIRFIELD, CONNECTICUT 06824",
+      "related_persons": [
+        "Robert Robert",
+        "N/A N/A",
+        "Michael Michael"
+      ],
+      "amount_sold": 100000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002139987",
+      "fund": "Hedge Maple Fund LLC",
+      "fund_type": "Hedge Fund",
+      "accession": "0001315863-26-000465",
+      "filed": "2026-06-11",
+      "jurisdiction": "DELAWARE",
+      "address": "53 FOREST AVENUE SUITE 301 OLD GREENWICH, CONNECTICUT 06870",
+      "related_persons": [
+        "N/A N/A",
+        "Michael Michael",
+        "Laurence Laurence"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "HEDGE FUND MANAGER",
+      "adv_crd": "342717",
+      "adv_status": "ERA - Active",
+      "adv_status_date": "05/18/2026",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 1.0,
+      "adv_hedge_confirmed": true,
+      "adv_fund_mix": {
+        "hedge": 1.0,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": true
+    },
+    {
+      "cik": "0002139223",
+      "fund": "Lo Industries LLC",
+      "fund_type": "Hedge Fund",
+      "accession": "0000919574-26-003931",
+      "filed": "2026-06-11",
+      "jurisdiction": "WASHINGTON",
+      "address": "10485 NE 6TH STREET BELLEVUE, WASHINGTON 98004",
+      "related_persons": [
+        "Christopher Christopher"
+      ],
+      "amount_sold": 79000.0,
+      "total_offering": null,
+      "first_sale": "2025-12-31",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
     {
       "cik": "0002127211",
       "fund": "AIMTRIX Genesis Fund I LLC",
@@ -387,316 +525,43 @@
       "vehicle_count": 1,
       "platform_expansion": false,
       "adv_matched": false
-    },
-    {
-      "cik": "0002132088",
-      "fund": "TRCM Credit Fund, LP",
-      "fund_type": "Other Investment Fund",
-      "accession": "0002132088-26-000001",
-      "filed": "2026-06-09",
-      "jurisdiction": "DELAWARE",
-      "address": "5641 SW 58TH CT. SOUTH MIAMI, FLORIDA 33143",
-      "related_persons": [
-        "Sampson Sampson",
-        "NA NA"
-      ],
-      "amount_sold": 3597383.0,
-      "total_offering": 3597383.0,
-      "first_sale": "2023-12-04",
-      "strategy_tags": [
-        "credit"
-      ],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002132076",
-      "fund": "TRCM Master Life Fund SPC - TRCM Credit Fund SP Class S-1",
-      "fund_type": "Other Investment Fund",
-      "accession": "0002132076-26-000001",
-      "filed": "2026-06-09",
-      "jurisdiction": "CAYMAN ISLANDS",
-      "address": "5641 SW 58TH CT. SOUTH MIAMI, FLORIDA 33143",
-      "related_persons": [
-        "Sampson Sampson",
-        "NA NA"
-      ],
-      "amount_sold": 22323626.0,
-      "total_offering": 22323626.0,
-      "first_sale": "2023-09-13",
-      "strategy_tags": [
-        "credit"
-      ],
-      "large_raise": false,
-      "vehicle_count": 2,
-      "platform_expansion": true,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002132075",
-      "fund": "TRCM Master Life Fund SPC - TRCM Credit Fund SP Class S-2",
-      "fund_type": "Other Investment Fund",
-      "accession": "0002132075-26-000001",
-      "filed": "2026-06-09",
-      "jurisdiction": "CAYMAN ISLANDS",
-      "address": "5641 SW 58TH CT. SOUTH MIAMI, FLORIDA 33143",
-      "related_persons": [
-        "Sampson Sampson",
-        "NA NA"
-      ],
-      "amount_sold": 8922110.0,
-      "total_offering": 8922110.0,
-      "first_sale": "2023-10-02",
-      "strategy_tags": [
-        "credit"
-      ],
-      "large_raise": false,
-      "vehicle_count": 2,
-      "platform_expansion": true,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002134043",
-      "fund": "Talomon PE Alpha Fund LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0000919574-26-003918",
-      "filed": "2026-06-09",
-      "jurisdiction": "DELAWARE",
-      "address": "C/O COGENCY GLOBAL INC. 850 NEW BURTON ROAD, SUITE 201 DOVER, DELAWARE 19904",
-      "related_persons": [
-        "- -"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [
-        "alpha"
-      ],
-      "large_raise": false,
-      "vehicle_count": 2,
-      "platform_expansion": true,
-      "adv_matched": true,
-      "adv_name": "TALOMON CAPITAL LIMITED",
-      "adv_crd": "291835",
-      "adv_status": "Approved",
-      "adv_status_date": "04/02/2018",
-      "adv_aum": null,
-      "adv_total_gav": 0.0,
-      "adv_private_funds": 0.0,
-      "adv_hedge_confirmed": false,
-      "adv_fund_mix": {
-        "hedge": null,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002139263",
-      "fund": "Talomon PE Alpha Fund Ltd",
-      "fund_type": "Hedge Fund",
-      "accession": "0000919574-26-003920",
-      "filed": "2026-06-09",
-      "jurisdiction": "CAYMAN ISLANDS",
-      "address": "C/O WALKERS CORPORATE LIMITED 190 ELGIN AVENUE, GEORGE TOWN GRAND CAYMAN, CAYMAN ISLANDS KY1-9008",
-      "related_persons": [
-        "- -",
-        "Cassandra Cassandra",
-        "Markus Markus",
-        "Peter Peter"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [
-        "alpha"
-      ],
-      "large_raise": false,
-      "vehicle_count": 2,
-      "platform_expansion": true,
-      "adv_matched": true,
-      "adv_name": "TALOMON CAPITAL LIMITED",
-      "adv_crd": "291835",
-      "adv_status": "Approved",
-      "adv_status_date": "04/02/2018",
-      "adv_aum": null,
-      "adv_total_gav": 0.0,
-      "adv_private_funds": 0.0,
-      "adv_hedge_confirmed": false,
-      "adv_fund_mix": {
-        "hedge": null,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002139106",
-      "fund": "Verdad Biotech Fund, L.P.",
-      "fund_type": "Hedge Fund",
-      "accession": "0002139106-26-000001",
-      "filed": "2026-06-09",
-      "jurisdiction": "DELAWARE",
-      "address": "695 ATLANTIC AVE. 4TH FLOOR BOSTON, MASSACHUSETTS 02111",
-      "related_persons": [
-        "N/A N/A",
-        "Dan Dan"
-      ],
-      "amount_sold": 8099001.0,
-      "total_offering": null,
-      "first_sale": "2026-04-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": true,
-      "adv_name": "VERDAD ADVISERS, L.P.",
-      "adv_crd": "171048",
-      "adv_status": "Approved",
-      "adv_status_date": "05/24/2019",
-      "adv_aum": null,
-      "adv_total_gav": 692849594.0,
-      "adv_private_funds": 7.0,
-      "adv_hedge_confirmed": true,
-      "adv_fund_mix": {
-        "hedge": 7.0,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002133967",
-      "fund": "BeaconNorth Domestic Fund LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0002133967-26-000001",
-      "filed": "2026-06-08",
-      "jurisdiction": "DELAWARE",
-      "address": "17 OLD KINGS HIGHWAY SOUTH SUITE 100 DARIEN, CONNECTICUT 06820",
-      "related_persons": [
-        "- -",
-        "Mark Mark"
-      ],
-      "amount_sold": 18650000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002138900",
-      "fund": "Full Creel Macro Fund I, L.P.",
-      "fund_type": "Hedge Fund",
-      "accession": "0002138900-26-000001",
-      "filed": "2026-06-08",
-      "jurisdiction": "DELAWARE",
-      "address": "159 GREEN WAY MONTVALE, NEW JERSEY 07645",
-      "related_persons": [
-        "Paul Paul"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [
-        "macro"
-      ],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002135026",
-      "fund": "Global Equity Market Neutral Select LLC",
-      "fund_type": "Hedge Fund",
-      "accession": "0002135026-26-000001",
-      "filed": "2026-06-08",
-      "jurisdiction": "DELAWARE",
-      "address": "50 HUDSON YARDS NEW YORK, NEW YORK 10001",
-      "related_persons": [
-        "W. W.",
-        "Ian Ian",
-        "Noelle Noelle",
-        "Jennifer Jennifer"
-      ],
-      "amount_sold": 20000000.0,
-      "total_offering": null,
-      "first_sale": "2026-04-30",
-      "strategy_tags": [
-        "market neutral"
-      ],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002132125",
-      "fund": "Investment Partners, LLC - Tax-Aware Fund",
-      "fund_type": "Hedge Fund",
-      "accession": "0002132125-26-000001",
-      "filed": "2026-06-08",
-      "jurisdiction": "DELAWARE",
-      "address": "275 SACRAMENTO STREET, 8TH FLOOR SAN FRANCISCO, CALIFORNIA 94111",
-      "related_persons": [
-        "- -",
-        "Timothy Timothy",
-        "Ralph Ralph",
-        "Paul Paul"
-      ],
-      "amount_sold": 3492000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
     }
   ],
   "moves": [],
   "scan": {
     "scanned": 600,
-    "total": 695,
-    "eligible": 695,
+    "total": 935,
+    "eligible": 935,
     "efts_filtered": false,
     "truncated": true,
     "rejected": {
       "verified_not_target": 0,
-      "excluded_type": 212,
-      "negative_term": 5,
-      "no_strategy": 38,
-      "not_pooled": 163
+      "excluded_type": 222,
+      "negative_term": 12,
+      "no_strategy": 22,
+      "not_pooled": 165
     },
     "rejected_sample": [
-      "776 Fund 1956 Stockholm, L.P. [excluded_type: Venture Capital Fund]",
-      "8 Clockwise Fund I, a Series of Decile Start Fun [excluded_type: Venture Capital Fund]",
-      "AR-0314 Fund II, a series of Roll Up Vehicles, L [excluded_type: Venture Capital Fund]",
-      "ARK Early Stage Venture Fund I LP [excluded_type: Venture Capital Fund]",
-      "AV Fund V, L.P. [excluded_type: Venture Capital Fund]",
-      "AV Fund V, L.P. [excluded_type: Venture Capital Fund]",
-      "Aegis Special Situations Fund LLC - Series PAI I [excluded_type: Private Equity Fund]",
-      "Alpha-LU-0503 Fund I, a series of Platform Funds [excluded_type: Venture Capital Fund]",
-      "Anthracite Aviation LLC [negative_term: ['aviation']]",
-      "Ascent Crossover Opportunity Fund III, L.P. [no_strategy: Other Investment Fund]",
-      "Ascent Crossover Opportunity Offshore Fund III,  [no_strategy: Other Investment Fund]",
-      "Bluewatch V a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]"
+      "AIMS Private Equity Participants XIV AIV A1 NY L [negative_term: ['private equity']]",
+      "AL-0525 Fund I, a series of MV Funds, LP [excluded_type: Venture Capital Fund]",
+      "AP Pegasus Co-Invest, L.P. [excluded_type: Private Equity Fund]",
+      "Aegis Special Situations Fund LLC - Series Robot [excluded_type: Private Equity Fund]",
+      "BGA Private Opportunities Fund, LLC - DayOne Ser [no_strategy: Other Investment Fund]",
+      "BGTF II Co-Invest (A), L.P. [negative_term: ['co-invest']]",
+      "Bluebird SBIC Fund, L.P. [excluded_type: Private Equity Fund]",
+      "Bronze Venture Fund III, L.P. [excluded_type: Venture Capital Fund]",
+      "CA-0525 Fund I, a series of MV Funds, LP [excluded_type: Venture Capital Fund]",
+      "CA2026, a series of Jibe Partnership Holdings, L [excluded_type: Venture Capital Fund]",
+      "CAI F F 526 a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]",
+      "Candou Ventures Fund 2 Master LP, Series CAN25SI [excluded_type: Venture Capital Fund]"
     ],
     "adv": {
       "ok": true,
-      "matched": 11,
+      "matched": 10,
       "advisers": 23427
     },
     "new_13f_filers": 0,
-    "new_13f_checked": 22,
+    "new_13f_checked": 19,
     "new_13f_dropped_noise": 1
   },
   "coverage_13f": {
