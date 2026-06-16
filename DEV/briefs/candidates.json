@@ -1,10 +1,193 @@
 {
-  "generated_at": "2026-06-15 15:44",
+  "generated_at": "2026-06-16 15:08",
   "window": {
-    "form_d": "2026-06-11 \u2192 2026-06-15",
-    "thirteenf": "2026-06-08 \u2192 2026-06-15"
+    "form_d": "2026-06-12 \u2192 2026-06-16",
+    "thirteenf": "2026-06-09 \u2192 2026-06-16"
   },
   "candidates": [
+    {
+      "cik": "0002136105",
+      "fund": "Core Asset Credit Partners, LLC",
+      "fund_type": "Other Investment Fund",
+      "accession": "0002136105-26-000001",
+      "filed": "2026-06-15",
+      "jurisdiction": "DELAWARE",
+      "address": "99 WALL STREET SUITE 375 NEW YORK, NEW YORK 10005",
+      "related_persons": [
+        "Sahil Sahil"
+      ],
+      "amount_sold": 14125000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [
+        "credit"
+      ],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002140636",
+      "fund": "D. E. Shaw Lithic XTM Fund, L.L.C.",
+      "fund_type": "Hedge Fund",
+      "accession": "0002140636-26-000001",
+      "filed": "2026-06-15",
+      "jurisdiction": "DELAWARE",
+      "address": "TWO MANHATTAN WEST 375 NINTH AVENUE, 52ND FLOOR NEW YORK, NEW YORK 10001",
+      "related_persons": [
+        "N/A N/A"
+      ],
+      "amount_sold": 26900000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002140546",
+      "fund": "Fasanara Open Quant Feeder Fund (Del), LP",
+      "fund_type": "Other Investment Fund",
+      "accession": "0002140546-26-000001",
+      "filed": "2026-06-15",
+      "jurisdiction": "DELAWARE",
+      "address": "251 LITTLE FALLS DRIVE C/O CORPORATION SERVICE COMPANY WILMINGTON, DELAWARE 19808",
+      "related_persons": [
+        "N/A N/A",
+        "Francesco Francesco"
+      ],
+      "amount_sold": 10000000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [
+        "quant"
+      ],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "FASANARA CAPITAL LTD",
+      "adv_crd": "315503",
+      "adv_status": "ERA - Active",
+      "adv_status_date": "11/22/2023",
+      "adv_aum": null,
+      "adv_total_gav": 5848363401.0,
+      "adv_private_funds": 35.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": 2.0,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002137877",
+      "fund": "Janus Henderson Private Mortgage Opportunities Fund, L.P.",
+      "fund_type": "Other Investment Fund",
+      "accession": "0002137877-26-000001",
+      "filed": "2026-06-15",
+      "jurisdiction": "DELAWARE",
+      "address": "C/O CORPORATION SERVICE COMPANY 251 LITTLE FALLS DRIVE WILMINGTON, DELAWARE 19808",
+      "related_persons": [
+        "n/a n/a",
+        "Dave Dave",
+        "Vincent Vincent",
+        "Nick Nick"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [
+        "mortgage"
+      ],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "VINCENT WEALTH ADVISORS LLC",
+      "adv_crd": "332759",
+      "adv_status": "Approved",
+      "adv_status_date": "09/06/2024",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002139746",
+      "fund": "SHINNECOCK FINANCING, LLC",
+      "fund_type": "Hedge Fund",
+      "accession": "0002139746-26-000001",
+      "filed": "2026-06-15",
+      "jurisdiction": "DELAWARE",
+      "address": "10990 WILSHIRE BLVD., SUITE 1150 LOS ANGELES, CALIFORNIA 90024",
+      "related_persons": [
+        "Joel Joel",
+        "Alan Alan",
+        "Shinnecock Partners L.P. Shinnecock Partners L.P."
+      ],
+      "amount_sold": 2056931.0,
+      "total_offering": 4000000.0,
+      "first_sale": "2026-05-05",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002139780",
+      "fund": "Sanskar Capital, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002139780-26-000001",
+      "filed": "2026-06-15",
+      "jurisdiction": "DELAWARE",
+      "address": "11215 BOULDER HEIGHTS COURT RENO, NEVADA 89511",
+      "related_persons": [
+        "N/A N/A",
+        "Bijel Bijel"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002130560",
+      "fund": "Superintelligence Fund LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0000919574-26-003981",
+      "filed": "2026-06-15",
+      "jurisdiction": "DELAWARE",
+      "address": "C/O SUPERINTELLIGENCE FUND GP LLC 2261 MARKET STREET, STE 76838 SAN FRANCISCO, CALIFORNIA 94114",
+      "related_persons": [
+        "- -"
+      ],
+      "amount_sold": 31665651.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
     {
       "cik": "0002140343",
       "fund": "CEV Management LLC",
@@ -125,173 +308,35 @@
       "vehicle_count": 1,
       "platform_expansion": false,
       "adv_matched": false
-    },
-    {
-      "cik": "0002139537",
-      "fund": "400 Capital Credit Income Fund LP",
-      "fund_type": "Other Investment Fund",
-      "accession": "0000945621-26-000820",
-      "filed": "2026-06-11",
-      "jurisdiction": "CAYMAN ISLANDS",
-      "address": "660 FIFTH AVENUE, 27TH FLOOR NEW YORK, NEW YORK 10103",
-      "related_persons": [
-        "N/A N/A",
-        "Christopher Christopher"
-      ],
-      "amount_sold": 50000000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [
-        "credit"
-      ],
-      "large_raise": true,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": true,
-      "adv_name": "400 CAPITAL MANAGEMENT LLC",
-      "adv_crd": "160089",
-      "adv_status": "Approved",
-      "adv_status_date": "03/27/2012",
-      "adv_aum": null,
-      "adv_total_gav": 11196337150.0,
-      "adv_private_funds": 19.0,
-      "adv_hedge_confirmed": true,
-      "adv_fund_mix": {
-        "hedge": 6.0,
-        "pe": 13.0,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002139919",
-      "fund": "Bryant Street Capital Management LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0002139919-26-000001",
-      "filed": "2026-06-11",
-      "jurisdiction": "DELAWARE",
-      "address": "C/O BSCM PARTNERS LLC 753 BRYANT STREET WOODMERE, NEW YORK 11598",
-      "related_persons": [
-        "N/A N/A",
-        "Elie Elie"
-      ],
-      "amount_sold": 31098454.0,
-      "total_offering": null,
-      "first_sale": "2020-10-26",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002124790",
-      "fund": "Complexitas US Max Return Fund LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0002124790-26-000001",
-      "filed": "2026-06-11",
-      "jurisdiction": "DELAWARE",
-      "address": "65 SALEM ROAD FAIRFIELD, CONNECTICUT 06824",
-      "related_persons": [
-        "Robert Robert",
-        "N/A N/A",
-        "Michael Michael"
-      ],
-      "amount_sold": 100000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002139987",
-      "fund": "Hedge Maple Fund LLC",
-      "fund_type": "Hedge Fund",
-      "accession": "0001315863-26-000465",
-      "filed": "2026-06-11",
-      "jurisdiction": "DELAWARE",
-      "address": "53 FOREST AVENUE SUITE 301 OLD GREENWICH, CONNECTICUT 06870",
-      "related_persons": [
-        "N/A N/A",
-        "Michael Michael",
-        "Laurence Laurence"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": true,
-      "adv_name": "HEDGE FUND MANAGER",
-      "adv_crd": "342717",
-      "adv_status": "ERA - Active",
-      "adv_status_date": "05/18/2026",
-      "adv_aum": null,
-      "adv_total_gav": 0.0,
-      "adv_private_funds": 1.0,
-      "adv_hedge_confirmed": true,
-      "adv_fund_mix": {
-        "hedge": 1.0,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": true
-    },
-    {
-      "cik": "0002139223",
-      "fund": "Lo Industries LLC",
-      "fund_type": "Hedge Fund",
-      "accession": "0000919574-26-003931",
-      "filed": "2026-06-11",
-      "jurisdiction": "WASHINGTON",
-      "address": "10485 NE 6TH STREET BELLEVUE, WASHINGTON 98004",
-      "related_persons": [
-        "Christopher Christopher"
-      ],
-      "amount_sold": 79000.0,
-      "total_offering": null,
-      "first_sale": "2025-12-31",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
     }
   ],
   "moves": [],
   "scan": {
-    "scanned": 507,
-    "total": 507,
-    "eligible": 507,
-    "efts_filtered": false,
+    "scanned": 152,
+    "total": 525,
+    "eligible": 152,
+    "efts_filtered": true,
     "truncated": false,
     "rejected": {
       "verified_not_target": 0,
-      "excluded_type": 147,
-      "negative_term": 13,
-      "no_strategy": 18,
-      "not_pooled": 132
+      "excluded_type": 0,
+      "negative_term": 8,
+      "no_strategy": 25,
+      "not_pooled": 0
     },
     "rejected_sample": [
-      "10LINES BP SPV 2026 Apr 2026 a Series of CGF2021 [excluded_type: Venture Capital Fund]",
-      "ACM SPV II LP [negative_term: ['spv']]",
-      "AII0626 a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]",
-      "AND I T1V June 2026 a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]",
-      "ANT3 EVP 0526, a Series of A Master Series, LLC [excluded_type: Private Equity Fund]",
-      "Aalo Atomics BBVC IV, a Series of A Master Serie [excluded_type: Venture Capital Fund]",
-      "Acuere Capital Partners, LLC - ACP PC Fund II [no_strategy: Other Investment Fund]",
-      "Alignment Onramp Holdings LP - Series I [no_strategy: Other Investment Fund]",
-      "Arigon InferenceX, a Series of A Master Series,  [excluded_type: Venture Capital Fund]",
-      "Arigon InferenceX, a Series of A Master Series,  [excluded_type: Venture Capital Fund]",
-      "Arigon OrbitalX, a Series of A Master Series, LL [excluded_type: Venture Capital Fund]",
-      "Artemis Real Estate Partners Fund V, L.P. [excluded_type: Private Equity Fund]"
+      "1789 CAPITAL HALO II LP [no_strategy: Other Investment Fund]",
+      "1789 CAPITAL HALO LP [no_strategy: Other Investment Fund]",
+      "ARE Fund Stone Mountain Co-Investment LP [no_strategy: Other Investment Fund]",
+      "Bridgespan Select LLC - Series CC [no_strategy: Other Investment Fund]",
+      "CI SPV II a series of TechAviv Purpose, L.P. [negative_term: ['spv']]",
+      "CWP Humble Growth II LP [no_strategy: Other Investment Fund]",
+      "Chicago Partners Market Opportunities Fund LLC [no_strategy: Other Investment Fund]",
+      "D. Boral Master SPV LLC, Series X Prometheus [negative_term: ['spv']]",
+      "DV Monarch 2026-1 NMTC Fund, LLC [no_strategy: Other Investment Fund]",
+      "DayMark Fund I Feeder, LP [no_strategy: Other Investment Fund]",
+      "Diversified Equity Fund II LLC [no_strategy: Other Investment Fund]",
+      "Diversified Income Fund II LLC [no_strategy: Other Investment Fund]"
     ],
     "adv": {
       "ok": true,
@@ -299,7 +344,7 @@
       "advisers": 23427
     },
     "new_13f_filers": 0,
-    "new_13f_checked": 23,
+    "new_13f_checked": 25,
     "new_13f_dropped_noise": 2
   },
   "coverage_13f": {
