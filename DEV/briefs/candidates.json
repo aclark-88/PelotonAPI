@@ -1,10 +1,160 @@
 {
-  "generated_at": "2026-06-16 15:08",
+  "generated_at": "2026-06-17 13:41",
   "window": {
-    "form_d": "2026-06-12 \u2192 2026-06-16",
-    "thirteenf": "2026-06-09 \u2192 2026-06-16"
+    "form_d": "2026-06-13 \u2192 2026-06-17",
+    "thirteenf": "2026-06-10 \u2192 2026-06-17"
   },
   "candidates": [
+    {
+      "cik": "0002048368",
+      "fund": "Costa Verde Partners, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002048368-26-000002",
+      "filed": "2026-06-16",
+      "jurisdiction": "TEXAS",
+      "address": "1150 STATE HIGHWAY 46 S. NEW BRAUNFELS, TEXAS 78130",
+      "related_persons": [
+        "David David",
+        "N/A N/A"
+      ],
+      "amount_sold": 750000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "COSTA, ANDRE",
+      "adv_crd": "289590",
+      "adv_status": "Approved",
+      "adv_status_date": "09/25/2017",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002132531",
+      "fund": "Deepwater Late-Stage Fund II LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0000919574-26-003993",
+      "filed": "2026-06-16",
+      "jurisdiction": "DELAWARE",
+      "address": "21 N. THIRD STREET #250 MINNEAPOLIS, MINNESOTA 55401",
+      "related_persons": [
+        "- -"
+      ],
+      "amount_sold": 10025000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-01",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "DEEPWATER ASSET MANAGEMENT, LLC",
+      "adv_crd": "316507",
+      "adv_status": "Approved",
+      "adv_status_date": "07/29/2022",
+      "adv_aum": null,
+      "adv_total_gav": 287672288.0,
+      "adv_private_funds": 8.0,
+      "adv_hedge_confirmed": true,
+      "adv_fund_mix": {
+        "hedge": 2.0,
+        "pe": null,
+        "re": null,
+        "vc": 6.0
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002135662",
+      "fund": "ONEVC Alpha LLC",
+      "fund_type": "Other Investment Fund",
+      "accession": "0002135662-26-000001",
+      "filed": "2026-06-16",
+      "jurisdiction": "DELAWARE",
+      "address": "7280 West Lago Drive Coral Gables, FLORIDA 33143",
+      "related_persons": [
+        "- -"
+      ],
+      "amount_sold": 2520004.0,
+      "total_offering": 2520004.0,
+      "first_sale": "2026-04-17",
+      "strategy_tags": [
+        "alpha"
+      ],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "ONEVC VENTURE PARTNERS LLC",
+      "adv_crd": "329656",
+      "adv_status": "ERA - Active",
+      "adv_status_date": "02/14/2024",
+      "adv_aum": null,
+      "adv_total_gav": 127265000.0,
+      "adv_private_funds": 12.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": 12.0
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002137561",
+      "fund": "WAG PCS Fund I LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002137561-26-000001",
+      "filed": "2026-06-16",
+      "jurisdiction": "DELAWARE",
+      "address": "126 EAST 56TH STREET FLOOR 24 NEW YORK, NEW YORK 10022",
+      "related_persons": [
+        "N/A N/A",
+        "Peter Peter",
+        "Andrew Andrew",
+        "Elizabeth Elizabeth",
+        "Nanne Nanne",
+        "Jeffrey Jeffrey",
+        "Kimball Kimball",
+        "Emily Emily"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "ELIZABETH PARK CAPITAL MANAGEMENT, LTD",
+      "adv_crd": "158416",
+      "adv_status": "Approved",
+      "adv_status_date": "04/09/2014",
+      "adv_aum": null,
+      "adv_total_gav": 393949324.0,
+      "adv_private_funds": 4.0,
+      "adv_hedge_confirmed": true,
+      "adv_fund_mix": {
+        "hedge": 3.0,
+        "pe": 1.0,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
     {
       "cik": "0002136105",
       "fund": "Core Asset Credit Partners, LLC",
@@ -187,164 +337,43 @@
       "vehicle_count": 1,
       "platform_expansion": false,
       "adv_matched": false
-    },
-    {
-      "cik": "0002140343",
-      "fund": "CEV Management LLC",
-      "fund_type": "Hedge Fund",
-      "accession": "0002140343-26-000001",
-      "filed": "2026-06-12",
-      "jurisdiction": "DELAWARE",
-      "address": "611 SOUTH DUPONT HIGHWAY SUITE 102 DOVER, DELAWARE 19901",
-      "related_persons": [
-        "Edward Edward"
-      ],
-      "amount_sold": 192194.0,
-      "total_offering": null,
-      "first_sale": "2025-08-12",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": true,
-      "adv_name": "EDWARD JONES",
-      "adv_crd": "250",
-      "adv_status": "Approved",
-      "adv_status_date": "10/24/1963",
-      "adv_aum": 1050.0,
-      "adv_total_gav": 0.0,
-      "adv_private_funds": 0.0,
-      "adv_hedge_confirmed": false,
-      "adv_fund_mix": {
-        "hedge": null,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002136378",
-      "fund": "LPX Fund One LLC",
-      "fund_type": "Hedge Fund",
-      "accession": "0002136378-26-000001",
-      "filed": "2026-06-12",
-      "jurisdiction": "DELAWARE",
-      "address": "221 W 9th St PMB 750 WILMINGTON, DELAWARE 19801",
-      "related_persons": [
-        "Michael Michael"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": 10000000.0,
-      "first_sale": "",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002135597",
-      "fund": "Onchain Credit Fund LLC",
-      "fund_type": "Other Investment Fund",
-      "accession": "0002135597-26-000001",
-      "filed": "2026-06-12",
-      "jurisdiction": "DELAWARE",
-      "address": "536 W. 29TH ST. NEW YORK, NEW YORK 10001",
-      "related_persons": [
-        "N/A N/A",
-        "Connor Connor",
-        "Lily Lily",
-        "Bruno Bruno"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [
-        "credit"
-      ],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002127611",
-      "fund": "Photon Capital Fund LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0002127611-26-000002",
-      "filed": "2026-06-12",
-      "jurisdiction": "DELAWARE",
-      "address": "12445 EQUINE LN WELLINGTON, FLORIDA 33414",
-      "related_persons": [
-        "John John",
-        "n/a n/a"
-      ],
-      "amount_sold": 200000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002140028",
-      "fund": "WTW Liquid Diversifiers Fund (US Onshore), L.P.",
-      "fund_type": "Hedge Fund",
-      "accession": "0002140028-26-000001",
-      "filed": "2026-06-12",
-      "jurisdiction": "DELAWARE",
-      "address": "TOWERS WATSON INVESTMENT SERVICES, INC. 233 SOUTH WACKER DR., SUITE 1800 CHICAGO, ILLINOIS 60606",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
     }
   ],
   "moves": [],
   "scan": {
-    "scanned": 152,
-    "total": 525,
-    "eligible": 152,
-    "efts_filtered": true,
+    "scanned": 503,
+    "total": 503,
+    "eligible": 503,
+    "efts_filtered": false,
     "truncated": false,
     "rejected": {
       "verified_not_target": 0,
-      "excluded_type": 0,
-      "negative_term": 8,
-      "no_strategy": 25,
-      "not_pooled": 0
+      "excluded_type": 132,
+      "negative_term": 22,
+      "no_strategy": 36,
+      "not_pooled": 148
     },
     "rejected_sample": [
-      "1789 CAPITAL HALO II LP [no_strategy: Other Investment Fund]",
-      "1789 CAPITAL HALO LP [no_strategy: Other Investment Fund]",
-      "ARE Fund Stone Mountain Co-Investment LP [no_strategy: Other Investment Fund]",
-      "Bridgespan Select LLC - Series CC [no_strategy: Other Investment Fund]",
-      "CI SPV II a series of TechAviv Purpose, L.P. [negative_term: ['spv']]",
-      "CWP Humble Growth II LP [no_strategy: Other Investment Fund]",
-      "Chicago Partners Market Opportunities Fund LLC [no_strategy: Other Investment Fund]",
-      "D. Boral Master SPV LLC, Series X Prometheus [negative_term: ['spv']]",
-      "DV Monarch 2026-1 NMTC Fund, LLC [no_strategy: Other Investment Fund]",
-      "DayMark Fund I Feeder, LP [no_strategy: Other Investment Fund]",
-      "Diversified Equity Fund II LLC [no_strategy: Other Investment Fund]",
-      "Diversified Income Fund II LLC [no_strategy: Other Investment Fund]"
+      "1789 Real Estate Co-Invest Feeder Fund I, LP [negative_term: ['real estate', 'co-invest']]",
+      "1789 Real Estate Co-Invest Fund I, LP [negative_term: ['real estate', 'co-invest']]",
+      "1789 Real Estate Series Blocker, LLC [negative_term: ['real estate']]",
+      "ACS A SERIES OF IPO CLUB II [excluded_type: Venture Capital Fund]",
+      "AE-0512 Fund I, a series of Roll Up Vehicles, LP [excluded_type: Venture Capital Fund]",
+      "AGMach LLC [no_strategy: Other Investment Fund]",
+      "AUGUREY VENTURES I - SERIES KRATEOSKY A [excluded_type: Private Equity Fund]",
+      "AUGUREY VENTURES II - SERIES KRATEOSKY A [excluded_type: Private Equity Fund]",
+      "AUGUREY VENTURES III - SERIES KRATEOSKY A [excluded_type: Private Equity Fund]",
+      "AUGUREY VENTURES IV - SERIES KRATEOSKY A [excluded_type: Private Equity Fund]",
+      "AUGUREY VENTURES V - SERIES KRATEOSKY A [excluded_type: Private Equity Fund]",
+      "Addition Six Partners, L.P. [excluded_type: Venture Capital Fund]"
     ],
     "adv": {
       "ok": true,
-      "matched": 5,
+      "matched": 8,
       "advisers": 23427
     },
     "new_13f_filers": 0,
-    "new_13f_checked": 25,
+    "new_13f_checked": 26,
     "new_13f_dropped_noise": 2
   },
   "coverage_13f": {
