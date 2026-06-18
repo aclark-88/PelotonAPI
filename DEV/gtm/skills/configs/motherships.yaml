@@ -1,0 +1,28 @@
+# Spinout source funds. aliases feed search queries; add rows, never code.
+motherships:
+  - name: Brevan Howard
+    aliases: ["Brevan Howard", "BH Macro"]
+  - name: Citadel
+    aliases: ["Citadel", "Citadel Advisors", "Ashler Capital", "Surveyor Capital"]
+  - name: Millennium
+    aliases: ["Millennium", "Millennium Management"]
+  - name: Point72
+    aliases: ["Point72", "Point72 Asset Management", "Cubist"]
+  - name: Balyasny
+    aliases: ["Balyasny", "BAM", "Balyasny Asset Management"]
+  - name: Schonfeld
+    aliases: ["Schonfeld", "Schonfeld Strategic Advisors"]
+  - name: ExodusPoint
+    aliases: ["ExodusPoint", "Exodus Point"]
+  - name: Verition
+    aliases: ["Verition", "Verition Fund Management"]
+  - name: Walleye
+    aliases: ["Walleye", "Walleye Capital"]
+  - name: BlueCrest
+    aliases: ["BlueCrest", "BlueCrest Capital"]
+
+# Query templates; {alias} substituted per mothership alias.
+search_patterns:
+  - '"{alias}" spinout hedge fund launch'
+  - '"former {alias}" launching fund'
+  - '"spun out of {alias}"'

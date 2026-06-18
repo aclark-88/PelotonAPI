@@ -1,0 +1,15 @@
+# displacement_inferrer
+includes: [vendors.yaml]
+max_results_per_query: 5
+min_confidence_to_record: 0.3   # below this a hit is logged but not written
+# confidence weights (summed, capped at 1.0)
+confidence:
+  per_hit: 0.25                 # each distinct URL mentioning fund + vendor
+  incumbency_phrase_bonus: 0.25 # job-post phrasing implying installed system
+  careers_domain_bonus: 0.2     # hit on a jobs/careers page
+
+# ADV sub-path: Schedule D 7.B service-provider data is NOT in the monthly
+# firm-roster CSV — it needs the SEC private-funds FOIA file. Until that file
+# is dropped into data/adv/, the ADV path reports adv_path_available=false
+# and only the web path runs. (displacement_inferred_adv stays unused.)
+adv_path_enabled: false

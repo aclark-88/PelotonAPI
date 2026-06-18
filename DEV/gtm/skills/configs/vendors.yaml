@@ -1,0 +1,41 @@
+# Incumbent vendor keyword list, grouped by category. displacement_inferrer
+# searches job posts / disclosures for these; clarion_coverage.yaml maps each
+# vendor to the Clarion displacement story.
+vendors:
+  pms_oms:
+    - name: Enfusion
+      keywords: ["Enfusion"]
+    - name: Eze
+      keywords: ["Eze Software", "Eze OMS", "Eze Castle", "SS&C Eze"]
+    - name: Bloomberg AIM
+      keywords: ["Bloomberg AIM"]
+    - name: Charles River
+      keywords: ["Charles River IMS", "Charles River Development", "CRD "]
+  accounting_ibor:
+    - name: Geneva
+      keywords: ["Advent Geneva", "Geneva accounting", "SS&C Geneva"]
+    - name: SS&C
+      keywords: ["SS&C GlobeOp", "SS&C Advent"]
+  risk_analytics:
+    - name: Imagine
+      keywords: ["Imagine Software", "Imagine Trading System"]
+    - name: Aladdin
+      keywords: ["BlackRock Aladdin", "Aladdin platform"]
+    - name: Bloomberg PORT
+      keywords: ["Bloomberg PORT"]
+  treasury_xva:
+    - name: Murex
+      keywords: ["Murex"]
+    - name: Calypso
+      keywords: ["Calypso", "Adenza"]
+
+# Job-post phrasings that imply the vendor is installed (vs. a vendor's own ad)
+incumbency_phrases:
+  - "experience with"
+  - "experience in"
+  - "proficiency"
+  - "working knowledge of"
+  - "administration of"
+  - "support of"
+  - "migrate"
+  - "replacement"
