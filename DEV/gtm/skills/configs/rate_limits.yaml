@@ -1,0 +1,12 @@
+# Per-source rate limits and outbound caps. Sources read these at construction.
+edgar_tools:
+  requests_per_second: 8      # SEC fair-access ceiling is 10/s; stay under
+apollo:
+  requests_per_minute: 50     # Apollo standard plan burst guidance
+tavily:
+  requests_per_minute: 60
+heyreach:
+  requests_per_minute: 60
+  connections_per_day_per_seat: 25
+hubspot:
+  requests_per_second: 5

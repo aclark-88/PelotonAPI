@@ -1,0 +1,13 @@
+# Urgency policy. Base urgency comes from signal_types.default_urgency (DB);
+# overrides here are applied by skills at emission time.
+overrides:
+  # A champion (known HubSpot contact) landing at a TAM fund is the
+  # single highest-priority signal in the system.
+  - when: { signal_type: new_role, champion_relocation: true }
+    set: { urgency: immediate }
+  # Spinouts from tier-A motherships are always immediate
+  - when: { signal_type: spinout_detected }
+    set: { urgency: immediate }
+  # A displacement hit on a fund already tier 1-2 jumps the queue
+  - when: { signal_type: displacement_inferred_job_post, fund_tier_in: [1, 2] }
+    set: { urgency: this_week }

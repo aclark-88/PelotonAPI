@@ -1,0 +1,34 @@
+# apollo_contact_resolver — buying-committee resolution for one fund
+# LinkedIn-first: a contact without a linkedin_url is useless to this
+# campaign, so enrichment prioritizes resolving profile URLs.
+roles:
+  coo:
+    titles: ["Chief Operating Officer", "COO"]
+    function: ops
+    seniority: c_suite
+  cfo:
+    titles: ["Chief Financial Officer", "CFO"]
+    function: finance
+    seniority: c_suite
+  cto:
+    titles: ["Chief Technology Officer", "CTO"]
+    function: tech
+    seniority: c_suite
+  head_risk:
+    titles: ["Head of Risk", "Chief Risk Officer", "CRO"]
+    function: risk
+    seniority: head
+  head_tech:
+    titles: ["Head of Technology", "Head of Engineering"]
+    function: tech
+    seniority: head
+  head_ops:
+    titles: ["Head of Operations"]
+    function: ops
+    seniority: head
+  founder_cio:
+    titles: ["Founder", "Founding Partner", "Chief Investment Officer", "Managing Partner"]
+    function: investment
+    seniority: c_suite
+
+per_role_limit: 3        # Apollo results considered per role

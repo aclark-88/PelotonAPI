@@ -1,0 +1,254 @@
+{
+  "_comment": "Verification overrides keyed by issuer CIK (leading zeros stripped). is_target=false DROPS the candidate (authoritative, beats name/type heuristics); is_target=true KEEPS and promotes it; a CIK absent here is treated as 'unverified - needs review'. Written by web/agent verification of the actual manager's business.",
+  "2064620": {
+    "is_target": false,
+    "business": "Real-estate / historic-tax-credit rehab private lender (Octagon Finance LLC, Charlottesville VA) - NOT a securities hedge fund",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2134708": {
+    "is_target": true,
+    "business": "Structured-credit / absolute-return hedge fund (LMCG / Lee Munder, ~$6.3B AUM, 13F filer)",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2135124": {
+    "is_target": true,
+    "business": "Structured-credit / absolute-return hedge fund (LMCG / Lee Munder, offshore feeder)",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2136776": {
+    "is_target": true,
+    "business": "Long/short equity hedge fund (DX2 Capital Management, New York)",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2136321": {
+    "is_target": true,
+    "business": "Quantitative global-macro hedge fund (Plettenberg Capital)",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2135433": {
+    "is_target": false,
+    "business": "Late-stage technology venture capital / growth equity (AI, cybersecurity, fintech) - not a trading hedge fund",
+    "verified_by": "web",
+    "date": "2026-06-03"
+  },
+  "2126718": {
+    "is_target": false,
+    "business": "Summit Partners IDF administered by SALI Fund Services (Insurance Dedicated Fund wrapper for Summit Partners growth-equity / PE fund); SALI address 6850 Austin Center Blvd is fund administrator, not a securities-trading hedge fund",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2136716": {
+    "is_target": true,
+    "business": "AllianceBernstein (AB) new hedge fund under their alternatives / fundamental-alpha platform; 501 Commerce St Nashville = AB HQ; AB runs equity L/S, absolute-return and systematic hedge-fund strategies; 07M first-sale confirms institutional product",
+    "verified_by": "agent",
+    "date": "2026-06-04",
+    "ops_hiring": [
+      "Trade Support Analyst",
+      "Portfolio Implementation Associate",
+      "Risk Manager",
+      "Fund Administration Analyst",
+      "Cash Management and Margin Associate",
+      "Compliance Analyst",
+      "Derivative Reconciliation Analyst",
+      "Associate Investment Operations",
+      "Broker Dealer Operations Associate"
+    ],
+    "ops_hiring_date": "2026-06-05",
+    "ops_hiring_by": "apollo"
+  },
+  "2135332": {
+    "is_target": false,
+    "business": "Bitcoin covered-call / crypto options strategy fund (Boca Raton FL); very small AUM (70K at launch); crypto-derivative focus is not a traditional liquid-securities book requiring OTC / structured-credit risk infrastructure",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2138093": {
+    "is_target": true,
+    "business": "Multi-strategy investment firm (Daimyo Holdings, West LA) deploying across public equities, structured credit, and real estate; KC James Dorame as Investment Director; multi-strategy tag on Form D and confirmed institutional platform",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2135594": {
+    "is_target": false,
+    "business": "Veridian Capital Partners (CRD 314290) is a Frederick MD retail wealth-management RIA with 6 advisors, ~$471M AUM across 2,494 individual accounts - not a securities-trading hedge fund",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2134789": {
+    "is_target": false,
+    "business": "Kubair Capital Fund LP - residential San Jose CA address, no ADV registration, no web presence, $0 raised; no evidence of institutional trading operation; default FALSE",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2136635": {
+    "is_target": false,
+    "business": "Christine Messmer, P.C. (CRD 121202) is a CFP/wealth-management RIA in Collegeville PA serving individual clients; not an institutional hedge fund; virtual NY office at 390 Madison does not change the character of the manager",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2137709": {
+    "is_target": true,
+    "business": "Lumenai Investments LLC (Stamford CT) - confirmed AI-driven quantitative hedge fund; global equity long/short, market-neutral, multi-asset; launching Lumenai Innovation Fund June 2026 as first fully-agentic AI hedge fund; CRD 309918; partnership with ETS Asset Management Factory",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2136855": {
+    "is_target": false,
+    "business": "Paradigm Fund Series 1 LP (The Woodlands TX) - no ADV registration, no web presence, no strategy tags; $3.5M raised from $25M offering; inconclusive on strategy type; default FALSE",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2137109": {
+    "is_target": false,
+    "business": "Prime Spectrum Fund LP - residential Tampa FL address (unit apartment), no ADV, no web presence, $0 raised; no evidence of institutional trading operation; default FALSE",
+    "verified_by": "agent",
+    "date": "2026-06-04"
+  },
+  "2137240": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2137239": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2137238": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134142": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134141": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC large-raise series (0M) for systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134139": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2137595": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134138": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC large-raise series (0M) for systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2134132": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2115947": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC large-raise series (78M) for systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05",
+    "ops_hiring": [
+      "Flex SMA Operations Dedicated Client Service Associate",
+      "Operations Flex SMA Analyst",
+      "Risk Compliance and Legal Engineering Analyst/Associate",
+      "Portfolio Management Operations Analyst/Associate",
+      "Operations Tax Operations Analyst/Associate",
+      "Data Compliance Associate/VP"
+    ],
+    "ops_hiring_date": "2026-06-05",
+    "ops_hiring_by": "apollo"
+  },
+  "2115938": {
+    "is_target": true,
+    "business": "AQR Capital Management quantitative hedge fund (One Greenwich Plaza, Greenwich CT; >00B AUM); AQR Flex 1 Series LLC is a series vehicle for custom separate-account mandates employing AQR's systematic long/short equity and multi-factor strategies",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2131648": {
+    "is_target": false,
+    "business": "Haus Capital Partners - Delaware registered-agent address, /bin/bash raised, no first sale date, no web presence, no ADV registration; inconclusive on strategy; default FALSE",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2138859": {
+    "is_target": true,
+    "business": "Logos Capital (Arsani William, CIO); biotech/healthcare equity long/short hedge fund; integrates scientific diligence with statistical modeling of clinical trials; public biotech L/S; Logos Opportunities Fund V is the fifth vintage offshore vehicle; ADV match to Edward Jones was a false positive",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2136914": {
+    "is_target": true,
+    "business": "Shinfalls Commodities hedge fund (Bruce Mason founder, London/Singapore); OTC financial derivatives in base, precious, and industrial metals markets; backed by New Holland Capital cornerstone investment; bottom-up fundamental approach with China metals focus",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2138166": {
+    "is_target": false,
+    "business": "Stanhope Capital Group (Daniel Pinto, London) is a multi-family office and wealth manager with >0B in client assets; acquired by Corient in 2026; ADV fund_mix shows re:1 vc:1 (no hedge); NOT a securities-trading hedge fund",
+    "verified_by": "agent",
+    "date": "2026-06-05"
+  },
+  "2128389": {
+    "is_target": false,
+    "business": "real estate vehicle (terms: properties, real estate) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "2052901": {
+    "is_target": false,
+    "business": "other vehicle (terms: co-invest) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "2137841": {
+    "is_target": true,
+    "business": "Hedge fund (evidence: absolute return, global macro, hedge fund; strategy hints: macro)",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "2137177": {
+    "is_target": false,
+    "business": "private equity vehicle (terms: portfolio companies) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "2111626": {
+    "is_target": false,
+    "business": "private equity vehicle (terms: portfolio companies) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "8846866698": {
+    "is_target": false,
+    "business": "real estate vehicle (terms: multifamily, properties, real estate) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "8975025868": {
+    "is_target": true,
+    "business": "Hedge fund (evidence: global macro; strategy hints: macro)",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  }
+}

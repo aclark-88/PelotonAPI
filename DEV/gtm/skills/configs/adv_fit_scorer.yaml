@@ -1,0 +1,18 @@
+# adv_fit_scorer — Form ADV enrichment + fit scoring
+model_version: fit-v1           # bump when icp.yaml weights change materially
+
+# Map ADV/firm-name keywords to strategy_types keys (lowercase contains-match).
+# Conservative: only update funds.strategies when a keyword is unambiguous.
+strategy_keywords:
+  macro: macro
+  relative value: relative_value
+  fixed income: fixed_income
+  structured credit: structured_credit
+  credit: credit
+  multi-strategy: multi_strategy
+  multi strategy: multi_strategy
+  volatility: volatility_arb
+  convertible: convertible_arb
+  quantitative: quant
+  systematic: quant
+  commodit: commodities

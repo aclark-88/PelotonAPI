@@ -1,0 +1,15 @@
+# thirteen_f_intensity_scorer — 13F-derived complexity scoring
+quarters: 4
+
+# Component weights for the 0-100 intensity score
+weights:
+  options_share: 50         # option rows / total rows, scaled
+  turnover: 30              # QoQ position churn, scaled
+  position_count: 10        # >= position_count_floor earns full component
+  concentration_inverse: 10 # diversified books score higher (more to manage)
+
+position_count_floor: 100   # books at/above this get the full position component
+options_share_full: 0.15    # options >= 15% of book = full options component
+
+# Emit derivatives_intensity_high when intensity >= this
+signal_threshold: 60
