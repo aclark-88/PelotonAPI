@@ -1,0 +1,71 @@
+# fund_verifier — "is this actually a hedge fund?"
+#
+# Form D self-classification lies (a real-estate HTC lender filed as "Hedge
+# Fund" — Octagon Finance, caught by hand 2026-06-03). After any Form D / ADV
+# / 13F detection, this skill verifies via the web BEFORE outreach effort is
+# spent: IAPD/adviser registration, LinkedIn company page, general web.
+#
+# Verdict precedence:
+#   1. Human/agent verdicts in config/verifications.json (authoritative, compounds)
+#   2. Auto verdict from evidence scoring below
+#   3. unverified -> flagged in the digest queue; an orchestrated session
+#      verifies before drafting (never silently dropped, never silently sent)
+
+verifications_json_path: config/verifications.json
+# write auto-verdicts back to the shared store only at/above this confidence
+write_back_min_confidence: 0.75
+
+max_results_per_query: 5
+search_queries:
+  - '"{name}" hedge fund'
+  - 'site:linkedin.com "{name}"'
+  - '"{name}" investment strategy fund'
+
+# Evidence weights
+weights:
+  iapd_registered: 0.25       # SEC-registered adviser found in the ADV roster
+  positive_term: 0.15         # per distinct hedge-fund term in sources
+  negative_term: 0.20         # per distinct disqualifying term
+  name_term: 0.35             # per term found in the fund's OWN legal name
+  linkedin_hit: 0.10          # a LinkedIn company/profile page mentions the fund
+
+decision:
+  hedge_fund_min: 0.45        # net positive evidence >= this -> is_hedge_fund=true
+  reject_min: 0.40            # net negative evidence >= this -> is_hedge_fund=false
+
+# We are going after HEDGE FUNDS specifically.
+positive_terms:
+  - hedge fund
+  - long/short
+  - long-short
+  - long short equity
+  - absolute return
+  - global macro
+  - relative value
+  - fixed income arbitrage
+  - multi-strategy
+  - multi strategy
+  - market neutral
+  - event driven
+  - credit trading
+  - systematic trading
+  - volatility arbitrage
+  - convertible arbitrage
+  - 13f filer
+
+# NOT our market: real estate, private capital, private credit, PE/VC.
+negative_terms:
+  real_estate: [real estate, realty, properties, reit, multifamily, "self-storage", industrial portfolio]
+  private_credit: [private credit, direct lending, private lender, bridge loans, mezzanine, "asset-based lending"]
+  private_equity: [private equity, buyout, growth equity, portfolio companies, "platform acquisition"]
+  venture: [venture capital, seed stage, early-stage startups, series a]
+  other: [infrastructure fund, royalty, oil and gas working interest, timberland, farmland, litigation finance, sale leaseback, mining finance, co-invest, insurance dedicated fund, money market, prime fund]
+
+# strategy hints harvested during verification (helps angle selection)
+strategy_hints:
+  equity_long_short: [long/short, long-short, long short equity]
+  macro: [global macro, macro fund]
+  credit: [credit trading, structured credit, credit opportunities]
+  relative_value: [relative value, arbitrage]
+  multi_strategy: [multi-strategy, multi strategy]
+  fixed_income: [fixed income]

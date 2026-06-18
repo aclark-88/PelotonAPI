@@ -208,5 +208,47 @@
     "business": "Stanhope Capital Group (Daniel Pinto, London) is a multi-family office and wealth manager with >0B in client assets; acquired by Corient in 2026; ADV fund_mix shows re:1 vc:1 (no hedge); NOT a securities-trading hedge fund",
     "verified_by": "agent",
     "date": "2026-06-05"
+  },
+  "2128389": {
+    "is_target": false,
+    "business": "real estate vehicle (terms: properties, real estate) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "2052901": {
+    "is_target": false,
+    "business": "other vehicle (terms: co-invest) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "2137841": {
+    "is_target": true,
+    "business": "Hedge fund (evidence: absolute return, global macro, hedge fund; strategy hints: macro)",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "2137177": {
+    "is_target": false,
+    "business": "private equity vehicle (terms: portfolio companies) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "2111626": {
+    "is_target": false,
+    "business": "private equity vehicle (terms: portfolio companies) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "8846866698": {
+    "is_target": false,
+    "business": "real estate vehicle (terms: multifamily, properties, real estate) - NOT a securities hedge fund",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
+  },
+  "8975025868": {
+    "is_target": true,
+    "business": "Hedge fund (evidence: global macro; strategy hints: macro)",
+    "verified_by": "gtm_auto",
+    "date": "2026-06-18"
   }
 }

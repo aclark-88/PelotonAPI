@@ -1,0 +1,6 @@
+# pipeline_hygiene_auditor
+output_dir: gtm/briefs
+max_deals: 100
+stale_after_days: 14            # no activity in this window -> stale
+signal_decay_days: 90           # no signal on the fund in this window -> decayed
+post_to_slack: true             # Monday digest; no-op when webhook unset

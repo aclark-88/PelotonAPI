@@ -1,0 +1,19 @@
+# linkedin_signal_reader — WEB-SEARCH PROXY (no LinkedIn API available).
+# Upgrade path: a LinkedIn Sales Navigator / Recruiter API key would replace
+# both proxies below with real post + job data; the skill interface stays.
+lookback_days: 30
+max_results_per_query: 8
+hiring_velocity_threshold: 3    # 3+ tech/ops/risk roles in window -> signal
+hiring_role_terms:
+  - operations
+  - middle office
+  - risk
+  - technology
+  - engineer
+  - developer
+  - quantitative
+job_board_domains:
+  - linkedin.com
+  - greenhouse.io
+  - lever.co
+  - workable.com

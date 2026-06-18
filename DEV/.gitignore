@@ -16,6 +16,14 @@ briefs/*.json
 # ...but the SEC-scan hand-off artifact IS committed (GitHub runner -> cloud)
 !briefs/candidates.json
 
+# GTM system — prospect data must never reach git (digests name funds/people,
+# logs hold per-run prospect detail). Cloud runs surface these via private,
+# access-controlled Actions artifacts + Slack, not the repo tree.
+gtm/briefs/
+logs/
+# Local MCP config can carry project refs / tokens
+.mcp.json
+
 # Python
 __pycache__/
 *.py[cod]

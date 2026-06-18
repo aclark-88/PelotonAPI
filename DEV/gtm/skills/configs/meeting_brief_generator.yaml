@@ -1,0 +1,70 @@
+# meeting_brief_generator
+output_dir: gtm/briefs          # <date>_<fund_slug>.md
+signal_lookback_days: 180
+won_deals_count: 3              # pulled from HubSpot closed-won (no local table)
+post_to_slack: true             # no-op when SLACK_WEBHOOK_URL unset
+
+# Talking-point templates keyed by signal type. {payload.x} fields are
+# substituted from the signal payload where present. Three points max,
+# ranked by signal urgency then recency. Capability claims trace to
+# clarion-capabilities.md / clarion_coverage.yaml.
+signal_talking_points:
+  new_fund_launch: >-
+    Launch infrastructure: Clarion stands up macro/credit launches in ~30 days
+    with middle office run by Coremont (canonical case study) — day-one
+    institutional book of record before allocator DD.
+  capital_raise_form_d: >-
+    Active raise underway: allocator operational DD is imminent. Position
+    Clarion as the institutional-grade infrastructure answer in DDQs.
+  spinout_detected: >-
+    Spinout from {payload.mothership}: the team knows institutional-grade
+    tooling. Clarion is the Brevan Howard-born platform that matches what
+    they had, without building a middle office.
+  new_role: >-
+    New seat-holder ({payload.new_role}): first 90 days = infrastructure
+    review window. Build-vs-buy conversation lands well now.
+  new_coo: "New COO: build-vs-buy review window open; Clarion PMS as the managed-service alternative."
+  new_head_risk: "New Head of Risk: intraday Greeks/VaR on every fill; risk independence from the front office."
+  new_cto: "New CTO: Clarion API — embed the pricing/risk engine behind their own stack."
+  new_head_tech: "New Head of Technology: Clarion API integration story; Python SDK to the production engine."
+  displacement_inferred_job_post: >-
+    Evidence of {payload.vendor} in the stack ({payload.confidence} confidence):
+    {payload.clarion_displacement}. NEVER lead with the vendor name in the
+    meeting; let them raise it.
+  derivatives_intensity_high: >-
+    13F shows materially elevated options/derivatives complexity: lead with
+    cross-asset valuation library and intraday risk across listed and OTC.
+  hiring_velocity_high: >-
+    Heavy ops/tech hiring: every hire is build-cost evidence. Managed middle
+    office reframes the headcount plan.
+
+# Objection bank — two are selected by rule (first match wins per slot).
+objections:
+  - key: emerging_cost
+    when: is_emerging_manager
+    objection: "We're too early / can't afford institutional infrastructure yet."
+    response: >-
+      Clarion is a managed service priced for launches; the alternative is 3-4
+      ops/tech hires before allocator DD. The 30-day macro launch case is the
+      proof point — infrastructure was live before the raise closed.
+  - key: incumbent_switch
+    when: has_incumbent
+    objection: "We already run our stack; switching is risky mid-year."
+    response: >-
+      Frame as supplemental first: Clarion runs alongside during parallel
+      books, with Coremont operating the migration. No big-bang cutover.
+      (Do not name their incumbent first — see voice rules.)
+  - key: build_vs_buy
+    when: always
+    objection: "We'd rather build in-house / our quants want to own the stack."
+    response: >-
+      Clarion API is the own-your-stack answer: their front-end, our
+      production pricing and risk engine (the one Brevan Howard runs on),
+      Python SDK access. Building that engine is a multi-year quant project.
+  - key: timing
+    when: always
+    objection: "Not a priority this quarter."
+    response: >-
+      Tie to the trigger signal: the cost of waiting is paid at the next
+      allocator DD, audit, or strategy launch. Offer a 15-minute scoping call
+      now, implementation when the window opens.

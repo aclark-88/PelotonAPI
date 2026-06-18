@@ -1,0 +1,62 @@
+# Clarion product/market coverage — qualification reference.
+# Source of truth: "Coremont - Clarion Product Coverage 2026.pdf" in
+# G:\My Drive\Coremont\Prospects\_reference\Clarion Product Coverage\
+# (representative list; instruments are continuously added).
+#
+# Qualification skills cite this when scoring or tagging signals so every
+# fit claim traces to a real capability, not a generic pitch.
+
+asset_classes:
+  fx:
+    strategies: [macro]
+    highlights: >-
+      Full FX stack: spot/forward/swaps, vanilla and digital options, barriers
+      and touches (incl. windows), multi-digitals, worst-ofs, volatility
+      barrier options, FVAs; 180+ FX vol surfaces.
+  rates:
+    strategies: [macro, fixed_income, relative_value]
+    highlights: >-
+      Swaps in 40+ currencies, basis/xccy, swaptions (19 ccys), cap/floor,
+      mid-curve, CMS family, STIR futures and options, bond futures/options,
+      inflation swaps and linkers, FRAs; IR curves for 40+ ccys, vol surfaces
+      for 20+.
+  equities:
+    strategies: [equity_long_short, volatility_arb, event_driven, quant]
+    highlights: >-
+      Single stocks, CFDs incl. xccy, listed and OTC single-name options,
+      index futures/options, VIX, variance and vol swaps (capped/uncapped),
+      BTIC/dividend/Vstoxx/variance futures; 50k+ names, 800+ single-name and
+      ETF vol surfaces.
+  credit:
+    strategies: [credit, structured_credit, convertible_arb, fixed_income]
+    highlights: >-
+      Liquid cash credit (fixed/floating/callable/PIK/converts/CoCo-AT1/prefs),
+      EM sovereigns, single-name and index CDS, index options and tranches,
+      bond and iBoxx TRS, agency MBS (pass-throughs, TBAs, CMOs), syndicated
+      loans and loan TRS, CLO, non-agency RMBS/CMBS/CMBX, ABS; 6000+ single
+      name CDS, 15+ iTraxx/CDX indices.
+  commodities:
+    strategies: [commodities, macro]
+    highlights: >-
+      Futures, vanilla options, TAS futures across energy, metals, ags/softs,
+      and power on global exchanges.
+  crypto:
+    strategies: [crypto]
+    highlights: >-
+      Spot/perps/forwards/NDFs, OTC and listed options, loans, staking across
+      CME/Deribit/Binance/OKEx/Kraken; major tokens.
+
+# Incumbent vendor -> the Clarion capability that displaces it. Keyed to
+# vendors.yaml names. Used by displacement_inferrer signal payloads.
+vendor_displacement:
+  Enfusion: "unified PMS + IBOR with managed middle office (vs. Enfusion's SaaS PMS)"
+  Geneva: "real-time IBOR/ABOR without Geneva's batch accounting overhead; Operations Concierge replaces in-house ops headcount"
+  SS&C: "single cloud platform vs. stitched SS&C point solutions; middle office as managed service"
+  Imagine: "cross-asset risk and pricing analytics (Brevan Howard-grade quant library) replacing Imagine real-time risk"
+  Murex: "front-to-back cross-asset coverage without Murex implementation/TCO burden"
+  Calypso: "cloud-native PMS + treasury replacing heavyweight Calypso deployments"
+  Bloomberg AIM: "order/portfolio management with deeper derivatives analytics than AIM, plus managed middle office"
+  Aladdin: "hedge-fund-native PMS + risk (vs. Aladdin's long-only institutional center of gravity)"
+  Eze: "modern cloud PMS replacing legacy Eze OMS/PMS stack"
+  Charles River: "derivatives-first coverage and managed ops vs. CRD's long-only IMS"
+  Bloomberg PORT: "portfolio analytics + IBOR beyond PORT's reporting scope"

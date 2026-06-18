@@ -1,0 +1,44 @@
+# people_move_detector
+lookback_hours: 24
+max_funds_per_run: 25          # Apollo search volume guard (one search per fund)
+tam_min_fit_score: 60          # TAM = tier 1-3 OR fit_score >= this
+
+# function key -> Apollo title search terms; keys map to role_function enum
+target_functions:
+  coo:
+    titles: ["Chief Operating Officer", "COO"]
+    function: ops
+    seniority: c_suite
+    signal_type: new_coo
+  cfo:
+    titles: ["Chief Financial Officer", "CFO"]
+    function: finance
+    seniority: c_suite
+    signal_type: new_cfo
+  cto:
+    titles: ["Chief Technology Officer", "CTO"]
+    function: tech
+    seniority: c_suite
+    signal_type: new_cto
+  head_risk:
+    titles: ["Head of Risk", "Chief Risk Officer", "CRO"]
+    function: risk
+    seniority: head
+    signal_type: new_head_risk
+  head_tech:
+    titles: ["Head of Technology", "Head of Engineering"]
+    function: tech
+    seniority: head
+    signal_type: new_head_tech
+  head_ops:
+    titles: ["Head of Operations", "Director of Operations"]
+    function: ops
+    seniority: head
+    signal_type: new_head_ops
+
+# Web-search path query templates ({role} substituted)
+web_queries:
+  - 'hedge fund appoints "{role}"'
+  - 'hedge fund names new "{role}"'
+web_lookback_days: 2
+web_max_results_per_query: 5

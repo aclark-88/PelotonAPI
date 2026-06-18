@@ -1,0 +1,24 @@
+# spinout_watcher
+includes: [motherships.yaml]
+lookback_days: 7
+max_results_per_query: 6
+min_relevance_score: 0.45     # Tavily score floor; below = noise
+# Words that must appear near the mothership mention for a hit to count
+required_context_terms:
+  - spinout
+  - spin out
+  - spun out
+  - launching
+  - launches
+  - new fund
+  - new hedge fund
+  - former
+# Capitalized-phrase suffixes that mark a candidate fund name
+fund_name_suffixes:
+  - Capital
+  - Partners
+  - Management
+  - Advisors
+  - Capital Management
+  - Asset Management
+  - Investments

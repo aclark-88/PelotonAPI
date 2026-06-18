@@ -5,3 +5,10 @@ edgartools>=5.35     # free SEC EDGAR access (Form D, 13F); pulls pandas + lxml 
 pandas>=2.1          # vectorized options-to-equity concentration math (also via edgartools)
 lxml>=5.1            # high-performance XML parsing of 13F infotables (also via edgartools)
 python-dotenv>=1.0   # load EDGAR_IDENTITY from .env
+
+# GTM Supabase data layer (gtm/)
+supabase>=2.4
+pydantic>=2.7
+pydantic-settings>=2.2
+pytest>=8.0
+
