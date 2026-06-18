@@ -1,0 +1,16 @@
+# heyreach_dispatcher — LinkedIn dispatch of an APPROVED draft
+includes: [campaigns.yaml, rate_limits.yaml]
+
+# CANONICAL CAMPAIGN (created 2026-06-11 via gtm/cli/setup_heyreach.py).
+# ALL leads append here — one campaign, per-lead copy via customUserFields
+# (cr_note / followup), consistent tracking. Same pattern as the Instantly
+# "Alex Campaign Test" rule. Do not create per-prospect campaigns.
+canonical_campaign_id: 466941
+canonical_campaign_name: "Clarion GTM - Launch Outreach"
+
+# Per-day connection-request cap per seat (overrides rate_limits.yaml if set)
+connections_per_day: 25
+
+# If true, attach the approved followup-variant draft (same person+signal)
+# as the on-accept MESSAGE node
+attach_followup: true

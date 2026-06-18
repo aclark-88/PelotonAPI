@@ -1,0 +1,62 @@
+name: Daily Digest Email
+
+# Emails the Coremont Signal Engine digest every weekday morning, independent of
+# any local machine. Pulls real SEC data (targeted ICP search), enriches buyer
+# contacts (Apollo), scores, and sends via SMTP.
+#
+# Activation (one-time):
+#   1. Add repo secrets (Settings > Secrets and variables > Actions):
+#        SMTP_USER, SMTP_PASSWORD, DIGEST_TO   (Gmail app password)
+#        APOLLO_API_KEY                         (optional, for buyer contacts)
+#   2. This file must be on the DEFAULT branch for the schedule to fire
+#      (merge the branch, or run it manually via "Run workflow").
+on:
+  schedule:
+    - cron: "0 11 * * 1-5"   # 11:00 UTC on weekdays (~7:00 AM US Eastern)
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "ICP search look-back window (days)"
+        default: "90"
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: coremont-signal-engine
+    env:
+      SEC_USER_AGENT: "Coremont Signal Engine malex.clark@gmail.com"
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: "587"
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      DIGEST_TO: ${{ secrets.DIGEST_TO }}
+      DIGEST_FROM: ${{ secrets.SMTP_USER }}
+      APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+
+      # Persist the "new since last digest" baseline across scheduled runs.
+      - name: Restore digest state
+        uses: actions/cache@v4
+        with:
+          path: coremont-signal-engine/exports/digest_state.json
+          key: digest-state-${{ github.run_id }}
+          restore-keys: |
+            digest-state-
+
+      - name: Build + email daily digest (real SEC data)
+        run: python -m app.cli digest --days ${{ github.event.inputs.days || '90' }}
+
+      - name: Upload digest HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-digest
+          path: coremont-signal-engine/exports/digest.html
+          if-no-files-found: ignore

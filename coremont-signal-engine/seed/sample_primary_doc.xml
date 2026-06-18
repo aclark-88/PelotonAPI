@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edgarSubmission xmlns="http://www.sec.gov/edgar/formdData">
+  <schemaVersion>X0708</schemaVersion>
+  <submissionType>D</submissionType>
+  <testOrLive>LIVE</testOrLive>
+  <primaryIssuer>
+    <cik>0001900001</cik>
+    <entityName>Meridian Structured Credit Master Fund LP</entityName>
+    <issuerAddress>
+      <street1>520 Madison Avenue</street1>
+      <city>New York</city>
+      <stateOrCountry>NY</stateOrCountry>
+      <stateOrCountryDescription>NEW YORK</stateOrCountryDescription>
+      <zipCode>10022</zipCode>
+    </issuerAddress>
+    <jurisdictionOfInc>DELAWARE</jurisdictionOfInc>
+    <entityType>Limited Partnership</entityType>
+  </primaryIssuer>
+  <offeringData>
+    <industryGroup>
+      <industryGroupType>Pooled Investment Fund</industryGroupType>
+      <investmentFundInfo>
+        <investmentFundType>Hedge Fund</investmentFundType>
+        <is40Act>false</is40Act>
+      </investmentFundInfo>
+    </industryGroup>
+    <typeOfFiling>
+      <newOrAmendment>
+        <isAmendment>false</isAmendment>
+      </newOrAmendment>
+      <dateOfFirstSale>
+        <value>2026-05-15</value>
+      </dateOfFirstSale>
+    </typeOfFiling>
+    <federalExemptionsExclusions>
+      <item>06b</item>
+      <item>3C.7</item>
+    </federalExemptionsExclusions>
+    <offeringSalesAmounts>
+      <totalOfferingAmount>750000000</totalOfferingAmount>
+      <totalAmountSold>180000000</totalAmountSold>
+      <totalRemaining>570000000</totalRemaining>
+    </offeringSalesAmounts>
+    <relatedPersonsList>
+      <relatedPersonInfo>
+        <relatedPersonName>
+          <firstName>Daniel</firstName>
+          <lastName>Hartman</lastName>
+        </relatedPersonName>
+        <relatedPersonRelationshipList>
+          <relationship>Executive Officer</relationship>
+        </relatedPersonRelationshipList>
+      </relatedPersonInfo>
+    </relatedPersonsList>
+  </offeringData>
+</edgarSubmission>

@@ -1,0 +1,23 @@
+{
+  "_comment": "Signals already shown on a brief, so they are not repeated. Key is '<cik>:<signal>' -> first-shown date. Recorded by the cloud render (--record-surfaced). Delete an entry to let a fund resurface.",
+  "2115938:greenfield_launch": "2026-06-05",
+  "2115947:greenfield_launch": "2026-06-05",
+  "2134132:greenfield_launch": "2026-06-05",
+  "2134138:greenfield_launch": "2026-06-05",
+  "2134139:greenfield_launch": "2026-06-05",
+  "2134141:greenfield_launch": "2026-06-05",
+  "2134142:greenfield_launch": "2026-06-05",
+  "2134708:greenfield_launch": "2026-06-04",
+  "2135124:greenfield_launch": "2026-06-04",
+  "2136321:greenfield_launch": "2026-06-04",
+  "2136716:greenfield_launch": "2026-06-04",
+  "2136776:greenfield_launch": "2026-06-04",
+  "2136914:greenfield_launch": "2026-06-05",
+  "2137238:greenfield_launch": "2026-06-05",
+  "2137239:greenfield_launch": "2026-06-05",
+  "2137240:greenfield_launch": "2026-06-05",
+  "2137595:greenfield_launch": "2026-06-05",
+  "2137709:greenfield_launch": "2026-06-04",
+  "2138093:greenfield_launch": "2026-06-04",
+  "2138859:greenfield_launch": "2026-06-05"
+}

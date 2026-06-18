@@ -1,0 +1,49 @@
+# Campaign-to-signal-type mapping. LinkedIn-only via HeyReach (no email
+# channel in this milestone — explicit scope decision 2026-06-11).
+#
+# Logical campaigns are rows in the `campaigns` table (channel=linkedin);
+# heyreach_campaign_id is filled by the dispatcher when it creates the
+# per-prospect HeyReach campaign (single-lead, CR -> [MESSAGE on accept] -> END
+# per the outreach-campaign skill convention).
+
+defaults:
+  channel: linkedin
+  # HeyReach campaign creation settings (heyreach-cli.md gotchas apply)
+  schedule:
+    dailyStartTime: "09:00:00"
+    dailyEndTime: "17:00:00"
+    timeZoneId: "America/New_York"
+  exclude_contacted_from_other_campaigns: true
+  withdraw_after_days: 30
+  # Which workspace LinkedIn sender account to use: first account whose
+  # name/email matches this keyword (li_account/GetAll)
+  sender_keyword: "alex"
+  followup_delay_days: 3
+
+campaigns:
+  - name: linkedin-new-fund-launch
+    signal_type_key: new_fund_launch
+  - name: linkedin-capital-raise
+    signal_type_key: capital_raise_form_d
+  - name: linkedin-spinout
+    signal_type_key: spinout_detected
+  - name: linkedin-new-coo
+    signal_type_key: new_coo
+  - name: linkedin-new-cfo
+    signal_type_key: new_cfo
+  - name: linkedin-new-cto
+    signal_type_key: new_cto
+  - name: linkedin-new-head-risk
+    signal_type_key: new_head_risk
+  - name: linkedin-new-head-tech
+    signal_type_key: new_head_tech
+  - name: linkedin-new-head-ops
+    signal_type_key: new_head_ops
+  - name: linkedin-champion-moved
+    signal_type_key: new_role
+  - name: linkedin-displacement
+    signal_type_key: displacement_inferred_job_post
+  - name: linkedin-hiring-velocity
+    signal_type_key: hiring_velocity_high
+  - name: linkedin-derivatives-intensity
+    signal_type_key: derivatives_intensity_high

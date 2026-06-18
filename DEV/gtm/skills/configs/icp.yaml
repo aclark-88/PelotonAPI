@@ -1,0 +1,59 @@
+# Clarion ICP definition — single source of truth for fit scoring.
+# Edit weights here; never in code. Scores are 0-100, tier 1 is best.
+
+# AUM bands in USD millions. `max: null` = unbounded.
+aum_bands:
+  - { key: under_300, min: 0,    max: 300 }
+  - { key: 300_to_1b, min: 300,  max: 1000 }
+  - { key: 1b_to_5b,  min: 1000, max: 5000 }
+  - { key: over_5b,   min: 5000, max: null }
+
+scoring:
+  # Points per AUM band (sweet spot: $300M-$5B)
+  aum_band_scores:
+    under_300: 8        # often pre-ICP but watch for growth
+    300_to_1b: 25
+    1b_to_5b: 25
+    over_5b: 10         # usually has built or bought already
+    unknown: 5
+
+  # Points per strategy (keys must exist in strategy_types).
+  # Best match counts full; each additional match counts half. Capped below.
+  strategy_scores:
+    macro: 30
+    relative_value: 28
+    fixed_income: 26
+    structured_credit: 26
+    credit: 24
+    multi_strategy: 24
+    volatility_arb: 22
+    convertible_arb: 22
+    quant: 16
+    event_driven: 12
+    commodities: 12
+    equity_long_short: 8
+    crypto: 6
+    other: 2
+  strategy_cap: 30
+
+  # Derivatives / portfolio complexity (13F intensity when available,
+  # private-fund share of RAUM as proxy otherwise)
+  derivatives_weight: 15
+
+  # Operational complexity bonuses
+  multi_pb_min: 2
+  multi_pb_bonus: 10
+  multi_custodian_min: 2
+  multi_custodian_bonus: 5
+
+  # Greenfield: no entrenched middle office to displace
+  emerging_manager_bonus: 10
+
+# Minimum score to enter each tier (descending). Below tier 3 = tier 4.
+tiers:
+  1: 75
+  2: 55
+  3: 35
+
+# adv_fit_scorer emits fit_score_changed when |new - old| >= this
+fit_score_change_threshold: 10

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Export Queue · Coremont Signal Engine{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Export Queue</h1>
+  <div class="actions">
+    <form method="get" style="display:inline">
+      <select name="min_tier" onchange="this.form.submit()">
+        <option value="1" {{ 'selected' if min_tier == 1 }}>Tier 1 only</option>
+        <option value="2" {{ 'selected' if min_tier == 2 }}>Tier 1 &amp; 2</option>
+        <option value="3" {{ 'selected' if min_tier == 3 }}>Tier 1–3</option>
+      </select>
+    </form>
+    <a class="btn" href="/export.csv?min_tier={{ min_tier }}">⬇ Download CSV</a>
+    <form method="post" action="/export/hubspot" style="display:inline">
+      <input type="hidden" name="min_tier" value="{{ min_tier }}">
+      <button class="btn" type="submit">⇪ Push to HubSpot</button>
+    </form>
+  </div>
+</div>
+<p class="sub">Outreach-ready prospects (Tier ≤ {{ min_tier }}). HubSpot push requires <code>HUBSPOT_TOKEN</code>; otherwise CSV only.</p>
+
+<table class="grid">
+  <thead>
+    <tr><th>Score</th><th>Tier</th><th>Manager</th><th>Strategy</th><th>Persona</th><th>HQ</th><th>Reason</th></tr>
+  </thead>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+      <td class="score">{{ r.total_score }}</td>
+      <td><span class="pill tier-{{ r.tier }}">Tier {{ r.tier }}</span></td>
+      <td>{{ r.manager }}</td>
+      <td>{% for t in r.strategy_tags.split('|') if t %}<span class="tag">{{ t }}</span>{% endfor %}</td>
+      <td><span class="tag sig">{{ r.suggested_persona }}</span></td>
+      <td>{{ r.hq }}</td>
+      <td class="reason">{{ r.reason }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="empty">No prospects at this tier yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,53 @@
+name: SEC Live Data
+
+# Runs the live SEC EDGAR ingestion on a GitHub-hosted runner (open internet),
+# so we can validate the pipeline against the real Form D API and surface real
+# fund signals. Triggered on push to the dev branch and on demand.
+on:
+  push:
+    branches: ["claude/coremont-edgar-signal-engine-KQYJb"]
+    paths:
+      - "coremont-signal-engine/**"
+      - ".github/workflows/sec-live.yml"
+  workflow_dispatch:
+
+jobs:
+  pull-sec:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: coremont-signal-engine
+    env:
+      SEC_USER_AGENT: "Coremont Signal Engine malex.clark@gmail.com"
+      APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify SEC access — print REAL Form D filings + source URLs
+        run: python -m app.cli verify --lookback 6 --limit 10
+
+      - name: Targeted ICP ingest (real SEC Form D, last 60 days) + score
+        run: python -m app.cli ingest --search --days 60
+
+      - name: Summary of real data ingested
+        run: python -m app.cli stats
+
+      - name: Print real Tier 1/2 export queue
+        run: |
+          echo "===== REAL Tier 1/2 prospects ====="
+          cat exports/*.csv || echo "(no export file)"
+
+      - name: Upload real outputs (digest + CSV)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coremont-real-data
+          path: |
+            coremont-signal-engine/exports/*.csv
+            coremont-signal-engine/exports/digest.html
+          if-no-files-found: ignore

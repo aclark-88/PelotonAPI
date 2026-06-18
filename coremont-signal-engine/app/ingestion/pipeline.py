@@ -1,0 +1,142 @@
+"""Daily pipeline orchestrator (Jobs 1-5).
+
+Run via ``python -m app.cli ingest`` (live SEC) or ``--seed`` (offline sample).
+Kept deliberately linear and side-effect-light so it's easy to schedule (cron,
+GitHub Actions, or any task runner) and easy for Claude Code to maintain.
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from .. import config
+from ..db import session_scope
+from .edgar_client import EdgarClient, FormDRecord, parse_form_d_xml
+from . import apollo, export_job, formd, signal_job
+
+
+def _record_from_seed(d: dict) -> FormDRecord:
+    import datetime as dt
+
+    def _date(s):
+        return dt.date.fromisoformat(s) if s else None
+
+    # Prefix seeded issuers so synthetic demo data can never be mistaken for a
+    # real SEC filing in the UI, digest, or CRM export.
+    name = d["issuer_name"]
+    if not name.startswith("SAMPLE"):
+        name = f"SAMPLE — {name}"
+
+    return FormDRecord(
+        accession_no=d.get("accession_no", ""),
+        cik=d.get("cik", ""),
+        issuer_name=name,
+        jurisdiction=d.get("jurisdiction"),
+        entity_type=d.get("entity_type"),
+        hq_city=d.get("hq_city"),
+        hq_state=d.get("hq_state"),
+        filing_date=_date(d.get("filing_date")),
+        first_sale_date=_date(d.get("first_sale_date")),
+        is_amendment=d.get("is_amendment", False),
+        industry_group=d.get("industry_group"),
+        investment_fund_type=d.get("investment_fund_type"),
+        offering_amount=d.get("offering_amount"),
+        amount_sold=d.get("amount_sold"),
+        remaining_amount=d.get("remaining_amount"),
+        exemptions=d.get("exemptions", []),
+        related_persons=d.get("related_persons", []),
+        raw_payload=d,
+    )
+
+
+def load_seed_records(path: str | Path | None = None) -> list[FormDRecord]:
+    path = Path(path or (config.BASE_DIR / "seed" / "sample_formd.json"))
+    data = json.loads(Path(path).read_text())
+    return [_record_from_seed(d) for d in data]
+
+
+def fetch_live_records(lookback_days: int | None = None) -> list[FormDRecord]:
+    lookback = lookback_days or config.ingest_lookback_days()
+    with EdgarClient() as client:
+        return client.fetch_recent_form_d(lookback)
+
+
+def fetch_search_records(
+    days: int = 90,
+    terms: list[str] | None = None,
+    use_index_backup: bool = True,
+) -> list[FormDRecord]:
+    """Targeted ICP pull with a deterministic backup.
+
+    Primary: EDGAR full-text search over the ICP terms (fast, also catches
+    body-only matches). Backup: a daily-index crawl filtered to ICP issuer
+    names, which doesn't depend on the (throttle-prone) full-text service. We
+    always merge both so a run can't silently drop marquee names when FTS
+    returns partial results — coverage stays stable run to run.
+    """
+    from .edgar_client import ICP_SEARCH_TERMS
+
+    terms = terms or ICP_SEARCH_TERMS
+    records: list[FormDRecord] = []
+    with EdgarClient() as client:
+        try:
+            records = client.fetch_form_d_by_terms(terms, days)
+        except Exception:  # noqa: BLE001 — fall through to the backup
+            records = []
+        if use_index_backup or not records:
+            seen = {r.accession_no for r in records}
+            try:
+                for r in client.fetch_form_d_by_index(days):
+                    if r.accession_no not in seen:
+                        seen.add(r.accession_no)
+                        records.append(r)
+            except Exception:  # noqa: BLE001 — backup is best-effort
+                pass
+    return records
+
+
+def run_pipeline(
+    *,
+    seed: bool = False,
+    search: bool = False,
+    days: int = 90,
+    lookback_days: int | None = None,
+    export_min_tier: int = 2,
+) -> dict:
+    """Execute Jobs 1-5 end-to-end inside one transaction."""
+    if seed:
+        records = load_seed_records()
+        source = "seed"
+    elif search:
+        records = fetch_search_records(days)
+        source = "live"
+    else:
+        records = fetch_live_records(lookback_days)
+        source = "live"
+
+    with session_scope() as session:
+        ingest_stats = formd.persist_records(session, records)   # Job 1 + Job 2
+        # Job 3 (adviser) runs inside Job 4 per-manager.
+        signal_stats = signal_job.run(session)                   # Job 4
+
+        # Job 3b: enrich the top tiers with buyer contacts (Apollo), then re-score
+        # so reachability reflects the people we found. No-op without APOLLO_API_KEY.
+        enrich_stats = apollo.enrich_top_managers(session, max_tier=export_min_tier)
+        if enrich_stats.get("enriched"):
+            signal_stats = signal_job.run(session)
+
+        csv_path = export_job.write_csv(session, min_tier=export_min_tier)  # Job 5
+        rows = export_job.build_rows(session, min_tier=export_min_tier)
+        crm_stats = export_job.push_to_hubspot(rows)
+
+    config.set_data_source(source)
+
+    return {
+        "source": source,
+        "ingest": ingest_stats,
+        "signals": signal_stats,
+        "contacts": enrich_stats,
+        "export_csv": csv_path,
+        "export_rows": len(rows),
+        "crm": crm_stats,
+    }

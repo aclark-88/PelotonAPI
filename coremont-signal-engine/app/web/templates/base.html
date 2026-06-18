@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Coremont Signal Engine{% endblock %}</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◆</span>
+      <span>Coremont <strong>Signal Engine</strong></span>
+    </div>
+    <nav>
+      <a href="/">Ranked Managers</a>
+      <a href="/filings">Filing Explorer</a>
+      <a href="/export">Export Queue</a>
+    </nav>
+    <div class="tagline">SEC Form D → Clarion PMS fit</div>
+  </header>
+  {% if data_source() == 'seed' %}
+  <div class="sample-banner">⚠ SAMPLE DATA — synthetic demo records, <strong>not real SEC filings</strong>. Run <code>python -m app.cli ingest</code> (no <code>--seed</code>) to load live SEC Form D data.</div>
+  {% endif %}
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    Rules-based prospecting engine · scores are transparent &amp; tunable · v1 (Form D + adviser context)
+  </footer>
+</body>
+</html>

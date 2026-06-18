@@ -1,0 +1,41 @@
+SEC Form ADV data-set schema probe
+============================================================
+trying: https://www.sec.gov/files/investment/data/other/information-about-registered-investment-advisers-exempt-reporting-advisers/ia060126.zip
+  OK 843,227 bytes
+
+Using: https://www.sec.gov/files/investment/data/other/information-about-registered-investment-advisers-exempt-reporting-advisers/ia060126.zip
+
+--- IA_SEC_-_FIRM_ROSTER_FOIA_DOWNLOAD_-_34605790.CSV  (6,509,874 bytes) ---
+  173 columns
+  RELEVANT columns:
+    - SEC Region
+    - Organization CRD#
+    - Additional CRD Number
+    - Total number of additional CRD numbers
+    - SEC#
+    - Primary Business Name
+    - Legal Name
+    - SEC Current Status
+    - SEC Status Effective Date
+    - Jurisdiction Notice Filed-Effective Date
+    - Latest ADV Filing Date
+    - approx. amount of assets
+    - 7B
+    - Count of Private Funds - 7B(1)
+    - Any Hedge Funds
+    - Total number of Hedge funds
+    - Any Liquidity Funds
+    - Total number of Liquidity funds
+    - Any PE Funds
+    - Total number of PE funds
+    - Any Real Estate Funds
+    - Total number of Real Estate funds
+    - Any Securitized Funds
+    - Total number of Securitized funds
+    - Any VC Funds
+    - Total number of VC funds
+    - Any Other Funds
+    - Total number of Other funds
+    - Total Gross Assets of Private Funds
+    - Count of Private Funds - 7B(2)
+  (all 173 headers): ['SEC Region', 'Organization CRD#', 'Additional CRD Number', 'Total number of additional CRD numbers', 'SEC#', 'Firm Type', 'CIK#', 'Total number of CIK numbers', 'Primary Business Name', 'Legal Name', 'Main Office Street Address 1', 'Main Office Street Address 2', 'Main Office City', 'Main Office State', 'Main Office Country', 'Main Office Postal Code', 'Main Office Private Residence Flag', 'Main Office Telephone Number', 'Main Office Facsimile Number', 'Total number of offices', 'other than your Principal Office and place of business', 'Mail Office Street Address 1', 'Mail Office Street Address 2', 'Mail Office City', 'Mail Office State', 'Mail Office Country', 'Mail Office Postal Code', 'Mail Office Private Residence Flag', 'SEC Current Status', 'SEC Status Effective Date', 'Jurisdiction Notice Filed-Effective Date', 'Latest ADV Filing Date', 'Form Version', '1I', 'Website Address', 'Total Number of Website Addresses', 'Location of Books and Records Street Address 1', 'Location of Books and Records Street Address 2', 'Location of Books and Records City', 'Location of Books and Records State']

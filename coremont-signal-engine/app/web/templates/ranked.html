@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Ranked Managers · Coremont Signal Engine{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Ranked Managers</h1>
+  <div class="tier-counts">
+    <span class="pill tier-1">Tier 1 · {{ counts[1] }}</span>
+    <span class="pill tier-2">Tier 2 · {{ counts[2] }}</span>
+    <span class="pill tier-3">Tier 3 · {{ counts[3] }}</span>
+    <span class="pill tier-4">Tier 4 · {{ counts[4] }}</span>
+  </div>
+</div>
+
+<form class="filters" method="get">
+  <input type="search" name="q" placeholder="Search manager…" value="{{ filters.q or '' }}">
+  <select name="tier">
+    <option value="">All tiers</option>
+    {% for t in [1,2,3,4] %}
+      <option value="{{ t }}" {{ 'selected' if filters.tier == t }}>Tier {{ t }}</option>
+    {% endfor %}
+  </select>
+  <select name="strategy">
+    <option value="">All strategies</option>
+    {% for tag in all_tags %}
+      <option value="{{ tag }}" {{ 'selected' if filters.strategy == tag }}>{{ tag }}</option>
+    {% endfor %}
+  </select>
+  <select name="signal_type">
+    <option value="">All signals</option>
+    {% for st in all_signal_types %}
+      <option value="{{ st }}" {{ 'selected' if filters.signal_type == st }}>{{ signal_labels[st] }}</option>
+    {% endfor %}
+  </select>
+  <select name="state">
+    <option value="">All states</option>
+    {% for s in all_states %}
+      <option value="{{ s }}" {{ 'selected' if filters.state == s }}>{{ s }}</option>
+    {% endfor %}
+  </select>
+  <select name="since_days">
+    <option value="">Any time</option>
+    <option value="30" {{ 'selected' if filters.since_days == 30 }}>Last 30 days</option>
+    <option value="60" {{ 'selected' if filters.since_days == 60 }}>Last 60 days</option>
+    <option value="90" {{ 'selected' if filters.since_days == 90 }}>Last 90 days</option>
+  </select>
+  <button type="submit">Filter</button>
+  <a class="reset" href="/">Reset</a>
+</form>
+
+<table class="grid">
+  <thead>
+    <tr>
+      <th>Score</th><th>Tier</th><th>Manager</th><th>Strategy tags</th>
+      <th>Signals</th><th>HQ</th><th>Fresh</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in managers %}
+    <tr>
+      <td class="score">{{ '%.0f'|format(m.total_score) }}</td>
+      <td><span class="pill tier-{{ m.tier }}">{{ tier_labels[m.tier] }}</span></td>
+      <td><a class="mgr" href="/managers/{{ m.id }}">{{ m.legal_name }}</a>
+          <div class="sub">{{ m.vehicles|length }} vehicle{{ 's' if m.vehicles|length != 1 }}</div></td>
+      <td>{% for tag in m.strategy_tags %}<span class="tag">{{ tag }}</span>{% endfor %}</td>
+      <td>{% for s in m.signals %}<span class="tag sig">{{ signal_labels[s.signal_type] }}</span>{% endfor %}</td>
+      <td>{{ m.hq_city or '' }}{{ ', ' if m.hq_city and m.hq_state }}{{ m.hq_state or '' }}</td>
+      <td class="sub">{{ m.last_signal_date or '—' }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="empty">No managers match. Run <code>python -m app.cli ingest --seed</code> to load sample data.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

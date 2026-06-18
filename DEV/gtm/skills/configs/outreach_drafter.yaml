@@ -1,0 +1,89 @@
+# outreach_drafter — LinkedIn-only (HeyReach). No email assets are drafted.
+#
+# MISSION: connect with new hedge fund launches on LinkedIn. The angle is
+# strategy-dependent (first matching rule wins, top to bottom):
+#   clarion_pms    — multi-asset/macro/credit/RV etc.: Clarion PMS for risk
+#                    aggregation, scale, operational due diligence readiness,
+#                    and real-time P&L across asset classes.
+#   network_value  — long/short equity: NOT a Clarion pitch. Alex personally
+#                    helps with cap intro, outsourced back office referrals,
+#                    and plugging them into his network.
+includes: [vendors.yaml, campaigns.yaml]
+
+angles:
+  - key: clarion_pms
+    when_strategies_any: [macro, credit, fixed_income, relative_value,
+                          multi_strategy, structured_credit, volatility_arb,
+                          convertible_arb, quant, commodities, crypto]
+    focus: >-
+      Clarion PMS pitch — PAIN-LED, never feature-led: name the launch-stage
+      problem first (risk scattered across systems, allocator ODD questions
+      they cannot answer yet, P&L lagging the book, scale without ops
+      headcount), then the Clarion capability that solves exactly that (risk
+      aggregation in one live book, ODD-ready infrastructure, real-time P&L
+      across asset classes). Problem -> solution in every sentence; a feature
+      list is a failed draft.
+  - key: network_value
+    when_strategies_any: [equity_long_short, event_driven]
+    focus: >-
+      NETWORK play — casual, less overt (canonical template in voice.md, Alex
+      2026-06-12). PMS identity first ("I work closely with new launch funds
+      at Coremont, the PMS spun out of Brevan Howard"), then concede the
+      system question may be answered already, then the pure offer: happy to
+      be a resource or make intros for cap intro or back office if those
+      questions are live. "Hey {{firstName}}," register. Never imply the fund
+      needs Clarion; never fake 'no agenda'. HARD RULE: one-directional offer
+      in copy — never hint at reciprocity or anything Alex gains
+      (see voice.md INTERNAL DOCTRINE).
+default_angle: clarion_pms
+
+model: claude-sonnet-4-6
+prompt_version: li-v1
+cr_variant_count: 3            # A/B/C connection-request notes
+cr_max_chars: 300              # LinkedIn hard limit
+followup_max_sentences: 5
+exemplar_count: 5              # similar past drafts retrieved as few-shot
+exemplar_pool: 200             # recent drafts scanned for similarity (Python-side cosine)
+max_validation_retries: 1      # one corrective LLM round-trip before giving up
+
+# Canonical capability source (hard rule from the outreach-campaign skill).
+# Falls back to the clarion_coverage config if unreadable.
+clarion_capabilities_path: "G:/My Drive/Coremont/Prospects/_reference/clarion-capabilities.md"
+
+# Validator lists. Incumbent system names are assembled from vendors.yaml
+# keywords + these extras (LinkedIn copy may NEVER name an incumbent).
+extra_incumbent_terms:
+  - Aladdin
+  - AXIS
+  - Clearwater
+  - QuantLib
+  - Eagle
+  - CAMRA
+  - KRM
+banned_phrases:
+  - "I wanted to reach out"
+  - "I hope this finds you well"
+  - "I'd love to connect"
+  - "circle back"
+  - "touch base"
+  - "leverage"
+  - "synergy"
+  - "solution"
+  - "cutting-edge"
+  - "revolutionary"
+  - "best-in-class"
+  - "thought leader"
+  - "innovative platform"
+  - "leading provider"
+  - "worth comparing notes?"
+  - "no agenda"
+  - "shared their playbook"
+  - "I'm Alex from Coremont"
+  # reciprocity leakage (the referral loop is internal — see voice.md doctrine)
+  - "win-win"
+  - "mutually beneficial"
+  - "in return"
+  - "in exchange"
+  - "quid pro quo"
+  - "refer me"
+  - "introduce me to"

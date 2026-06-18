@@ -1,0 +1,38 @@
+# Secrets
+.env
+
+# Runtime state — never commit the memory database or downloaded filings
+db/*.db
+db/*.db-journal
+db/*.db-wal
+data/
+
+# Generated outreach drafts (contain prospect-specific copy)
+drafts/*.md
+
+# Generated morning-brief dashboards
+briefs/*.html
+briefs/*.json
+# ...but the SEC-scan hand-off artifact IS committed (GitHub runner -> cloud)
+!briefs/candidates.json
+
+# GTM system — prospect data must never reach git (digests name funds/people,
+# logs hold per-run prospect detail). Cloud runs surface these via private,
+# access-controlled Actions artifacts + Slack, not the repo tree.
+gtm/briefs/
+logs/
+# Local MCP config can carry project refs / tokens
+.mcp.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Keep the directories themselves
+!db/.gitkeep
+!drafts/.gitkeep
+!data/.gitkeep
+!briefs/.gitkeep
