@@ -9,3 +9,9 @@ supabase>=2.4
 pydantic>=2.7
 pydantic-settings>=2.2
 pytest>=8.0
+
+# GTM orchestration skills runtime
+pyyaml>=6.0          # skill config files (configs/*.yaml)
+tenacity>=8.2        # retry/backoff wrappers on every external API call
+structlog>=24.1      # structured JSON run logging
+httpx>=0.27          # Apollo / Tavily / HubSpot / HeyReach / OpenAI / Slack clients
