@@ -1,0 +1,97 @@
+name: GTM Orchestrator
+
+# All five GTM orchestrator entry points, in the cloud. One workflow, five
+# cron triggers; each fires the matching module. Times are UTC (GitHub cron
+# does NOT shift for DST) — the ET comment is for EDT (summer); in winter they
+# land one hour earlier.
+#
+# Schedule -> module:
+#   0 10 * * *  (06:00 ET daily)   daily_morning_sweep   discovery+verify+queue
+#   0 22 * * *  (18:00 ET daily)   daily_evening_close   hygiene + tomorrow's briefs
+#   0 11 * * 1  (07:00 ET Mon)     weekly_monday_brief   full pipeline review
+#   0 13 * * 3  (09:00 ET Wed)     weekly_wednesday_competitive  vendor-news signals
+#   0 20 * * 5  (16:00 ET Fri)     weekly_friday_retro   reply-outcome curation
+#
+# Scheduled workflows only fire from the default branch (master).
+
+on:
+  schedule:
+    - cron: "0 10 * * *"
+    - cron: "0 22 * * *"
+    - cron: "0 11 * * 1"
+    - cron: "0 13 * * 3"
+    - cron: "0 20 * * 5"
+  workflow_dispatch:
+    inputs:
+      job:
+        description: Which entry point to run
+        type: choice
+        default: morning
+        options: [morning, evening, monday, wednesday, friday]
+      lookback_days:
+        description: Form D lookback window (morning only)
+        default: "1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gtm-orchestrator-${{ github.event.schedule || github.event.inputs.job }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: DEV
+    env:
+      PYTHONIOENCODING: "utf-8"
+      EDGAR_IDENTITY: ${{ secrets.EDGAR_IDENTITY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
+      TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+      HUBSPOT_ACCESS_TOKEN: ${{ secrets.HUBSPOT_ACCESS_TOKEN }}
+      HEYREACH_API_KEY: ${{ secrets.HEYREACH_API_KEY }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      LOOKBACK_DAYS: ${{ github.event.inputs.lookback_days || '1' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: DEV/requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Pick entry point
+        id: pick
+        run: |
+          KEY="${{ github.event.schedule || format('dispatch:{0}', github.event.inputs.job) }}"
+          case "$KEY" in
+            "0 10 * * *"|"dispatch:morning")   MOD=daily_morning_sweep ;;
+            "0 22 * * *"|"dispatch:evening")   MOD=daily_evening_close ;;
+            "0 11 * * 1"|"dispatch:monday")    MOD=weekly_monday_brief ;;
+            "0 13 * * 3"|"dispatch:wednesday") MOD=weekly_wednesday_competitive ;;
+            "0 20 * * 5"|"dispatch:friday")    MOD=weekly_friday_retro ;;
+            *) echo "no module for trigger '$KEY'"; exit 1 ;;
+          esac
+          echo "module=$MOD" >> "$GITHUB_OUTPUT"
+          echo "Running gtm.orchestrator.$MOD"
+
+      - name: Run ${{ steps.pick.outputs.module }}
+        run: python -m gtm.orchestrator.${{ steps.pick.outputs.module }}
+
+      - name: Upload digests + logs artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gtm-${{ steps.pick.outputs.module }}-${{ github.run_id }}
+          path: |
+            DEV/gtm/briefs/*.md
+            DEV/logs/**
+          if-no-files-found: ignore
+          retention-days: 30
