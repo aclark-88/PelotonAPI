@@ -22,6 +22,7 @@ Slack, the rest still run. Digest lands at gtm/briefs/digest_<date>.md by
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -41,6 +42,18 @@ from gtm.skills._shared.context import RepoBundle, SkillResult, open_run
 from gtm.skills._shared.sources import SourceBundle
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _is_cr_draft(db, draft_id: str) -> bool:
+    """True if this draft is a connection-request (not the followup)."""
+    rows = (
+        db.client.table("drafts").select("variant_label").eq("id", draft_id).limit(1).execute()
+    ).data
+    return bool(rows) and rows[0]["variant_label"] != "followup"
 
 
 def _stage(name, fn, sources, db, dry_run, summary, **kwargs) -> SkillResult | None:
@@ -72,7 +85,6 @@ def run_sweep(
     # ── discovery ────────────────────────────────────────────────────────────
     # LOOKBACK_DAYS env widens the Form D window (cloud backfill / catch-up
     # after a gap); defaults to the skill config (1 day).
-    import os
     lookback_env = os.environ.get("LOOKBACK_DAYS")
     sweep_kwargs = {"lookback_days": int(lookback_env)} if lookback_env else {}
     sweep = _stage("form_d_sweep", form_d_sweep.run, sources, db, dry_run, summary, **sweep_kwargs)
@@ -181,6 +193,42 @@ def run_sweep(
                     })
     summary["draft_queue"] = queue
 
+    # ── autonomous draft + auto-send (passive workflow) ──────────────────────
+    # For confidently-verified hedge funds with resolved committee members,
+    # draft from templates (Clarion-fit -> Clarion pitch, non-fit -> network
+    # offer), auto-approve, and dispatch to HeyReach — no human gate. The ONE
+    # safety line: only verified-true funds auto-send. Unverified/ambiguous
+    # funds stay in the queue above for a human session (never auto-sent).
+    sent: list[dict[str, Any]] = []
+    auto_send = str(os.environ.get("GTM_AUTO_SEND", "1")) == "1"
+    if auto_send and not dry_run and sources.heyreach is not None:
+        from gtm.skills import heyreach_dispatcher, outreach_drafter
+        for item in queue:
+            if item.get("needs_verification"):
+                continue  # NEVER auto-send to an unverified fund
+            person_id, signal_id = item["person_id"], item["signal_id"]
+            try:
+                with open_run("outreach_drafter", sources=sources, db=db) as dctx:
+                    d = outreach_drafter.draft_templated(dctx, person_id, signal_id)
+                cr = next((x for x in (d.metadata.get("draft_ids") or [])
+                           if _is_cr_draft(db, x)), None)
+                if cr is None:
+                    continue
+                # auto-approve the CR + its followup, then dispatch
+                db.client.table("drafts").update(
+                    {"approved_by": "auto", "approved_at": _now_iso()}
+                ).in_("id", d.metadata["draft_ids"]).execute()
+                with open_run("heyreach_dispatcher", sources=sources, db=db) as hctx:
+                    r = heyreach_dispatcher.run(hctx, draft_id=cr)
+                if r.metadata.get("dispatched"):
+                    sent.append({"person": item["person"], "angle": item["angle"]})
+                elif r.metadata.get("queued"):
+                    summary.setdefault("send_capped", []).append(item["person"])
+            except Exception as exc:
+                summary.setdefault("send_errors", []).append({"person": item["person"], "error": str(exc)})
+                notify(sources, f":warning: auto-send failed for {item['person']}: {exc}")
+    summary["sent"] = sent
+
     # ── digest ───────────────────────────────────────────────────────────────
     today = datetime.now(timezone.utc).date().isoformat()
     lines = [f"# Morning sweep digest — {today}", ""]
@@ -202,12 +250,29 @@ def run_sweep(
             fund = db.funds.get(UUID(fund_id))
             lines.append(f"- {fund.legal_name if fund else fund_id}: {verdict['business']}")
 
-    lines += ["", f"## Drafting queue ({len(queue)}) — run an orchestrated session to draft"]
-    for item in queue[:20]:
-        flag = " · VERIFY FIRST" if item.get("needs_verification") else ""
+    sent_people = {s["person"] for s in sent}
+    if sent:
+        lines += ["", f"## Auto-sent to HeyReach ({len(sent)})"]
+        for s in sent:
+            lines.append(f"- {s['person']} · angle={s['angle']}")
+    if summary.get("send_capped"):
+        lines.append(f"\n_Daily cap hit — queued for tomorrow: {', '.join(summary['send_capped'])}_")
+
+    # Drafting queue = verified targets not auto-sent this run (cap hit,
+    # auto-send off, or no HeyReach) — ready, awaiting the next send window.
+    pending = [q for q in queue
+               if not q.get("needs_verification") and q["person"] not in sent_people]
+    lines += ["", f"## Drafting queue — pending send ({len(pending)})"]
+    for item in pending[:20]:
         lines.append(f"- {item['person']} · {item['signal_type']} ({item['urgency']}) · "
-                     f"angle={item['angle']}{flag} · "
-                     f"person_id={item['person_id']} signal_id={item['signal_id']}")
+                     f"angle={item['angle']} · person_id={item['person_id']} signal_id={item['signal_id']}")
+
+    review = [q for q in queue if q.get("needs_verification")]
+    if review:
+        lines += ["", f"## Needs human verification before send ({len(review)})"]
+        for item in review[:20]:
+            lines.append(f"- {item['person']} · {item['signal_type']} · angle={item['angle']} · "
+                         f"person_id={item['person_id']} signal_id={item['signal_id']}")
     if dry_run:
         lines += ["", "_DRY RUN — no entity writes performed._"]
 

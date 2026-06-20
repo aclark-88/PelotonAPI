@@ -114,13 +114,29 @@ def test_manually_verified_contact_never_overwritten(db, cleanup, run_suffix):
     assert refreshed.metadata["manually_verified"] is True
 
 
-def test_no_domain_is_clean_error(db, cleanup, run_suffix):
+def test_no_domain_falls_back_to_org_name(db, cleanup, run_suffix):
+    """A launch with no domain still resolves via Apollo org-name search
+    (launches often lack a domain/ADV at filing time)."""
     fund = db.funds.upsert_fund(FundIn(legal_name=f"NoDomain Fund {run_suffix} LP"))
     cleanup.append(("funds", str(fund.id)))
 
-    with open_run("apollo_contact_resolver", sources=make_sources(apollo=FakeApollo()), db=db) as ctx:
-        result = apollo_contact_resolver.run(ctx, fund_id=str(fund.id))
+    # FakeApollo keyed by org_name returns a contact -> resolution succeeds
+    apollo = FakeApollo(
+        people_by_domain={
+            f"NoDomain Fund {run_suffix}": [
+                make_apollo_person(
+                    f"nd-{run_suffix}", f"NoDomain Coo {run_suffix}", "Chief Operating Officer",
+                    linkedin_url=f"https://linkedin.com/in/nd-{run_suffix}",
+                )
+            ]
+        }
+    )
+    with open_run("apollo_contact_resolver", sources=make_sources(apollo=apollo), db=db) as ctx:
+        result = apollo_contact_resolver.run(ctx, fund_id=str(fund.id), roles=["coo"])
     cleanup.append(("source_runs", str(ctx.run_id)))
+    for ids in result.metadata.get("resolved", {}).values():
+        for pid in ids:
+            cleanup.append(("people", pid))
 
-    assert result.status == "partial"
-    assert "primary_domain" in result.errors[0]["error"]
+    assert result.status in ("success", "partial")
+    assert "coo" in result.metadata.get("resolved", {}), "org-name fallback should resolve the COO"
