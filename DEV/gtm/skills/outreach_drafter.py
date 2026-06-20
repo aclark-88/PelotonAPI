@@ -243,6 +243,74 @@ def prepare_prompt(
     return {"system": system, "user": user}
 
 
+def draft_templated(
+    ctx: SkillContext,
+    person_id: str,
+    signal_id: str,
+    campaign_id: str | None = None,
+) -> SkillResult:
+    """Headless drafting from templates (no LLM, no human). Same validator and
+    storage as run(); used by the autonomous morning-sweep auto-send stage.
+    Angle is strategy-driven (Clarion-fit -> clarion_pms, non-fit ->
+    network_value)."""
+    from gtm.skills._shared import templates
+
+    person = ctx.db.people.get(UUID(str(person_id)))
+    signal = ctx.db.signals.get(UUID(str(signal_id)))
+    if person is None or signal is None:
+        ctx.result.error("resolve", f"person={person_id} signal={signal_id} not found")
+        return ctx.result.build(draft_ids=[])
+    fund = ctx.db.funds.get(signal.fund_id) if signal.fund_id else (
+        ctx.db.funds.get(person.current_fund_id) if person.current_fund_id else None
+    )
+    if not person.linkedin_url:
+        ctx.result.error("resolve", f"{person.full_name} has no linkedin_url")
+        return ctx.result.build(draft_ids=[])
+
+    cfg = ctx.config
+    angle = select_angle(fund.strategies if fund else [], cfg)
+    resolved_campaign_id = _resolve_campaign(ctx, signal.signal_type, campaign_id)
+    copy = templates.build_copy(
+        fund.strategies if fund else [],
+        person.current_role_function.value if person.current_role_function else "unknown",
+        angle["key"],
+    )
+    ctx.result.records_processed = 1
+
+    draft_ids: list[str] = []
+    rejected: list[dict[str, Any]] = []
+    assets = [("A", copy["cr_variants"][0], True)]
+    if copy.get("followup"):
+        assets.append(("followup", copy["followup"], False))
+    for label, body, is_cr in assets:
+        violations = validate_linkedin_copy(body, cfg, is_cr=is_cr)
+        if violations:
+            rejected.append({"variant": label, "violations": violations})
+            ctx.logger.warning("template_variant_rejected", variant=label, violations=violations)
+            continue
+        if not ctx.dry_run:
+            draft = ctx.db.outreach.create_draft(
+                DraftIn(
+                    person_id=person.id, signal_id=signal.id,
+                    campaign_id=resolved_campaign_id, channel=Channel.linkedin,
+                    variant_label=label, subject=None, body=body,
+                    model="template", prompt_version=str(cfg.get("prompt_version")),
+                    metadata={"char_count": len(body), "angle": angle["key"],
+                              "asset_type": "connection_request" if is_cr else "followup_message",
+                              "source": "template"},
+                ),
+                source_run_id=ctx.run_id,
+            )
+            draft_ids.append(str(draft.id))
+            ctx.result.records_inserted += 1
+    if not any(d for d in draft_ids):
+        ctx.result.error("validation", "templated CR failed validation", rejected=rejected)
+    return ctx.result.build(
+        draft_ids=draft_ids, rejected=rejected, angle=angle["key"],
+        campaign_id=str(resolved_campaign_id) if resolved_campaign_id else None,
+    )
+
+
 def run(
     ctx: SkillContext,
     person_id: str,
