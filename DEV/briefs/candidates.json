@@ -1,284 +1,44 @@
 {
-  "generated_at": "2026-06-22 15:22",
+  "generated_at": "2026-06-23 12:31",
   "window": {
-    "form_d": "2026-06-18 \u2192 2026-06-22",
-    "thirteenf": "2026-06-15 \u2192 2026-06-22"
+    "form_d": "2026-06-19 \u2192 2026-06-23",
+    "thirteenf": "2026-06-16 \u2192 2026-06-23"
   },
   "candidates": [
     {
-      "cik": "0002134499",
-      "fund": "AQR Flex 1 Series LLC - Series A53",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000376",
-      "filed": "2026-06-18",
+      "cik": "0002132070",
+      "fund": "Chicago Atlantic Credit Opportunities IV, LLC",
+      "fund_type": "Other Investment Fund",
+      "accession": "0002132070-26-000001",
+      "filed": "2026-06-22",
       "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
+      "address": "420 N Wabash Ave 500 Chicago, ILLINOIS 60611",
       "related_persons": [
-        "N/A N/A"
+        "N/A N/A",
+        "Anthony Anthony",
+        "John John"
       ],
-      "amount_sold": 20000000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-03",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002134496",
-      "fund": "AQR Flex 1 Series LLC - Series A56",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000377",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 5880000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002134495",
-      "fund": "AQR Flex 1 Series LLC - Series A57",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000378",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 14280000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002134494",
-      "fund": "AQR Flex 1 Series LLC - Series A58",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000379",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 28747894.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002096401",
-      "fund": "AQR Flex 1 Series LLC - Series E13",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000380",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 100000000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": true,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002137237",
-      "fund": "AQR Flex 1 Series LLC - Series F37",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000381",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 25538686.0,
-      "total_offering": null,
-      "first_sale": "2026-06-03",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002137236",
-      "fund": "AQR Flex 1 Series LLC - Series F38",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000382",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 26070330.0,
-      "total_offering": null,
-      "first_sale": "2026-06-03",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002137215",
-      "fund": "AQR Flex 1 Series LLC - Series F39",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000383",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 25000000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-03",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002134131",
-      "fund": "AQR Flex 1 Series LLC - Series J44",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000384",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 32173026.0,
-      "total_offering": null,
-      "first_sale": "2026-06-03",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002115067",
-      "fund": "AQR Flex 1 Series LLC - Series M10",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000385",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 40000000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002136407",
-      "fund": "AQR Flex 1 Series LLC - Series M11",
-      "fund_type": "Hedge Fund",
-      "accession": "0001405086-26-000386",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "ONE GREENWICH PLAZA SUITE 130 GREENWICH, CONNECTICUT 06830",
-      "related_persons": [
-        "N/A N/A"
-      ],
-      "amount_sold": 25000000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002138410",
-      "fund": "Blue Heron Merger Fund LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0002138410-26-000001",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "2 BOAR'S HEAD PLACE SUITE 250 CHARLOTTESVILLE, VIRGINIA 22903",
-      "related_persons": [
-        "Patrick Patrick"
-      ],
-      "amount_sold": 33000000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-02",
+      "amount_sold": 0.0,
+      "total_offering": 500000000.0,
+      "first_sale": "",
       "strategy_tags": [
-        "merger"
+        "credit opportunities",
+        "credit"
       ],
       "large_raise": false,
       "vehicle_count": 1,
       "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002104013",
-      "fund": "Feynman Point Special Opportunities Fund LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0000905148-26-002988",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "18 West 18th Street, 6th Floor New York, NEW YORK 10011",
-      "related_persons": [
-        "n/a n/a",
-        "Joseph Joseph",
-        "Armaan Armaan",
-        "Gabriel Gabriel"
-      ],
-      "amount_sold": 23710000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 2,
-      "platform_expansion": true,
       "adv_matched": true,
-      "adv_name": "FEYNMAN POINT ASSET MANAGEMENT",
-      "adv_crd": "330536",
+      "adv_name": "ANTHONY CAPITAL MANAGEMENT, LLC",
+      "adv_crd": "312256",
       "adv_status": "Approved",
-      "adv_status_date": "08/19/2025",
+      "adv_status_date": "11/12/2021",
       "adv_aum": null,
-      "adv_total_gav": 198388333.0,
-      "adv_private_funds": 2.0,
-      "adv_hedge_confirmed": true,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
       "adv_fund_mix": {
-        "hedge": 2.0,
+        "hedge": null,
         "pe": null,
         "re": null,
         "vc": null
@@ -286,94 +46,111 @@
       "new_registration": false
     },
     {
-      "cik": "0002104013",
-      "fund": "Feynman Point Special Opportunities Fund LP",
+      "cik": "0002122968",
+      "fund": "Cyannova Capital LP",
       "fund_type": "Hedge Fund",
-      "accession": "0000905148-26-002989",
-      "filed": "2026-06-18",
+      "accession": "0002122968-26-000001",
+      "filed": "2026-06-22",
       "jurisdiction": "DELAWARE",
-      "address": "18 West 18th Street, 6th Floor New York, NEW YORK 10011",
+      "address": "40 Wall Street, Floor 28 New York, NEW YORK 10005",
       "related_persons": [
-        "n/a n/a",
-        "Joseph Joseph",
-        "Armaan Armaan",
-        "Gabriel Gabriel"
-      ],
-      "amount_sold": 3500000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-01",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 2,
-      "platform_expansion": true,
-      "adv_matched": true,
-      "adv_name": "FEYNMAN POINT ASSET MANAGEMENT",
-      "adv_crd": "330536",
-      "adv_status": "Approved",
-      "adv_status_date": "08/19/2025",
-      "adv_aum": null,
-      "adv_total_gav": 198388333.0,
-      "adv_private_funds": 2.0,
-      "adv_hedge_confirmed": true,
-      "adv_fund_mix": {
-        "hedge": 2.0,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002140527",
-      "fund": "LUMEN ALPHA FUND I",
-      "fund_type": "Hedge Fund",
-      "accession": "0002140527-26-000001",
-      "filed": "2026-06-18",
-      "jurisdiction": "DELAWARE",
-      "address": "875 MAMARONECK AVE STE 301 MAMARONECK, NEW YORK 10543",
-      "related_persons": [
-        "James James",
-        "Alessandro Alessandro"
+        "Huang Huang"
       ],
       "amount_sold": 0.0,
       "total_offering": null,
       "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0001906210",
+      "fund": "Peak53 Structured Opportunities Fund, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0001906210-26-000004",
+      "filed": "2026-06-22",
+      "jurisdiction": "DELAWARE",
+      "address": "350 Terry Street Suite 200, PMB#16965935 LONGMONT, COLORADO 80501",
+      "related_persons": [
+        "Arup Arup",
+        "Ryan Ryan"
+      ],
+      "amount_sold": 6219720.0,
+      "total_offering": null,
+      "first_sale": "2022-01-26",
       "strategy_tags": [
-        "alpha"
+        "structured"
       ],
       "large_raise": false,
       "vehicle_count": 1,
       "platform_expansion": false,
       "adv_matched": false
+    },
+    {
+      "cik": "0002140422",
+      "fund": "Trinity Street International Equity Ex China Fund LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0000919574-26-004060",
+      "filed": "2026-06-22",
+      "jurisdiction": "DELAWARE",
+      "address": "25 GOLDEN SQUARE LONDON, UNITED KINGDOM W1F 9LU",
+      "related_persons": [
+        "-- --"
+      ],
+      "amount_sold": 155000000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-10",
+      "strategy_tags": [],
+      "large_raise": true,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "TRINITY STREET ASSET MANAGEMENT LLP",
+      "adv_crd": "152728",
+      "adv_status": "Approved",
+      "adv_status_date": "03/22/2010",
+      "adv_aum": null,
+      "adv_total_gav": 2344005667.0,
+      "adv_private_funds": 2.0,
+      "adv_hedge_confirmed": true,
+      "adv_fund_mix": {
+        "hedge": 1.0,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
     }
   ],
   "moves": [],
   "scan": {
-    "scanned": 139,
-    "total": 330,
-    "eligible": 139,
-    "efts_filtered": true,
+    "scanned": 261,
+    "total": 261,
+    "eligible": 261,
+    "efts_filtered": false,
     "truncated": false,
     "rejected": {
-      "verified_not_target": 0,
-      "excluded_type": 0,
-      "negative_term": 18,
-      "no_strategy": 14,
-      "not_pooled": 0
+      "verified_not_target": 1,
+      "excluded_type": 62,
+      "negative_term": 14,
+      "no_strategy": 16,
+      "not_pooled": 81
     },
     "rejected_sample": [
-      "360 ONE Global Investment Fund 11 [no_strategy: Other Investment Fund]",
-      "AMP Growth Collective IV LLC [no_strategy: Other Investment Fund]",
-      "American Ventures LLC, Series LI Heritage [negative_term: ['ventures']]",
-      "Ares Digital Infrastructure Global Opportunities [negative_term: ['infrastructure']]",
-      "Ares Digital Infrastructure Global Opportunities [negative_term: ['infrastructure']]",
-      "Ares Digital Infrastructure Global Opportunities [negative_term: ['infrastructure']]",
-      "Athelas Investors II LLC [no_strategy: Other Investment Fund]",
-      "Bayshore LAPC, LP [no_strategy: Other Investment Fund]",
-      "Blue Marlin Curated SPV LLC [negative_term: ['spv']]",
-      "Blue Marlin DataBank II LLC [no_strategy: Other Investment Fund]",
-      "Blue Marlin Enginuity 3 SPV LLC [negative_term: ['spv']]",
-      "Blue Marlin Enginuity 4 SPV LLC [negative_term: ['spv']]"
+      "1789 CAPITAL BLAZE LP [no_strategy: Other Investment Fund]",
+      "AMPS Ardlussa SPV, LP [excluded_type: Private Equity Fund]",
+      "ASILIA GC FUND QP, LP [no_strategy: Other Investment Fund]",
+      "ASILIA GC FUND, LP [no_strategy: Other Investment Fund]",
+      "AVSF - Cambrian Bio 2026, LLC [excluded_type: Venture Capital Fund]",
+      "AVSF - Footprint 2026, LLC [excluded_type: Venture Capital Fund]",
+      "Adapt (us) Fund I, LP [excluded_type: Venture Capital Fund]",
+      "Advaita Capital Fund IA LP [excluded_type: Private Equity Fund]",
+      "Advaita Capital Fund IIA LP [excluded_type: Private Equity Fund]",
+      "Advaita Capital Fund IIIB LP [excluded_type: Private Equity Fund]",
+      "Advaita Capital Fund VI LP [excluded_type: Private Equity Fund]",
+      "Aetherflux CC Ltd [excluded_type: Private Equity Fund]"
     ],
     "adv": {
       "ok": true,
@@ -381,7 +158,7 @@
       "advisers": 23427
     },
     "new_13f_filers": 0,
-    "new_13f_checked": 22,
+    "new_13f_checked": 20,
     "new_13f_dropped_noise": 2
   },
   "coverage_13f": {
