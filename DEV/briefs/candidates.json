@@ -1,10 +1,244 @@
 {
-  "generated_at": "2026-06-23 12:31",
+  "generated_at": "2026-06-24 12:18",
   "window": {
-    "form_d": "2026-06-19 \u2192 2026-06-23",
-    "thirteenf": "2026-06-16 \u2192 2026-06-23"
+    "form_d": "2026-06-20 \u2192 2026-06-24",
+    "thirteenf": "2026-06-17 \u2192 2026-06-24"
   },
   "candidates": [
+    {
+      "cik": "0002141373",
+      "fund": "CRED RN-D Cayman Unit Trust, a Series Trust of Canyon Partners Umbrella Trust",
+      "fund_type": "Hedge Fund",
+      "accession": "0000905148-26-003063",
+      "filed": "2026-06-23",
+      "jurisdiction": "CAYMAN ISLANDS",
+      "address": "Maples Corporate Services Limited Ugland House, South Church Street Grand Cayman, CAYMAN ISLANDS KY1-1104",
+      "related_persons": [
+        "n/a n/a",
+        "Joshua Joshua",
+        "Mitchell Mitchell",
+        "Jonathan Jonathan"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "J. W. COLE ADVISORS, INC.",
+      "adv_crd": "112294",
+      "adv_status": "Approved",
+      "adv_status_date": "11/23/2001",
+      "adv_aum": null,
+      "adv_total_gav": 0.0,
+      "adv_private_funds": 0.0,
+      "adv_hedge_confirmed": false,
+      "adv_fund_mix": {
+        "hedge": null,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002138525",
+      "fund": "Coinbase Stablecoin Yield Feeder Fund Ltd",
+      "fund_type": "Hedge Fund",
+      "accession": "0000945621-26-000840",
+      "filed": "2026-06-23",
+      "jurisdiction": "CAYMAN ISLANDS",
+      "address": "WALKERS CORPORATE LIMITED 190 ELGIN AVENUE, GEORGE TOWN GRAND CAYMAN, CAYMAN ISLANDS KY1-9008",
+      "related_persons": [
+        "Matthew Matthew",
+        "Joshua Joshua",
+        "Danielle Danielle",
+        "N/A N/A"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002138521",
+      "fund": "Coinbase Stablecoin Yield US Feeder Fund LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0000945621-26-000839",
+      "filed": "2026-06-23",
+      "jurisdiction": "DELAWARE",
+      "address": "THE CORPORATION TRUST COMPANY 1209 ORANGE STREET WILMINGTON, DELAWARE 19801",
+      "related_persons": [
+        "NA NA",
+        "Matthew Matthew",
+        "Joshua Joshua",
+        "Danielle Danielle"
+      ],
+      "amount_sold": 3500000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-11",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002138534",
+      "fund": "Coinbase Tokenized Stablecoin Yield Feeder Fund Ltd",
+      "fund_type": "Hedge Fund",
+      "accession": "0000945621-26-000841",
+      "filed": "2026-06-23",
+      "jurisdiction": "CAYMAN ISLANDS",
+      "address": "WALKERS CORPORATE LIMITED 190 ELGIN AVENUE, GEORGE TOWN GRAND CAYMAN, CAYMAN ISLANDS KY1-9008",
+      "related_persons": [
+        "Matthew Matthew",
+        "Joshua Joshua",
+        "Danielle Danielle",
+        "N/A N/A"
+      ],
+      "amount_sold": 25000000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-11",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002141860",
+      "fund": "IJT Capital Fund I, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002141860-26-000001",
+      "filed": "2026-06-23",
+      "jurisdiction": "DELAWARE",
+      "address": "419 SE 2ND ST APT 610 FORT LAUDERDALE, FLORIDA 33301",
+      "related_persons": [
+        "Isaac Isaac"
+      ],
+      "amount_sold": 50000.0,
+      "total_offering": 10000000.0,
+      "first_sale": "2026-06-18",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002141735",
+      "fund": "Neutheos Capital Fund LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002141735-26-000001",
+      "filed": "2026-06-23",
+      "jurisdiction": "DELAWARE",
+      "address": "C/O NEUTHEOS CAPITAL GP LLC 44 BEARFOOT ROAD, SUITE 236 NORTHBOROUGH, MASSACHUSETTS 01532",
+      "related_persons": [
+        "N/A N/A",
+        "Prasanta Prasanta",
+        "Cassandra Cassandra",
+        "Devon Devon"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002134325",
+      "fund": "Seven Fleet Horizon Fund LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0001013594-26-000685",
+      "filed": "2026-06-23",
+      "jurisdiction": "DELAWARE",
+      "address": "960 San Clemente Way MOUNTAIN VIEW, CALIFORNIA 94043",
+      "related_persons": [
+        "Brian Brian"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 2,
+      "platform_expansion": true,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002134048",
+      "fund": "Seven Fleet Horizon Offshore Fund Ltd.",
+      "fund_type": "Hedge Fund",
+      "accession": "0001013594-26-000686",
+      "filed": "2026-06-23",
+      "jurisdiction": "CAYMAN ISLANDS",
+      "address": "C/O MAPLES CORPORATE SERVICES LIMITED BOX 309, UGLAND HOUSE GEORGE TOWN, CAYMAN ISLANDS KY1-1104",
+      "related_persons": [
+        "Brian Brian",
+        "Ronan Ronan",
+        "Niall Niall"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 2,
+      "platform_expansion": true,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002126690",
+      "fund": "Standard Signal, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002126690-26-000001",
+      "filed": "2026-06-23",
+      "jurisdiction": "DELAWARE",
+      "address": "524 BROADWAY, 11TH FLOOR NEW YORK, NEW YORK 10012",
+      "related_persons": [
+        "n/a n/a",
+        "Michael Michael"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
+    {
+      "cik": "0002141429",
+      "fund": "iCapital-Coinbase US Bitcoin Yield Access Fund, L.P.",
+      "fund_type": "Hedge Fund",
+      "accession": "0002141429-26-000001",
+      "filed": "2026-06-23",
+      "jurisdiction": "DELAWARE",
+      "address": "C/O COMPLIANCE DEPARTMENT 60 EAST 42ND STREET, 24TH FLOOR NEW YORK, NEW YORK 10165",
+      "related_persons": [
+        "-- --",
+        "Max Max"
+      ],
+      "amount_sold": 0.0,
+      "total_offering": null,
+      "first_sale": "",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": false
+    },
     {
       "cik": "0002132070",
       "fund": "Chicago Atlantic Credit Opportunities IV, LLC",
@@ -126,31 +360,31 @@
   ],
   "moves": [],
   "scan": {
-    "scanned": 261,
-    "total": 261,
-    "eligible": 261,
+    "scanned": 545,
+    "total": 545,
+    "eligible": 545,
     "efts_filtered": false,
     "truncated": false,
     "rejected": {
-      "verified_not_target": 1,
-      "excluded_type": 62,
-      "negative_term": 14,
-      "no_strategy": 16,
-      "not_pooled": 81
+      "verified_not_target": 2,
+      "excluded_type": 135,
+      "negative_term": 24,
+      "no_strategy": 23,
+      "not_pooled": 154
     },
     "rejected_sample": [
-      "1789 CAPITAL BLAZE LP [no_strategy: Other Investment Fund]",
-      "AMPS Ardlussa SPV, LP [excluded_type: Private Equity Fund]",
-      "ASILIA GC FUND QP, LP [no_strategy: Other Investment Fund]",
-      "ASILIA GC FUND, LP [no_strategy: Other Investment Fund]",
-      "AVSF - Cambrian Bio 2026, LLC [excluded_type: Venture Capital Fund]",
-      "AVSF - Footprint 2026, LLC [excluded_type: Venture Capital Fund]",
-      "Adapt (us) Fund I, LP [excluded_type: Venture Capital Fund]",
-      "Advaita Capital Fund IA LP [excluded_type: Private Equity Fund]",
-      "Advaita Capital Fund IIA LP [excluded_type: Private Equity Fund]",
-      "Advaita Capital Fund IIIB LP [excluded_type: Private Equity Fund]",
-      "Advaita Capital Fund VI LP [excluded_type: Private Equity Fund]",
-      "Aetherflux CC Ltd [excluded_type: Private Equity Fund]"
+      "AI INFRASTRUCTURE FUND VI a Series of FOG Ventur [excluded_type: Venture Capital Fund]",
+      "AIHF Clair I a Series of DataPower Capital Partn [excluded_type: Venture Capital Fund]",
+      "AL-0323 Fund I, a series of Roll Up Vehicles, LP [excluded_type: Venture Capital Fund]",
+      "AP-0609 Fund I, a series of Multimodal Ventures, [excluded_type: Venture Capital Fund]",
+      "APOF5 LP [excluded_type: Private Equity Fund]",
+      "Align Ventures Co-Invest Fund, LP [verified: other vehicle (terms: co-invest) - NOT a securities hedge fu]",
+      "Altimeter Premier Growth Expansion Fund, L.P. [excluded_type: Venture Capital Fund]",
+      "American Ventures QP Opportunity Fund LLC, Serie [negative_term: ['ventures']]",
+      "Apollo Manufactured Housing Property Fund (892), [negative_term: ['property', 'housing']]",
+      "Apollo Manufactured Housing Property Fund (Offsh [negative_term: ['property', 'housing']]",
+      "Apollo Manufactured Housing Property Fund (TE),  [negative_term: ['property', 'housing']]",
+      "Arches SPV LP [excluded_type: Private Equity Fund]"
     ],
     "adv": {
       "ok": true,
@@ -158,8 +392,8 @@
       "advisers": 23427
     },
     "new_13f_filers": 0,
-    "new_13f_checked": 20,
-    "new_13f_dropped_noise": 2
+    "new_13f_checked": 19,
+    "new_13f_dropped_noise": 1
   },
   "coverage_13f": {
     "tracked": 0,
