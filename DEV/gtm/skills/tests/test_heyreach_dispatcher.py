@@ -95,8 +95,12 @@ def test_approved_dispatch_full_flow(db, cleanup, run_suffix):
     added = heyreach.added[0]
     assert added["campaign_id"] == 466941
     assert added["lead"]["profileUrl"] == person.linkedin_url
-    assert added["custom_fields"]["cr_note"] == VALID_CR
-    assert added["custom_fields"]["followup"] == VALID_FOLLOWUP
+    # {{firstName}} MUST be resolved before sending — HeyReach won't substitute
+    # a token nested inside a custom field value (verified-prod bug 2026-06-23).
+    first = person.full_name.split()[0]
+    assert "{{firstName}}" not in added["custom_fields"]["cr_note"]
+    assert added["custom_fields"]["cr_note"] == VALID_CR.replace("{{firstName}}", first)
+    assert "{{firstName}}" not in added["custom_fields"]["followup"]
 
     # attempt recorded + draft linked
     attempt = (
