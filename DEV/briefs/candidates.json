@@ -1,10 +1,80 @@
 {
-  "generated_at": "2026-06-24 12:18",
+  "generated_at": "2026-06-25 12:16",
   "window": {
-    "form_d": "2026-06-20 \u2192 2026-06-24",
-    "thirteenf": "2026-06-17 \u2192 2026-06-24"
+    "form_d": "2026-06-21 \u2192 2026-06-25",
+    "thirteenf": "2026-06-18 \u2192 2026-06-25"
   },
   "candidates": [
+    {
+      "cik": "0002142207",
+      "fund": "NEXTBio Special Opportunities Fund, LP",
+      "fund_type": "Hedge Fund",
+      "accession": "0002142207-26-000001",
+      "filed": "2026-06-24",
+      "jurisdiction": "DELAWARE",
+      "address": "500 W 2ND STREET SUITE 1900 AUSTIN, TEXAS 78701",
+      "related_persons": [
+        "- -"
+      ],
+      "amount_sold": 24450000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-11",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "NEXTBIO CAPITAL MANAGEMENT LP",
+      "adv_crd": "332920",
+      "adv_status": "ERA - Active",
+      "adv_status_date": "08/29/2024",
+      "adv_aum": null,
+      "adv_total_gav": 217253194.0,
+      "adv_private_funds": 4.0,
+      "adv_hedge_confirmed": true,
+      "adv_fund_mix": {
+        "hedge": 1.0,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
+    {
+      "cik": "0002140653",
+      "fund": "Once Capital Management Fund V LLC",
+      "fund_type": "Hedge Fund",
+      "accession": "0002140653-26-000001",
+      "filed": "2026-06-24",
+      "jurisdiction": "DELAWARE",
+      "address": "450 PARK AVENUE 2702 NEW YORK, NEW YORK 10065",
+      "related_persons": [
+        "Tommaso Tommaso"
+      ],
+      "amount_sold": 10000.0,
+      "total_offering": null,
+      "first_sale": "2026-06-22",
+      "strategy_tags": [],
+      "large_raise": false,
+      "vehicle_count": 1,
+      "platform_expansion": false,
+      "adv_matched": true,
+      "adv_name": "ONCE CAPITAL MANAGEMENT, LLC",
+      "adv_crd": "289714",
+      "adv_status": "Approved",
+      "adv_status_date": "04/30/2021",
+      "adv_aum": null,
+      "adv_total_gav": 422142855.0,
+      "adv_private_funds": 3.0,
+      "adv_hedge_confirmed": true,
+      "adv_fund_mix": {
+        "hedge": 3.0,
+        "pe": null,
+        "re": null,
+        "vc": null
+      },
+      "new_registration": false
+    },
     {
       "cik": "0002141373",
       "fund": "CRED RN-D Cayman Unit Trust, a Series Trust of Canyon Partners Umbrella Trust",
@@ -238,162 +308,44 @@
       "vehicle_count": 1,
       "platform_expansion": false,
       "adv_matched": false
-    },
-    {
-      "cik": "0002132070",
-      "fund": "Chicago Atlantic Credit Opportunities IV, LLC",
-      "fund_type": "Other Investment Fund",
-      "accession": "0002132070-26-000001",
-      "filed": "2026-06-22",
-      "jurisdiction": "DELAWARE",
-      "address": "420 N Wabash Ave 500 Chicago, ILLINOIS 60611",
-      "related_persons": [
-        "N/A N/A",
-        "Anthony Anthony",
-        "John John"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": 500000000.0,
-      "first_sale": "",
-      "strategy_tags": [
-        "credit opportunities",
-        "credit"
-      ],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": true,
-      "adv_name": "ANTHONY CAPITAL MANAGEMENT, LLC",
-      "adv_crd": "312256",
-      "adv_status": "Approved",
-      "adv_status_date": "11/12/2021",
-      "adv_aum": null,
-      "adv_total_gav": 0.0,
-      "adv_private_funds": 0.0,
-      "adv_hedge_confirmed": false,
-      "adv_fund_mix": {
-        "hedge": null,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
-    },
-    {
-      "cik": "0002122968",
-      "fund": "Cyannova Capital LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0002122968-26-000001",
-      "filed": "2026-06-22",
-      "jurisdiction": "DELAWARE",
-      "address": "40 Wall Street, Floor 28 New York, NEW YORK 10005",
-      "related_persons": [
-        "Huang Huang"
-      ],
-      "amount_sold": 0.0,
-      "total_offering": null,
-      "first_sale": "",
-      "strategy_tags": [],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0001906210",
-      "fund": "Peak53 Structured Opportunities Fund, LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0001906210-26-000004",
-      "filed": "2026-06-22",
-      "jurisdiction": "DELAWARE",
-      "address": "350 Terry Street Suite 200, PMB#16965935 LONGMONT, COLORADO 80501",
-      "related_persons": [
-        "Arup Arup",
-        "Ryan Ryan"
-      ],
-      "amount_sold": 6219720.0,
-      "total_offering": null,
-      "first_sale": "2022-01-26",
-      "strategy_tags": [
-        "structured"
-      ],
-      "large_raise": false,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": false
-    },
-    {
-      "cik": "0002140422",
-      "fund": "Trinity Street International Equity Ex China Fund LP",
-      "fund_type": "Hedge Fund",
-      "accession": "0000919574-26-004060",
-      "filed": "2026-06-22",
-      "jurisdiction": "DELAWARE",
-      "address": "25 GOLDEN SQUARE LONDON, UNITED KINGDOM W1F 9LU",
-      "related_persons": [
-        "-- --"
-      ],
-      "amount_sold": 155000000.0,
-      "total_offering": null,
-      "first_sale": "2026-06-10",
-      "strategy_tags": [],
-      "large_raise": true,
-      "vehicle_count": 1,
-      "platform_expansion": false,
-      "adv_matched": true,
-      "adv_name": "TRINITY STREET ASSET MANAGEMENT LLP",
-      "adv_crd": "152728",
-      "adv_status": "Approved",
-      "adv_status_date": "03/22/2010",
-      "adv_aum": null,
-      "adv_total_gav": 2344005667.0,
-      "adv_private_funds": 2.0,
-      "adv_hedge_confirmed": true,
-      "adv_fund_mix": {
-        "hedge": 1.0,
-        "pe": null,
-        "re": null,
-        "vc": null
-      },
-      "new_registration": false
     }
   ],
   "moves": [],
   "scan": {
-    "scanned": 545,
-    "total": 545,
-    "eligible": 545,
+    "scanned": 600,
+    "total": 837,
+    "eligible": 837,
     "efts_filtered": false,
-    "truncated": false,
+    "truncated": true,
     "rejected": {
       "verified_not_target": 2,
-      "excluded_type": 135,
-      "negative_term": 24,
+      "excluded_type": 164,
+      "negative_term": 18,
       "no_strategy": 23,
-      "not_pooled": 154
+      "not_pooled": 140
     },
     "rejected_sample": [
-      "AI INFRASTRUCTURE FUND VI a Series of FOG Ventur [excluded_type: Venture Capital Fund]",
-      "AIHF Clair I a Series of DataPower Capital Partn [excluded_type: Venture Capital Fund]",
-      "AL-0323 Fund I, a series of Roll Up Vehicles, LP [excluded_type: Venture Capital Fund]",
-      "AP-0609 Fund I, a series of Multimodal Ventures, [excluded_type: Venture Capital Fund]",
-      "APOF5 LP [excluded_type: Private Equity Fund]",
-      "Align Ventures Co-Invest Fund, LP [verified: other vehicle (terms: co-invest) - NOT a securities hedge fu]",
-      "Altimeter Premier Growth Expansion Fund, L.P. [excluded_type: Venture Capital Fund]",
-      "American Ventures QP Opportunity Fund LLC, Serie [negative_term: ['ventures']]",
-      "Apollo Manufactured Housing Property Fund (892), [negative_term: ['property', 'housing']]",
-      "Apollo Manufactured Housing Property Fund (Offsh [negative_term: ['property', 'housing']]",
-      "Apollo Manufactured Housing Property Fund (TE),  [negative_term: ['property', 'housing']]",
-      "Arches SPV LP [excluded_type: Private Equity Fund]"
+      "9YARDS OPPORTUNITIES LLC - SERIES 29 [excluded_type: Private Equity Fund]",
+      "ACTAI Ventures S a Series of CGF2021 LLC [excluded_type: Venture Capital Fund]",
+      "AI CNGL Fund IV, a Series of SecondMarket Growth [no_strategy: Other Investment Fund]",
+      "AI FUND N a Series of FOG Ventures Fund III LLC [excluded_type: Venture Capital Fund]",
+      "AS-0403 Fund II, a series of Roll Up Vehicles, L [excluded_type: Venture Capital Fund]",
+      "Album Ventures V, L.P. [excluded_type: Venture Capital Fund]",
+      "Apogem GP-Led Fund 2026, LP [excluded_type: Private Equity Fund]",
+      "Ascend Industries Holdings LP [excluded_type: Private Equity Fund]",
+      "Avenue Kite Continuation Fund, L.P. [negative_term: ['continuation fund']]",
+      "Avenue Kite Continuation Fund, L.P. [negative_term: ['continuation fund']]",
+      "Avenue Kite Continuation Fund, L.P. [negative_term: ['continuation fund']]",
+      "BT 2125 Exchange LP [excluded_type: Private Equity Fund]"
     ],
     "adv": {
       "ok": true,
-      "matched": 4,
+      "matched": 3,
       "advisers": 23427
     },
     "new_13f_filers": 0,
-    "new_13f_checked": 19,
-    "new_13f_dropped_noise": 1
+    "new_13f_checked": 20,
+    "new_13f_dropped_noise": 0
   },
   "coverage_13f": {
     "tracked": 0,
