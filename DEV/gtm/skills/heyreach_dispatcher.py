@@ -27,6 +27,7 @@ own exclude-contacted setting is the third net.
 
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 from uuid import UUID
 
@@ -36,6 +37,16 @@ from gtm.skills._shared.context import SkillContext, SkillResult
 from gtm.skills._shared.sources import SourceUnavailable
 
 SKILL_NAME = "heyreach_dispatcher"
+
+# Person variables can't be nested inside HeyReach custom fields — HeyReach
+# substitutes sequence variables only once and does NOT re-resolve a token
+# inside the cr_note/followup VALUE. Resolve them ourselves before sending, or
+# the literal "Hey {{firstName}}" goes out (verified-prod bug 2026-06-23).
+_FIRSTNAME_TOKEN = re.compile(r"\{\{?\s*first[_ ]?name\s*\}?\}", re.IGNORECASE)
+
+
+def _personalize(text: str, first_name: str) -> str:
+    return _FIRSTNAME_TOKEN.sub(first_name, text or "")
 
 
 def _sent_today(ctx: SkillContext) -> int:
@@ -153,16 +164,19 @@ def run(ctx: SkillContext, draft_id: str) -> SkillResult:
 
     # ── append to the canonical campaign ─────────────────────────────────────
     name_parts = person.full_name.split()
+    first_name = name_parts[0]
     lead = {
         "profileUrl": person.linkedin_url,
-        "firstName": name_parts[0],
+        "firstName": first_name,
         "lastName": " ".join(name_parts[1:]) if len(name_parts) > 1 else "",
         "companyName": (fund.common_name or fund.legal_name) if fund else "",
         "position": person.current_role or "",
     }
-    custom_fields = {"cr_note": draft.body}
+    # personalize before sending — HeyReach won't resolve {{firstName}} nested
+    # inside the cr_note/followup custom field value
+    custom_fields = {"cr_note": _personalize(draft.body, first_name)}
     if followup:
-        custom_fields["followup"] = followup
+        custom_fields["followup"] = _personalize(followup, first_name)
     # no approved followup -> omit the field; the campaign's variable-free
     # fallback message sends on accept instead of an empty bubble
     heyreach.add_leads_to_campaign(canonical_id, int(sender["id"]), lead, custom_fields)
